@@ -4,7 +4,10 @@
 
 // [[Rcpp::depends(RcppArmadillo)]]
 
-// [[Rcpp::export]]
+// [[Rcpp::export]] 
+// # original function is f(\eta) = part2 - part1
+// # part 2 -1/2 t(eta-mu)inv(\Sigmat)(eta-mu)
+// # part 1 sum(doc_cts log(sum beta * exp(eta)))- ndoc \log(sum exp(eta))
 double lhoodcpp(SEXP eta,
                    SEXP beta,
                    SEXP doc_ct,

@@ -12,7 +12,7 @@ gram <- function(mat) {
   nd <- Matrix::rowSums(mat)
   mat <- mat[nd>=2,] #its undefined if we don't have docs of length 2
   nd <- nd[nd>=2]
-  divisor <- nd*(nd-1)
+  divisor <- nd*(nd-1) # Computes a normalization factor for each document, based on its length
   #clearer code is removed below for memory efficiency
   #Htilde <- mat/sqrt(divisor)
   #Hhat <- diag(colSums(mat/divisor))

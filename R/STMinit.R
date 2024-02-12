@@ -54,11 +54,11 @@ stm.init <- function(documents, settings) {
     if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
     # (1) Prep the Gram matrix
     if(verbose) cat("\t Calculating the gram matrix...\n")
-    docs <- doc.to.ijv(documents)
-    mat <- Matrix::sparseMatrix(docs$i,docs$j, x=docs$v)
+    docs <- doc.to.ijv(documents) # defined in STM functions
+    mat <- Matrix::sparseMatrix(docs$i,docs$j, x=docs$v) # create count matrix, row is doc, col are the vocab
     rm(docs)
-    wprob <- Matrix::colSums(mat)
-    wprob <- wprob/sum(wprob)
+    wprob <- Matrix::colSums(mat) # word count for each vocab across doc
+    wprob <- wprob/sum(wprob) # prob of word for each vocab
     if(mode=="Spectral") {
       keep <- NULL
       if(!is.null(maxV)) {
@@ -67,7 +67,7 @@ stm.init <- function(documents, settings) {
         mat <- mat[,keep]
         wprob <- wprob[keep]
       }
-      Q <- gram(mat)
+      Q <- gram(mat) # defined in Spectral.R # V by V matrix
       #verify that there are no zeroes
       Qsums <- rowSums(Q)
       
@@ -94,7 +94,7 @@ stm.init <- function(documents, settings) {
     # (2) anchor words
     if(K!=0) {
       if(verbose) cat("\t Finding anchor words...\n \t")
-      anchor <- fastAnchor(Q, K=K, verbose=verbose)
+      anchor <- fastAnchor(Q, K=K, verbose=verbose) #spectral.R
     } else {
       if(verbose) cat("\t Finding anchor words...\n \t")
       anchor <- tsneAnchor(Q, verbose=verbose, 
@@ -102,8 +102,9 @@ stm.init <- function(documents, settings) {
                            perplexity=settings$init$tSNE_perplexity) #run the Lee and Mimno (2014) algorithm
       K <- length(anchor) # update K
     }
-    # (3) recoverL2
+    # (3) recoverL2 #spectral.R
     if(verbose) cat("\n\t Recovering initialization...\n \t")
+    # beta is a K by V matrix
     beta <- recoverL2(Q, anchor, wprob, verbose=verbose, recoverEG=settings$init$recoverEG)$A
     
     if(!is.null(keep)) {

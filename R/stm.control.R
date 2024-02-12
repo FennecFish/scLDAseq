@@ -17,7 +17,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                            Random = "Beginning Random Initialization \n",
                            Custom = "Beginning Custom Initialization \n"))
     #initialize
-    model <- stm.init(documents, settings)
+    model <- stm.init(documents, settings) # see STMinit.R
     #if we were using the Lee and Mimno method of setting K, update the settings
     if(settings$dim$K==0) settings$dim$K <- nrow(model$beta[[1]])
     #unpack
