@@ -7,14 +7,15 @@ library(SingleCellExperiment)
 # #subset for 300 genes, and 200 cells
 # sub <- sce[500:799,10696:10895] 
 # saveRDS(sub,file = "data/toydata.rds")
-
+source("R/STMfunctions.R")
 sce <- readRDS("data/toydata.rds")
 dat <- prepsce(sce)
-K <- 2
+K <- 3
 content <- dat$meta$timepoint
 documents  <- dat$documents
 vocab <- dat$vocab
 data <- dat$meta
+
 # from stm
 read.slam <- function(corpus) {
     #convert a simple triplet matrix to list format.
@@ -80,6 +81,7 @@ prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf,
     nms <- names(documents) 
     documents <- ijv.to.doc(triplet$i, triplet$j, triplet$v)
     names(documents) <- nms
+    meta <- colData(sce)[nms,]
     docs.removed <- c()
     
     #Detect Missing Terms
@@ -129,8 +131,8 @@ prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf,
         if(verbose) cat(toprint)
     }
     
-    if(!is.null(docs.removed) & !is.null(colData(sce))){
-        meta<-colData(sce)[-docs.removed, , drop = FALSE]
+    if(!is.null(docs.removed) & !is.null(meta)){
+        meta<-meta[-docs.removed, , drop = FALSE]
     }
     #recast everything as an integer
     documents <- lapply(documents, function(x) matrix(as.integer(x), nrow=2))
