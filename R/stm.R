@@ -406,6 +406,7 @@
 #' @export
 stm <- function(documents, vocab, K,
                 prevalence=NULL, content=NULL, data=NULL,
+                sample = NULL, # specify sample ID column name
                 init.type=c("Spectral", "LDA", "Random", "Custom"), seed=NULL,
                 max.em.its=500, emtol=1e-5,
                 verbose=TRUE, reportevery=5,
@@ -431,6 +432,10 @@ stm <- function(documents, vocab, K,
   if(any(unlist(lapply(documents, function(x) anyDuplicated(x[1,]))))) {
     stop("Duplicate term indices within a document.  See documentation for proper format.")
   }
+  
+  # extract number of samples
+  samples <- data[sample][,1]
+  I <- length(unique(samples)) # number of patients
   N <- length(documents)
   
   #Extract and Check the Word indices
@@ -551,7 +556,8 @@ stm <- function(documents, vocab, K,
   # Now Construct the Settings File
   ###
   settings <- list(dim=list(K=K, A=A, 
-                            V=V, N=N, wcounts=wcounts),
+                            V=V, N=N, I = I, 
+                            wcounts=wcounts, samples = samples),
                    verbose=verbose,
                    topicreportevery=reportevery,
                    convergence=list(max.em.its=max.em.its, em.converge.thresh=emtol, 

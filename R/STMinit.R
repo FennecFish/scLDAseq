@@ -9,6 +9,8 @@ stm.init <- function(documents, settings) {
   V <- settings$dim$V
   A <- settings$dim$A
   N <- settings$dim$N
+  I <- settings$dim$I
+  samples <- settings$dim$samples
   mode <- settings$init$mode
   nits <- settings$init$nits 
   alpha <- settings$init$alpha 
@@ -122,11 +124,14 @@ stm.init <- function(documents, settings) {
     mu <- matrix(0, nrow=(K-1),ncol=1)
     sigma <- diag(20, nrow=(K-1))
     lambda <- matrix(0, nrow=N, ncol=(K-1))
+    pi <- rep(0,I)
+    sigma_s <- diag(30, nrow=I)
+    
     if(verbose) cat("Initialization complete.\n")
   }
   #turn beta into a list and assign it for each aspect
   beta <- rep(list(beta),A)
-  model <- list(mu=mu, sigma=sigma, beta=beta, lambda=lambda)
+  model <- list(mu=mu, sigma=sigma, sigma_s = sigma_s, beta=beta, lambda=lambda, pi = pi)
   #initialize the kappa vectors
   if(!settings$kappa$LDAbeta) {
     model$kappa <- kappa.init(documents, K, V, A, interactions=settings$kappa$interactions)

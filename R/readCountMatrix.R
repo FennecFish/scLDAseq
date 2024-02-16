@@ -1,21 +1,3 @@
-library(slam)
-library(SeuratObject)
-library(Seurat)
-library(SingleCellExperiment)
-
-# sce <- readRDS("data/p10_p15_sub.rds")
-# #subset for 300 genes, and 200 cells
-# sub <- sce[500:799,10696:10895] 
-# saveRDS(sub,file = "data/toydata.rds")
-source("R/STMfunctions.R")
-sce <- readRDS("data/toydata.rds")
-dat <- prepsce(sce)
-K <- 3
-content <- dat$meta$timepoint
-documents  <- dat$documents
-vocab <- dat$vocab
-data <- dat$meta
-
 # from stm
 read.slam <- function(corpus) {
     #convert a simple triplet matrix to list format.

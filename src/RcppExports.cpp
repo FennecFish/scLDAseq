@@ -12,39 +12,41 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // lhoodcpp
-double lhoodcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP siginv);
-RcppExport SEXP _stm_lhoodcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP siginvSEXP) {
-BEGIN_RCPP
+double lhoodcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP pi, SEXP siginv);
+RcppExport SEXP _stm_lhoodcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP piSEXP, SEXP siginvSEXP) {
+    BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< SEXP >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< SEXP >::type doc_ct(doc_ctSEXP);
     Rcpp::traits::input_parameter< SEXP >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type pi(piSEXP);
     Rcpp::traits::input_parameter< SEXP >::type siginv(siginvSEXP);
-    rcpp_result_gen = Rcpp::wrap(lhoodcpp(eta, beta, doc_ct, mu, siginv));
+    rcpp_result_gen = Rcpp::wrap(lhoodcpp(eta, beta, doc_ct, mu, pi, siginv));
     return rcpp_result_gen;
-END_RCPP
+    END_RCPP
 }
 // gradcpp
-arma::vec gradcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP siginv);
-RcppExport SEXP _stm_gradcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP siginvSEXP) {
-BEGIN_RCPP
+arma::vec gradcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP pi, SEXP siginv);
+RcppExport SEXP _stm_gradcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP piSEXP, SEXP siginvSEXP) {
+    BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< SEXP >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< SEXP >::type doc_ct(doc_ctSEXP);
     Rcpp::traits::input_parameter< SEXP >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type pi(piSEXP);
     Rcpp::traits::input_parameter< SEXP >::type siginv(siginvSEXP);
-    rcpp_result_gen = Rcpp::wrap(gradcpp(eta, beta, doc_ct, mu, siginv));
+    rcpp_result_gen = Rcpp::wrap(gradcpp(eta, beta, doc_ct, mu, pi, siginv));
     return rcpp_result_gen;
-END_RCPP
+    END_RCPP
 }
 // hpbcpp
 SEXP hpbcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP siginv, SEXP sigmaentropy);
 RcppExport SEXP _stm_hpbcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP siginvSEXP, SEXP sigmaentropySEXP) {
-BEGIN_RCPP
+    BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type eta(etaSEXP);
@@ -55,7 +57,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type sigmaentropy(sigmaentropySEXP);
     rcpp_result_gen = Rcpp::wrap(hpbcpp(eta, beta, doc_ct, mu, siginv, sigmaentropy));
     return rcpp_result_gen;
-END_RCPP
+    END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {

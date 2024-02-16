@@ -5,13 +5,11 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]] 
-// # original function is f(\eta) = part2 - part1
-// # part 2 -1/2 t(eta-mu)inv(\Sigmat)(eta-mu)
-// # part 1 sum(doc_cts log(sum beta * exp(eta)))- ndoc \log(sum exp(eta))
 double lhoodcpp(SEXP eta,
                    SEXP beta,
                    SEXP doc_ct,
                    SEXP mu,
+                   SEXP pi,
                    SEXP siginv){
    
    Rcpp::NumericVector etav(eta); 
@@ -22,9 +20,11 @@ double lhoodcpp(SEXP eta,
    arma::vec doc_cts(doc_ctv.begin(), doc_ctv.size(), false);
    Rcpp::NumericVector muv(mu);
    arma::vec mus(muv.begin(), muv.size(), false);
+   Rcpp::NumericVector piv(pi);
+   arma::vec pis(piv.begin(), piv.size(), false);
    Rcpp::NumericMatrix siginvm(siginv);
    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
-   
+
    arma::rowvec expeta(etas.size()+1); 
    expeta.fill(1);
    int neta = etav.size(); 
@@ -33,7 +33,7 @@ double lhoodcpp(SEXP eta,
    }
    double ndoc = sum(doc_cts);
    double part1 = arma::as_scalar(log(expeta*betas)*doc_cts - ndoc*log(sum(expeta)));
-   arma::vec diff = etas - mus;
+   arma::vec diff = etas - mus - pis;
    double part2 = .5*arma::as_scalar(diff.t()*siginvs*diff);
    double out = part2 - part1;
    return out;
@@ -44,6 +44,7 @@ arma::vec gradcpp(SEXP eta,
                    SEXP beta,
                    SEXP doc_ct,
                    SEXP mu,
+                   SEXP pi,
                    SEXP siginv){
    
    Rcpp::NumericVector etav(eta); 
@@ -54,6 +55,8 @@ arma::vec gradcpp(SEXP eta,
    arma::vec doc_cts(doc_ctv.begin(), doc_ctv.size(), false);
    Rcpp::NumericVector muv(mu);
    arma::vec mus(muv.begin(), muv.size(), false);
+   Rcpp::NumericVector piv(pi);
+   arma::vec pis(piv.begin(), piv.size(), false);
    Rcpp::NumericMatrix siginvm(siginv);
    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
    
@@ -65,7 +68,7 @@ arma::vec gradcpp(SEXP eta,
     }
     betas.each_col() %= expeta;
     arma::vec part1 = betas*(doc_cts/arma::trans(sum(betas,0))) - (sum(doc_cts)/sum(expeta))*expeta;
-    arma::vec part2 = siginvs*(etas - mus);
+    arma::vec part2 = siginvs*(etas - mus - pis);
     part1.shed_row(neta);
     return part2-part1;
 }

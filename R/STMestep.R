@@ -15,16 +15,18 @@
 
 #Let's start by assuming its one beta and we may have arbitrarily subset the number of docs.
 estep <- function(documents, beta.index, update.mu, #null allows for intercept only model  
-                       beta, lambda.old, mu, sigma, 
+                       beta, lambda.old, mu, sigma_t, sigma_s,
+                       samples, pi.old,
                        verbose) {
   
   #quickly define useful constants
-  V <- ncol(beta[[1]])
-  K <- nrow(beta[[1]])
+  V <- ncol(beta$beta[[1]])
+  K <- nrow(beta$beta[[1]])
   N <- length(documents)
-  A <- length(beta)
+  A <- length(beta$beta)
+  I <- length(unique(samples))
   ctevery <- ifelse(N>100, floor(N/100), 1)
-  if(!update.mu) mu.i <- as.numeric(mu)
+  if(!update.mu) mu.l <- as.numeric(mu$mu)
   
   # 1) Initialize Sufficient Statistics 
   sigma.ss <- diag(0, nrow=(K-1))
@@ -36,38 +38,60 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   lambda <- vector("list", length=N)
   
   # 2) Precalculate common components
-  sigobj <- try(chol.default(sigma), silent=TRUE)
-  if(inherits(sigobj,"try-error")) {
-    sigmaentropy <- (.5*determinant(sigma, logarithm=TRUE)$modulus[1])
-    siginv <- solve(sigma)
+    # calculate inverse and entropy of sigmat
+  sig_t_obj <- try(chol.default(sigma_t), silent=TRUE)
+  if(inherits(sig_t_obj,"try-error")) {
+    sigma_t_entropy <- (.5*determinant(sigma_t, logarithm=TRUE)$modulus[1])
+    sig_t_inv <- solve(sigma_t)
   } else {
-    sigmaentropy <- sum(log(diag(sigobj)))
-    siginv <- chol2inv(sigobj)
+      sigma_t_entropy <- sum(log(diag(sig_t_obj)))
+      sig_t_inv <- chol2inv(sig_t_obj)
   }
+    # calculate inverse and entropy of sigma_s
+  sig_s_obj <- try(chol.default(sigma_s), silent=TRUE)
+  if(inherits(sig_s_obj,"try-error")) {
+      sigma_s_entropy <- (.5*determinant(sigma_s, logarithm=TRUE)$modulus[1])
+      sig_s_inv <- solve(sigma_s)
+  } else {
+      sigma_s_entropy <- sum(log(diag(sig_s_obj)))
+      sig_s_inv <- chol2inv(sig_s_obj)
+  }
+  
   # 3) Document Scheduling
   # For right now we are just doing everything in serial.
   # the challenge with multicore is efficient scheduling while
   # maintaining a small dimension for the sufficient statistics.
-  for(i in 1:N) {
-    #update components
-    doc <- documents[[i]]
-    words <- doc[1,]
-    aspect <- beta.index[i]
-    init <- lambda.old[i,]
-    if(update.mu) mu.i <- mu[,i]
-    beta.i <- beta[[aspect]][,words,drop=FALSE]
-    
-    #infer the document
-    doc.results <- logisticnormalcpp(eta=init, mu=mu.i, siginv=siginv, beta=beta.i, 
-                                  doc=doc, sigmaentropy=sigmaentropy)
-    
-    # update sufficient statistics 
-    sigma.ss <- sigma.ss + doc.results$eta$nu
-    beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
-    bound[i] <- doc.results$bound
-    lambda[[i]] <- c(doc.results$eta$lambda)
-    if(verbose && i%%ctevery==0) cat(".")
+  
+  # for (i in 1:I) {
+  psi.i <- rep(pi[i], ncol(lambda.old)) # repeat psi into a K-1 dimensional vector
+  Ni <- which(samples == unique(samples)[i])
+  for(l in Ni) {
+      #update components
+      doc <- documents[[l]]
+      words <- doc[1,]
+      aspect <- beta.index[l]
+      init <- lambda.old[l,]
+      if(update.mu) mu.l <- mu[,l]
+      beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
+      
+      #infer the document
+      doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
+                                       siginv=sig_t_inv, 
+                                       beta=beta.l, 
+                                       doc=doc, sigmaentropy=sigma_t_entropy)
+      
+      # update sufficient statistics 
+      sigma.ss <- sigma.ss + doc.results$eta$nu
+      beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
+      bound[l] <- doc.results$bound
+      lambda[[l]] <- c(doc.results$eta$lambda)
+      if(verbose && l%%ctevery==0) cat(".")
   }
+  
+  
+  psi[s] <- 
+  # }
+  
   if(verbose) cat("\n") #add a line break for the next message.
   
   #4) Combine and Return Sufficient Statistics

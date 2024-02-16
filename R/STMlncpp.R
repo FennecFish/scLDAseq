@@ -7,15 +7,17 @@
 
 #12/31/2016 added the hpbcpp argument so I can opt not to call it
 #inside fitNewDocuments
-logisticnormalcpp <- function(eta, mu, siginv, beta, doc, sigmaentropy, 
+logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc, sigmaentropy, 
                               method="BFGS", control=list(maxit=500),
                               hpbcpp=TRUE) {
   doc.ct <- doc[2,]
   Ndoc <- sum(doc.ct)
   #even at K=100, BFGS is faster than L-BFGS
+  
   optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
                      method=method, control=control,
                      doc_ct=doc.ct, mu=mu,
+                     pi = psi,
                      siginv=siginv, beta=beta)
   
   if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))

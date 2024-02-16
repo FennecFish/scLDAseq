@@ -10,6 +10,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   #Step 1: Initialize Parameters
   ##########
   ngroups <- settings$ngroups
+  samples <- settings$dim$samples
   if(is.null(model)) {
     if(verbose) cat(switch(EXPR=settings$init$mode,
                            Spectral = "Beginning Spectral Initialization \n",
@@ -23,7 +24,10 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     #unpack
     mu <- list(mu=model$mu)
     sigma <- model$sigma
+    sigma_s <- model$sigma_s
     beta <- list(beta=model$beta)
+    pi <- model$pi
+    # beta <- model$beta
     if(!is.null(model$kappa)) beta$kappa <- model$kappa
     lambda <- model$lambda
     convergence <- NULL
@@ -36,6 +40,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     beta <- list(beta=lapply(model$beta$logbeta, exp))
     if(!is.null(model$beta$kappa)) beta$kappa <- model$beta$kappa
     sigma <- model$sigma
+    sigma_s <- model$sigma_s
     lambda <- model$eta
     convergence <- model$convergence
     #manually declare the model not converged or it will stop after the first iteration
@@ -88,7 +93,8 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
         #run the model
         suffstats[[i]] <- estep(documents=gdocs, beta.index=gbetaindex,
                                 update.mu=(!is.null(mu$gamma)),
-                                beta$beta, glambda, gmu, sigma,
+                                beta$beta, glambda, gmu, 
+                                sigma_s = sigma, sigma_t = sigma_t,
                                 verbose)
         if(verbose) {
           msg <- sprintf("Completed Group %i E-Step (%d seconds). \n", i, floor((proc.time()-t1)[3]))
@@ -139,7 +145,11 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       #run the model
       suffstats <- estep(documents=documents, beta.index=betaindex,
                               update.mu=(!is.null(mu$gamma)),
-                              beta$beta, lambda, mu$mu, sigma,
+                              beta$beta, lambda, mu$mu, 
+                              sigma_t = sigma,
+                              sigma_s = sigma_s,
+                              pi.old = pi,
+                              samples = samples,
                               verbose)
       msg <- sprintf("Completed E-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
       if(verbose) cat(msg)
