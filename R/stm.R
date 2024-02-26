@@ -404,7 +404,7 @@
 #'                 data=out$meta, model=mod.out, max.em.its=10)
 #' }
 #' @export
-stm <- function(documents, vocab, K,
+multi_stm <- function(documents, vocab, K,
                 prevalence=NULL, content=NULL, data=NULL,
                 sample = NULL, # specify sample ID column name
                 init.type=c("Spectral", "LDA", "Random", "Custom"), seed=NULL,
@@ -433,10 +433,16 @@ stm <- function(documents, vocab, K,
     stop("Duplicate term indices within a document.  See documentation for proper format.")
   }
   
-  # extract number of samples
-  samples <- data[sample][,1]
-  I <- length(unique(samples)) # number of patients
   N <- length(documents)
+  # extract number of samples
+  if (!is.null(sample)) {
+      samples <- data[sample][,1]
+  } else {
+          samples <- rep("sample_1", N)
+      }
+  
+  I <- length(unique(samples)) # number of patients
+
   
   #Extract and Check the Word indices
   wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)

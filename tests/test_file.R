@@ -28,7 +28,7 @@ vocab <- dat$vocab
 data <- dat$meta
 sample <- "patient_id"
 
-res <- stm(documents = documents, vocab = vocab,
+res <- multi_stm(documents = documents, vocab = vocab,
     K = K, prevalence = prevalence, content = NULL,
     data = data, 
     sample = sample,
