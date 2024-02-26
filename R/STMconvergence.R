@@ -4,7 +4,7 @@
 # 1) removed word checks
 # 2) distinguish between converged and stopping the em algorithm
 convergence.check <- function(bound.ss, convergence, settings) {
-  
+ #  browser()
   #unpack the relevant pieces from the settings
   verbose <- settings$verbose
   emtol <- settings$convergence$em.converge.thresh
@@ -23,8 +23,9 @@ convergence.check <- function(bound.ss, convergence, settings) {
     convergence.check <- (new-old)/abs(old)
     #if(convergence.check < emtol & convergence.check > 0) {
     if(emtol!=0) {
-      if(convergence.check > 0 | settings$convergence$allow.neg.change) {
-        if(convergence.check < emtol) {
+      # if(convergence.check > 0 | settings$convergence$allow.neg.change) {
+        if(convergence.check > 0) {
+        if(abs(convergence.check) < emtol) {
           convergence$converged <- TRUE
           convergence$stopits <- TRUE
           if(verbose) cat("Model Converged \n")

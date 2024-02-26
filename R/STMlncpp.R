@@ -7,25 +7,38 @@
 
 #12/31/2016 added the hpbcpp argument so I can opt not to call it
 #inside fitNewDocuments
-logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc, sigmaentropy, 
+logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc, 
+                              sigs,
+                              sigmaentropy, 
                               method="BFGS", control=list(maxit=500),
                               hpbcpp=TRUE) {
   doc.ct <- doc[2,]
   Ndoc <- sum(doc.ct)
   #even at K=100, BFGS is faster than L-BFGS
-  
+  # browser()
   optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
                      method=method, control=control,
                      doc_ct=doc.ct, mu=mu,
-                     pi = psi,
+                     pi = psi, 
                      siginv=siginv, beta=beta)
   
   if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
   
   #Solve for Hessian/Phi/Bound returning the result
-  hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
-         siginv=siginv, beta=beta,
-         sigmaentropy=sigmaentropy)
+  # browser()
+  docvar <- hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
+                   siginv=siginv, beta=beta, pi = psi,
+                   sigmaentropy=sigmaentropy)
+  
+  # omega.update <- 1/(sum(diag(siginv)) + 1/(diag(omega)[1]))
+  # docvar$omega <- omega.update
+  # browser()
+  sigs <- diag(sigs, nrow = nrow(siginv), ncol = ncol(siginv))
+  # doc.weight <- doc.ct/Ndoc
+  sigma <- solve(siginv)
+  pi.update <- (sigma - sigs) %*% siginv %*% (optim.out$par - mu)
+  docvar$pi <- mean(pi.update)
+  return(docvar)
 }
 
 

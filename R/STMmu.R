@@ -1,7 +1,8 @@
 ## Optimization for Global Parameters over Doc-Topic Proportions
 
 #main method up top, regression-implementations below.
-opt.mu <- function(lambda, mode=c("CTM","Pooled", "L1"), covar=NULL, enet=NULL, ic.k=2,
+opt.mu <- function(lambda, pi, nsamples,
+                   mode=c("CTM","Pooled", "L1"), covar=NULL, enet=NULL, ic.k=2,
                    maxits=1000) {
 
   #When there are no covariates we use the CTM method
@@ -14,8 +15,10 @@ opt.mu <- function(lambda, mode=c("CTM","Pooled", "L1"), covar=NULL, enet=NULL, 
   if(mode=="Pooled") {
     gamma <- vector(mode="list",length=ncol(lambda))
     Xcorr <- crossprod(covar)
+    psi <- rep(pi, times = nsamples)
+    if (length(psi) != nrow(lambda)) stop("Sample heterogeneity has a dimensionality different from number of samples")
     for (i in 1:ncol(lambda)) {
-      gamma[[i]] <- vb.variational.reg(Y=lambda[,i], X=covar, Xcorr=Xcorr, maxits=maxits) 
+      gamma[[i]] <- vb.variational.reg(Y=lambda[,i]-psi, X=covar, Xcorr=Xcorr, maxits=maxits) 
     }
     gamma <- do.call(cbind,gamma)
     mu<- t(covar%*%gamma)
@@ -28,7 +31,10 @@ opt.mu <- function(lambda, mode=c("CTM","Pooled", "L1"), covar=NULL, enet=NULL, 
   
   #Lasso
   if(mode=="L1") {
-    out <- glmnet::glmnet(x=covar[,-1], y=lambda, family="mgaussian", alpha=enet)
+    psi <- matrix(rep(pi, times = nsamples),
+                         ncol=ncol(lambda),
+                         byrow=F)
+    out <- glmnet::glmnet(x=covar[,-1], y=lambda-psi, family="mgaussian", alpha=enet)
     unpack <- unpack.glmnet(out, ic.k=ic.k)
     gamma <- rbind(unpack$intercept, unpack$coef)
     mu <- t(covar%*%gamma)

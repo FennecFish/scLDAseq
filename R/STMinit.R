@@ -125,13 +125,15 @@ stm.init <- function(documents, settings) {
     sigma <- diag(20, nrow=(K-1))
     lambda <- matrix(0, nrow=N, ncol=(K-1))
     pi <- rep(0,I)
-    sigma_s <- diag(30, nrow=I)
+    sigs <- diag(30, nrow=I, ncol = I)
+    # omega <- diag(30, nrow=I)
     
     if(verbose) cat("Initialization complete.\n")
   }
   #turn beta into a list and assign it for each aspect
   beta <- rep(list(beta),A)
-  model <- list(mu=mu, sigma=sigma, sigma_s = sigma_s, beta=beta, lambda=lambda, pi = pi)
+  model <- list(mu=mu, sigma=sigma, sigs = sigs, 
+                beta=beta, lambda=lambda, pi = pi)
   #initialize the kappa vectors
   if(!settings$kappa$LDAbeta) {
     model$kappa <- kappa.init(documents, K, V, A, interactions=settings$kappa$interactions)
@@ -147,7 +149,7 @@ stm.init <- function(documents, settings) {
     #okay at this point we probably have checked it enough- copy it over.
     model$beta <- lapply(newbeta, exp)
   }
-  
+  # browser()
   return(model)
 }
 

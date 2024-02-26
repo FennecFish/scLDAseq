@@ -9,8 +9,10 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   ##########
   #Step 1: Initialize Parameters
   ##########
+  # browser()
   ngroups <- settings$ngroups
   samples <- settings$dim$samples
+  nsamples <- as.vector(table(samples))
   if(is.null(model)) {
     if(verbose) cat(switch(EXPR=settings$init$mode,
                            Spectral = "Beginning Spectral Initialization \n",
@@ -22,9 +24,10 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     #if we were using the Lee and Mimno method of setting K, update the settings
     if(settings$dim$K==0) settings$dim$K <- nrow(model$beta[[1]])
     #unpack
+    
     mu <- list(mu=model$mu)
     sigma <- model$sigma
-    sigma_s <- model$sigma_s
+    sigs <- model$sigs
     beta <- list(beta=model$beta)
     pi <- model$pi
     # beta <- model$beta
@@ -40,7 +43,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     beta <- list(beta=lapply(model$beta$logbeta, exp))
     if(!is.null(model$beta$kappa)) beta$kappa <- model$beta$kappa
     sigma <- model$sigma
-    sigma_s <- model$sigma_s
+    sigs <- model$sigs
     lambda <- model$eta
     convergence <- model$convergence
     #manually declare the model not converged or it will stop after the first iteration
@@ -94,7 +97,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
         suffstats[[i]] <- estep(documents=gdocs, beta.index=gbetaindex,
                                 update.mu=(!is.null(mu$gamma)),
                                 beta$beta, glambda, gmu, 
-                                sigma_s = sigma, sigma_t = sigma_t,
+                                sigma = sigma,
                                 verbose)
         if(verbose) {
           msg <- sprintf("Completed Group %i E-Step (%d seconds). \n", i, floor((proc.time()-t1)[3]))
@@ -120,11 +123,15 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
             bound.ss <- c(bound.ss, suffstats[[j]]$bound)
           }
           # Now do the updates themselves
-          mu <- opt.mu(lambda=lambda, mode=settings$gamma$mode,
-                       covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
+          # source("R/STMmu.R")
+          mu <- opt.mu(lambda=lambda, mode=settings$gamma$mode, pi = pi,
+                       nsamples = nsamples, covar=settings$covariates$X, 
+                       enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                        maxits=settings$gamma$maxits)
-          sigma <- opt.sigma(nu=sigma.ss, lambda=lambda,
-                             mu=mu$mu, sigprior=settings$sigma$prior)
+          # source("R/STMsigma.R")
+          sigma <- opt.sigma(nu=sigma.ss, omega = omega, lambda=lambda, pi = pi,
+                             mu=mu$mu, sigprior=settings$sigma$prior,
+                             samples = samples)
           beta <- opt.beta(beta.ss, beta$kappa, settings)
 
           if(verbose) {
@@ -143,28 +150,34 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       #####
       t1 <- proc.time()
       #run the model
+      # source("R/STMestep.R")
       suffstats <- estep(documents=documents, beta.index=betaindex,
-                              update.mu=(!is.null(mu$gamma)),
-                              beta$beta, lambda, mu$mu, 
-                              sigma_t = sigma,
-                              sigma_s = sigma_s,
-                              pi.old = pi,
-                              samples = samples,
-                              verbose)
+                         update.mu=(!is.null(mu$gamma)),
+                         beta = beta, lambda.old = lambda,
+                         mu = mu$mu, sigma = sigma,
+                         sigs = sigs, pi.old = pi,
+                         samples = samples, verbose)
       msg <- sprintf("Completed E-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
       if(verbose) cat(msg)
       t1 <- proc.time()
       sigma.ss <- suffstats$sigma
       lambda <- suffstats$lambda
+      pi <- suffstats$pi
+      omega <- suffstats$omega
       beta.ss <- suffstats$beta
       bound.ss <- suffstats$bound
+      
       #do the m-step
-      mu <- opt.mu(lambda=lambda, mode=settings$gamma$mode,
+      mu <- opt.mu(lambda=lambda, pi = pi,
+                   nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
-      sigma <- opt.sigma(nu=sigma.ss, lambda=lambda,
+      sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
+                         pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)
       beta <- opt.beta(beta.ss, beta$kappa, settings)
+      sigs <- opt.sigs(pi, omega, samples)
+      
       if(verbose) {
         timer <- floor((proc.time()-t1)[3])
         msg <- ifelse(timer>1,
@@ -192,7 +205,8 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   }
   beta$beta <- NULL
   lambda <- cbind(lambda,0)
-  model <- list(mu=mu, sigma=sigma, beta=beta, settings=settings,
+  model <- list(mu=mu, sigma=sigma, beta=beta, 
+                sigs = sigs, psi = pi, settings=settings,
                 vocab=vocab, convergence=convergence,
                 theta=exp(lambda - log(rowSums(exp(lambda)))),
                 #note altered from row.lse above because of a

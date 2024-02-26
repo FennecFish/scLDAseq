@@ -78,6 +78,7 @@ SEXP hpbcpp(SEXP eta,
             SEXP beta,
             SEXP doc_ct,
             SEXP mu,
+            SEXP pi,
             SEXP siginv,
             SEXP sigmaentropy){
  
@@ -89,10 +90,12 @@ SEXP hpbcpp(SEXP eta,
    arma::vec doc_cts(doc_ctv.begin(), doc_ctv.size(), false);
    Rcpp::NumericVector muv(mu);
    arma::vec mus(muv.begin(), muv.size(), false);
+   Rcpp::NumericVector piv(pi);
+   arma::vec pis(piv.begin(), piv.size(), false);
    Rcpp::NumericMatrix siginvm(siginv);
    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
-   Rcpp::NumericVector sigmaentropym(sigmaentropy);
-   arma::vec entropy(sigmaentropym);
+   //Rcpp::NumericVector sigmaentropym(sigmaentropy);
+   //arma::vec entropy(sigmaentropym);
 
    //Performance Nots from 3/6/2015
    //  I tried a few different variants and benchmarked this one as roughly twice as
@@ -188,9 +191,10 @@ SEXP hpbcpp(SEXP eta,
    nu = nu * nu.t(); //trimatu doesn't do anything for multiplication so it would just be timesink to signal here.
    
    //Precompute the difference since we use it twice
-   arma::vec diff = etas - mus;
+   arma::vec diff = etas - mus - pis;
    //Now generate the bound and make it a scalar
-   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy); 
+   // double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy); 
+   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff); 
    
    // Generate a return list that mimics the R output
    return Rcpp::List::create(
@@ -199,3 +203,5 @@ SEXP hpbcpp(SEXP eta,
         Rcpp::Named("bound") = bound
         );
 }
+
+
