@@ -406,6 +406,7 @@
 #' @export
 multi_stm <- function(documents, vocab, K,
                 prevalence=NULL, content=NULL, data=NULL,
+                sce = NULL,
                 sample = NULL, # specify sample ID column name
                 init.type=c("Spectral", "LDA", "Random", "Custom"), seed=NULL,
                 max.em.its=500, emtol=1e-5,
@@ -445,9 +446,12 @@ multi_stm <- function(documents, vocab, K,
 
   
   #Extract and Check the Word indices
-  wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)
+  # this step somehow is very slow
+  # wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)
   #to make this backward compatible we reformulate to old structure.
-  wcounts <- list(Group.1=sort(unique(wcountvec)))
+  # this step is also very slow
+  # system.time(wcounts <- list(Group.1=sort(unique(wcountvec))))
+  wcounts <- list(Group.1=sort(unique(unlist(lapply(documents, function(x) x[1, ])))))
   V <- length(wcounts$Group.1)  
   if(!posint(wcounts$Group.1)) {
     stop("Word indices are not positive integers")
@@ -456,8 +460,11 @@ multi_stm <- function(documents, vocab, K,
     stop("Word indices must be sequential integers starting with 1.")
   } 
   #note we only do the tabulation after making sure it will actually work.
-  wcounts$x <- tabulate(wcountvec)
-  rm(wcountvec)
+  # wcounts$x <- tabulate(wcountvec)
+  # browser()
+  wcounts$x <- as.vector(rowSums(assay(sce)))
+ 
+  # rm(wcountvec)
   
   #Check the Vocab vector against the observed word indices
   if(length(vocab)!=V) stop("Vocab length does not match observed word indices")
@@ -558,6 +565,7 @@ multi_stm <- function(documents, vocab, K,
     if(max.em.its <= model$convergence$its) stop("when restarting a model, max.em.its represents the total iterations of the model 
                                                  and thus must be greater than the length of the original run")
   }
+  # browser()
   ###
   # Now Construct the Settings File
   ###

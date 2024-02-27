@@ -68,6 +68,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     stopits <- TRUE
     if(verbose) cat("Returning Initialization.")
   }
+  # browser()
   ############
   #Step 2: Run EM
   ############
@@ -167,6 +168,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       beta.ss <- suffstats$beta
       bound.ss <- suffstats$bound
       
+      # browser()
       #do the m-step
       mu <- opt.mu(lambda=lambda, pi = pi,
                    nsamples = nsamples, mode=settings$gamma$mode,

@@ -26,11 +26,12 @@ content <- NULL
 documents  <- dat$documents
 vocab <- dat$vocab
 data <- dat$meta
+sce <- dat$sce
 sample <- "patient_id"
 
 res <- multi_stm(documents = documents, vocab = vocab,
     K = K, prevalence = prevalence, content = NULL,
-    data = data, 
+    data = data, sce = sce,
     sample = sample,
     init.type= "Spectral",
     gamma.prior= "Pooled",

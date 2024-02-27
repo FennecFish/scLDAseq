@@ -113,12 +113,17 @@ prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf,
         if(verbose) cat(toprint)
     }
     
+    # re-organize meta data to remove cells that has been removed
     if(!is.null(docs.removed) & !is.null(meta)){
-        meta<-meta[-docs.removed, , drop = FALSE]
+        meta <- meta[-docs.removed, , drop = FALSE]
     }
+    # browser()
+    # re-organize sce to remove vocab and docs
+    sce <- sce[vocab, rownames(meta)]
+    
     #recast everything as an integer
     documents <- lapply(documents, function(x) matrix(as.integer(x), nrow=2))
-    return(list(documents=documents, vocab=vocab, meta=meta, 
+    return(list(documents=documents, vocab=vocab, meta=meta, sce=sce,
                 words.removed=droppedwords, docs.removed=docs.removed, 
                 tokens.removed=sum(wordcounts[toremove]), wordcounts=wordcounts))
 }

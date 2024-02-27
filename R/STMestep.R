@@ -53,6 +53,8 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   # For right now we are just doing everything in serial.
   # the challenge with multicore is efficient scheduling while
   # maintaining a small dimension for the sufficient statistics.
+  
+  
   omega <- matrix(0, nrow = I, ncol = I)
   for (i in 1:I) {
   psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
@@ -69,7 +71,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
           
           #infer the document
-          # rowser()
+          # browser()
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
                                            siginv=siginv, 
                                            sigs = sigs.i,
