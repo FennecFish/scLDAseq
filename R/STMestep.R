@@ -35,6 +35,13 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   for(i in 1:A) {
     beta.ss[[i]] <- matrix(0, nrow=K,ncol=V)
   }
+  
+  pi.ss <- vector(mode="list", length=I)
+  for(i in 1:I) {
+      Ni <- which(samples == unique(samples)[i])
+      pi.ss[[i]] <- numeric(length = length(Ni))
+      # browser()
+  }
   bound <- vector(length=N)
   lambda <- vector("list", length=N)
   
@@ -54,8 +61,9 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   # the challenge with multicore is efficient scheduling while
   # maintaining a small dimension for the sufficient statistics.
   
-  
+  # browser()
   omega <- matrix(0, nrow = I, ncol = I)
+  
   for (i in 1:I) {
   psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
   sigs.i <- diag(sigs)[i]
@@ -83,17 +91,19 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
+          
+          pi.ss[[i]][l] <- pi.ss[[i]][l]+ doc.results$pi
           if(verbose && l%%ctevery==0) cat(".")
       }
-  pi[i] <- doc.results$pi
   omega[i,i] <- omega.i
   }
-  
   if(verbose) cat("\n") #add a line break for the next message.
 
   #4) Combine and Return Sufficient Statistics
+  pi.ss <- unlist(lapply(pi.ss, mean))
+  print(pi.ss)
   lambda <- do.call(rbind, lambda)
   return(list(sigma=sigma.ss, beta=beta.ss, bound=bound, 
-              lambda=lambda, pi = pi, omega = omega))
+              lambda=lambda, pi = pi.ss, omega = omega))
 }
 

@@ -33,11 +33,26 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
   # omega.update <- 1/(sum(diag(siginv)) + 1/(diag(omega)[1]))
   # docvar$omega <- omega.update
   # browser()
-  sigs <- diag(sigs, nrow = nrow(siginv), ncol = ncol(siginv))
+  sigs_inv <- diag(1/sigs, nrow = nrow(siginv), ncol = ncol(siginv))
   # doc.weight <- doc.ct/Ndoc
-  sigma <- solve(siginv)
-  pi.update <- (sigma - sigs) %*% siginv %*% (optim.out$par - mu)
+  # sigma <- solve(siginv)
+  sig_sum <- siginv + sigs_inv
+  
+  sigsumobj <- try(chol.default(sig_sum), silent=TRUE)
+  if(inherits(sigsumobj,"try-error")) {
+      sig_sum_inv <- solve(sig_sum)
+  } else {
+      sig_sum_inv <- chol2inv(sigsumobj)
+  }
+  
+  pi.update <-  sig_sum_inv %*% siginv %*% (optim.out$par - mu)
+  # print(pi.update)
   docvar$pi <- mean(pi.update)
+  # if (abs(docvar$pi) > 5) {
+  #     print("pi is large")
+  #     browser()
+  #     }
+  # print(docvar$pi)
   return(docvar)
 }
 

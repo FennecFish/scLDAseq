@@ -152,6 +152,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       t1 <- proc.time()
       #run the model
       # source("R/STMestep.R")
+      # browser()
       suffstats <- estep(documents=documents, beta.index=betaindex,
                          update.mu=(!is.null(mu$gamma)),
                          beta = beta, lambda.old = lambda,
@@ -167,13 +168,13 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       omega <- suffstats$omega
       beta.ss <- suffstats$beta
       bound.ss <- suffstats$bound
-      
       # browser()
       #do the m-step
       mu <- opt.mu(lambda=lambda, pi = pi,
                    nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
+      # browser()
       sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
                          pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)

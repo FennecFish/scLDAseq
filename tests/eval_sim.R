@@ -25,10 +25,12 @@ data <- dat$meta
 res <- multi_stm(documents = documents, vocab = vocab,
            K = K, prevalence = prevalence, content = NULL,
            data = data, 
+           sce = sce,
            sample = NULL,
            init.type= "Spectral",
            gamma.prior= "Pooled",
-           kappa.prior= "L1")
+           kappa.prior= "L1",
+           control = list(gamma.maxits=3000))
 
 
 # plot(PrevFit, type="summary", xlim=c(0,1))
