@@ -414,7 +414,8 @@ multi_stm <- function(documents, vocab, K,
                 LDAbeta=TRUE, interactions=TRUE,
                 ngroups=1, model=NULL,
                 gamma.prior=c("Pooled", "L1"), sigma.prior=0,
-                kappa.prior=c("L1", "Jeffreys"), control=list())  {
+                kappa.prior=c("L1", "Jeffreys"), control=list(),
+                heldout = FALSE)  {
   
   #Match Arguments and save the call
   init.type <- match.arg(init.type)
@@ -462,9 +463,15 @@ multi_stm <- function(documents, vocab, K,
   #note we only do the tabulation after making sure it will actually work.
   # wcounts$x <- tabulate(wcountvec)
   # browser()
-  wcounts$x <- as.vector(rowSums(assay(sce)))
- 
-  # rm(wcountvec)
+  # wcounts$x <- as.vector(rowSums(assay(sce)))
+  if (heldout) {
+      wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)
+      wcounts$x <- tabulate(wcountvec)
+      rm(wcountvec)
+  } else {
+      wcounts$x <- as.vector(rowSums(assay(sce)))
+  }
+  # 
   
   #Check the Vocab vector against the observed word indices
   if(length(vocab)!=V) stop("Vocab length does not match observed word indices")
@@ -577,15 +584,15 @@ multi_stm <- function(documents, vocab, K,
                    convergence=list(max.em.its=max.em.its, em.converge.thresh=emtol, 
                                     allow.neg.change=TRUE),
                    covariates=list(X=xmat, betaindex=betaindex, yvarlevels=yvarlevels, formula=prevalence),
-                   # gamma=list(mode=match.arg(gamma.prior), prior=NULL, enet=1, ic.k=2,
-                   gamma=list(mode=gamma.prior, prior=NULL, enet=1, ic.k=2,
+                   gamma=list(mode=match.arg(gamma.prior), prior=NULL, enet=1, ic.k=2,
+                   # gamma=list(mode=gamma.prior, prior=NULL, enet=1, ic.k=2,
                               maxits=1000),
                    sigma=list(prior=sigma.prior),
                    kappa=list(LDAbeta=LDAbeta, interactions=interactions, 
                               fixedintercept=TRUE, mstep=list(tol=.001, maxit=3),
                               contrast=FALSE),
-                   # tau=list(mode=match.arg(kappa.prior), tol=1e-5,
-                   tau=list(mode=kappa.prior, tol=1e-5,
+                   tau=list(mode=match.arg(kappa.prior), tol=1e-5,
+                   # tau=list(mode=kappa.prior, tol=1e-5,
                             enet=1,nlambda=250, lambda.min.ratio=.001, ic.k=2,
                             maxit=1e4),
                    init=list(mode=init.type, nits=50, burnin=25, alpha=(50/K), eta=.01,

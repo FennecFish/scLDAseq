@@ -103,8 +103,8 @@ get_statistics <- function(k, heldout, init.type, M, ...) { # k = one particular
   out <- NULL # output vector
   out[['K']] <- k
   #run stm
-  model <- stm(documents=heldout$documents,vocab=heldout$vocab,
-               K=k, init.type=init.type, ...)
+  model <- multi_stm(documents=heldout$documents,vocab=heldout$vocab,
+               K=k, init.type=init.type, heldout = TRUE, ...)
   #calculate values to return
   if( !"content" %in% names(list(...)) ) {  # only calculate exclusivity for models without content covariates
     out[['exclus']] <- mean(unlist(exclusivity(model, M=M, frexw=.7)))
