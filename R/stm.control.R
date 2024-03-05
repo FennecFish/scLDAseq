@@ -95,6 +95,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
         glambda <- lambda[gindex,]
 
         #run the model
+        
         suffstats[[i]] <- estep(documents=gdocs, beta.index=gbetaindex,
                                 update.mu=(!is.null(mu$gamma)),
                                 beta$beta, glambda, gmu, 
@@ -125,6 +126,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
           }
           # Now do the updates themselves
           # source("R/STMmu.R")
+          
           mu <- opt.mu(lambda=lambda, mode=settings$gamma$mode, pi = pi,
                        nsamples = nsamples, covar=settings$covariates$X, 
                        enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
@@ -178,6 +180,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
                          pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)
+      #browser()
       beta <- opt.beta(beta.ss, beta$kappa, settings)
       sigs <- opt.sigs(pi, omega, samples)
       

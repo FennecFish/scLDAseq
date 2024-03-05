@@ -36,17 +36,21 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
     beta.ss[[i]] <- matrix(0, nrow=K,ncol=V)
   }
   
-  pi.ss <- vector(mode="list", length=I)
-  for(i in 1:I) {
-      Ni <- which(samples == unique(samples)[i])
-      pi.ss[[i]] <- numeric(length = length(Ni))
-      # browser()
-  }
+  pi.ss <- numeric(N)
+  # pi.ss <- vector(mode="list", length=I)
+  # for(i in 1:I) {
+  #     browser()
+  #     Ni <- which(samples == unique(samples)[i])
+  #     pi.ss[[i]] <- numeric(length = length(Ni))
+  #     # browser()
+  # }
+  # browser()
   bound <- vector(length=N)
   lambda <- vector("list", length=N)
   
   # 2) Precalculate common components
     # calculate inverse and entropy of sigmat
+  
   sigobj <- try(chol.default(sigma), silent=TRUE)
   if(inherits(sigobj,"try-error")) {
     sigmaentropy <- (.5*determinant(sigma, logarithm=TRUE)$modulus[1])
@@ -63,13 +67,15 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   
   # browser()
   omega <- matrix(0, nrow = I, ncol = I)
-  
+  # browser()
   for (i in 1:I) {
   psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
   sigs.i <- diag(sigs)[i]
   omega.i <- 1/(sum(diag(siginv)) + 1/sigs.i)
   Ni <- which(samples == unique(samples)[i])
+  # browser()
       for(l in Ni) {
+          # print(l)
           #update components
           doc <- documents[[l]]
           words <- doc[1,]
@@ -77,9 +83,8 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           init <- lambda.old[l,]
           if(update.mu) mu.l <- mu[,l]
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
-          
+            # print(siginv)
           #infer the document
-          # browser()
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
                                            siginv=siginv, 
                                            sigs = sigs.i,
@@ -91,19 +96,23 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
+          pi.ss[l] <- pi.ss[l]+ doc.results$pi
           
-          pi.ss[[i]][l] <- pi.ss[[i]][l]+ doc.results$pi
           if(verbose && l%%ctevery==0) cat(".")
       }
   omega[i,i] <- omega.i
   }
   if(verbose) cat("\n") #add a line break for the next message.
-
+  
   #4) Combine and Return Sufficient Statistics
-  pi.ss <- unlist(lapply(pi.ss, mean))
-  print(pi.ss)
+  pi.ss.avg <- numeric(I)
+  for(i in 1:I) {
+      Ni <- which(samples == unique(samples)[i])
+      pi.ss.avg[i] <- mean(pi.ss[Ni])
+      # browser()
+  }
   lambda <- do.call(rbind, lambda)
   return(list(sigma=sigma.ss, beta=beta.ss, bound=bound, 
-              lambda=lambda, pi = pi.ss, omega = omega))
+              lambda=lambda, pi = pi.ss.avg, omega = omega))
 }
 
