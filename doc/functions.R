@@ -1,4 +1,3 @@
-setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
 library(splatter)
 library(scran)
 library(Rcpp)
@@ -12,8 +11,6 @@ library(Seurat)
 library(RaceID)
 library(cidr)
 library(cluster)
-
-set.seed(1)
 
 sc_methods <- function(sims, verbose = TRUE) {
     
