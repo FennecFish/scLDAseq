@@ -1,4 +1,4 @@
-setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
+setwd("/proj/milovelab/wu/scLDAseq/scLDAseq")
 library(splatter)
 library(scran)
 library(Rcpp)
@@ -21,6 +21,7 @@ if (length(args) == 0) {
 }
 
 file_name <- args[1]
+cat(file_name)
 
 sim_name <- sub("\\.rds$", "", file_name)
 source("doc/functions.R")
