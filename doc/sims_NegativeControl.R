@@ -59,11 +59,11 @@ for (i in 1:nrow(pre_count)) {
 }
 sims$time <- sampled_data$time
 
-sampled_data %>% 
-    data.frame() %>%
-    group_by(time, Batch) %>%
-    count(Group, Batch, time) %>%
-    mutate(Proportion = n / sum(n))
+# sampled_data %>% 
+#     data.frame() %>%
+#     group_by(time, Batch) %>%
+#     count(Group, Batch, time) %>%
+#     mutate(Proportion = n / sum(n))
 
 
 #### QC ######
@@ -78,7 +78,7 @@ sims.sub <- sims[p2.chosen,]
 nsample <- length(unique(sims.sub$Batch))
 ngroup <- length(unique(sims.sub$Group))
 
-file_name <- paste0("data/PositiveControl_", nsample, "sample_",
+file_name <- paste0("data/NegativeControl_", nsample, "sample_",
                     ngroup, "group_seed_", seed, ".rds")
 
 saveRDS(sims.sub, file = file_name)

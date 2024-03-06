@@ -120,3 +120,29 @@ sc_methods <- function(sims, verbose = TRUE) {
     
     return(dat)
 }
+
+###########################################################
+######## adjusted rand index & silhouette  ################
+###########################################################
+
+sc_eval <- function(sims, dat) {
+    
+    # compute silhouette score
+    scSTM.sil <- silhouette(as.numeric(as.factor(dat$scSTM_cluster)), dist(t(counts(sims))))
+    seurat.sil <- silhouette(as.numeric(as.factor(dat$seurat_cluster)), dist(t(counts(sims))))
+    raceid.sil <- silhouette(as.numeric(as.factor(dat$raceID_cluster)), dist(t(counts(sims))))
+    cidr.sil <- silhouette(as.numeric(as.factor(dat$cidr_cluster)), dist(t(counts(sims))))
+    
+    res <- data.frame(
+        scSTM_adjR = adjustedRandIndex(dat$scSTM_cluster,sims$Group),
+        Seurat_adjR = adjustedRandIndex(dat$seurat_cluster, sims$Group), 
+        raceID_adjR = adjustedRandIndex(dat$raceID_cluster,sims$Group),
+        CIDR_adjR = adjustedRandIndex(dat$cidr_cluster,sims$Group),
+        scSTM_sil = mean(scSTM.sil[,3]),
+        seurat_sil = mean(seurat.sil[,3]),
+        raceID_sil = mean(raceid.sil[,3]),
+        CIDR_sil = mean(cidr.sil[,3])
+    )
+    return(res)
+}
+
