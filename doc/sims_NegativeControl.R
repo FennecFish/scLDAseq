@@ -16,26 +16,25 @@ if (length(args) == 0) {
 seed <- as.numeric(args[1])
 batch <- as.logical(args[2])
 
-
 cat(seed, "\n")
 cat(batch, "\n")
 
-source("doc/eval.R")
-source("doc/methods.R")
+# source("doc/eval.R")
+# source("doc/methods.R")
 #################################################
 ################ positive control ################
 #################################################
 
 params <- newSplatParams()
-params <- setParams(params, group.prob = c(0.45,0.45,0.1),
+params <- setParams(params, group.prob = c(0.2,0.3,0.5),
                     de.prob = c(0.2, 0.2, 0.2), 
                     nGenes = 5000, batchCells=c(2000,2000,2000), seed = seed)
 sims <- splatSimulate(params, method = "groups",
-                      verbose = FALSE, batch.rmEffect = TRUE)
+                      verbose = FALSE, batch.rmEffect = batch)
 
 # we assume that the cells pre and post treatment are equal
 cell_count <- matrix(colSums(table(sims$Group, sims$Batch))/length(unique(sims$Group)))
-pre_prp <- matrix(c(0.1,0.8,0.1))
+pre_prp <- matrix(c(0.2,0.3,0.5))
 pre_count <- cell_count %*% t(pre_prp)
 colnames(pre_count) <- paste0("Group",1:length(unique(sims$Group)))
 rownames(pre_count) <- paste0("Batch", 1:length(unique(sims$Batch)))
@@ -59,6 +58,13 @@ for (i in 1:nrow(pre_count)) {
     }
 }
 sims$time <- sampled_data$time
+
+sampled_data %>% 
+    data.frame() %>%
+    group_by(time, Batch) %>%
+    count(Group, Batch, time) %>%
+    mutate(Proportion = n / sum(n))
+
 
 #### QC ######
 sims <- quickPerCellQC(sims)
