@@ -160,16 +160,6 @@ sampled_data_sub <- colData(sims.sub) %>%
     mutate(time = ifelse(Batch == "Batch2", new_time, time))
 sims.sub$time <- sampled_data_sub$time
 
-#### feature selection #####
-sims <- scuttle::logNormCounts(sims)
-dec.p2 <- modelGeneVar(sims)
-# feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=1000)
-sims.sub <- sims[p2.chosen,]
-saveRDS(sims.sub, file = "data/sims_3samples_5groups_same_direction_1000genes.rds")
-# p2.sub <- p2.sub[,colSums(assay(p2.sub)) > 500 & colSums(assay(p2.sub)) < 5000]
-# assay(p2.sub) <- as.matrix(assay(p2.sub))
-
 ##### eval 
 r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
@@ -196,7 +186,7 @@ res <- multi_stm(documents = documents, vocab = vocab,
                  control = list(gamma.maxits=3000))
 
 # access the true proportion distribution
-time_prop <- colData(sims) %>% 
+time_prop <- colData(sims.sub) %>% 
     data.frame() %>%
     group_by(time, Batch) %>%
     count(Group, Batch, time) %>%
@@ -215,9 +205,9 @@ ggplot(time_prop, aes(x = Group, y = Proportion, fill = as.factor(time))) +
 max_indices <- apply(res$theta, 1, which.max)
 colnames(res$theta) <- paste0("topic_", 1:ncol(res$theta))
 res_cluster <- colnames(res$theta)[max_indices]
-adjustedRandIndex(res_cluster,sims$Group) # 0.7667998
+adjustedRandIndex(res_cluster,sims.sub$Group) # 0.7665575
 
-res_dat <- colData(sims) %>% 
+res_dat <- colData(sims.sub) %>% 
     data.frame() %>% 
     mutate(assigned_cluster = res_cluster)
 
@@ -242,7 +232,7 @@ library(Seurat)
 # libsizes <- colSums(counts)
 # size.factors <- libsizes/mean(libsizes)
 # logcounts(sims) <- log2(t(t(counts)/size.factors) + 1)
-seurat.sims <- as.Seurat(sims, counts = "counts", data = "logcounts")
+seurat.sims <- as.Seurat(sims.sub, counts = "counts", data = "logcounts")
 # 
 # seurat.sims <- NormalizeData(seurat.sims, normalization.method = "LogNormalize", scale.factor = 10000)
 seurat.sims <- FindVariableFeatures(seurat.sims, selection.method = "vst", nfeatures = 2000)

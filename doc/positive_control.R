@@ -18,7 +18,7 @@ set.seed(1)
 params <- newSplatParams()
 params <- setParams(params, group.prob = c(0.5,0.5),
                     de.prob = c(0.3, 0.3), 
-                    nGenes = 1000, batchCells=c(1000,1500),  
+                    nGenes = 1000, batchCells=c(1000,1500, 800),  
                     lib.loc = 15)
 sims <- splatSimulate(params, method = "groups",
                       verbose = FALSE, batch.rmEffect = FALSE)# create change of proportions
