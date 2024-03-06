@@ -15,7 +15,7 @@ library(cluster)
 
 set.seed(1)
 
-sc_methods <- function(sims) {
+sc_methods <- function(sims, verbose = TRUE) {
     
     ngroup <- length(unique(sims$Group))
     dat <- colData(sims) %>% 
@@ -27,6 +27,8 @@ sc_methods <- function(sims) {
     r.file <- paste0("R/",list.files("R/"))
     sapply(r.file, source)
     sourceCpp("src/STMCfuns.cpp")
+    
+    t1 <- proc.time()
     
     K <- ngroup
     
@@ -56,9 +58,12 @@ sc_methods <- function(sims) {
     names(res_cluster) <- rownames(res.stm$theta)
     dat$scSTM_cluster <- res_cluster[match(names(res_cluster), dat$Cell)]
     
+    msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
+    if(verbose) cat(msg)
     ###########################################################
     #################### Seurat ###############################
     ###########################################################
+    t1 <- proc.time()
     
     seurat.sims <- as.Seurat(sims, counts = "counts", data = "logcounts")
     seurat.sims <- FindVariableFeatures(seurat.sims, selection.method = "vst", nfeatures = 500)
@@ -68,11 +73,16 @@ sc_methods <- function(sims) {
     
     seurat.sims <- FindNeighbors(seurat.sims, dims = 1:10)
     seurat.sims <- FindClusters(seurat.sims, resolution = 0.5)
+    
     dat$seurat_cluster <- Idents(seurat.sims)[match(names(Idents(seurat.sims)), dat$Cell)]
-
+    msg <- sprintf("Completed Seurat (%d seconds). \n", floor((proc.time()-t1)[3]))
+    if(verbose) cat(msg)
+    
     ###########################################################
     ###################### CIDR ###############################
     ###########################################################
+    t1 <- proc.time()
+    
     res.cidr <- scDataConstructor(counts(sims))
     res.cidr <- determineDropoutCandidates(res.cidr)
     res.cidr <- wThreshold(res.cidr)
@@ -83,9 +93,13 @@ sc_methods <- function(sims) {
     res.cidr <- scCluster(res.cidr)
     dat$cidr_cluster <- res.cidr@clusters[match(colnames(res.cidr@tags), dat$Cell)]
 
+    msg <- sprintf("Completed CIDR (%d seconds). \n", floor((proc.time()-t1)[3]))
+    if(verbose) cat(msg)
     ###########################################################
     ##################### RACEID ###############################
     ###########################################################
+    t1 <- proc.time()
+    
     # tutorial
     # https://cran.r-project.org/web/packages/RaceID/vignettes/RaceID.html
     sc <- SCseq(counts(sims))
@@ -100,6 +114,9 @@ sc_methods <- function(sims) {
     sc <- clustexp(sc,cln=ngroup,sat=FALSE) # FUNcluster for other methods
     sc <- findoutliers(sc)
     dat$raceID_cluster <- sc@cluster$kpart[match(names(sc@cluster$kpart), dat$Cell)]
+    
+    msg <- sprintf("Completed RaceID (%d seconds). \n", floor((proc.time()-t1)[3]))
+    if(verbose) cat(msg)
     
     return(dat)
 }

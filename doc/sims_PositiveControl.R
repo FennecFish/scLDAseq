@@ -15,6 +15,9 @@ if (length(args) == 0) {
 seed <- args[1]
 batch <- args[2]
 
+print(seed)
+print(batch)
+
 source("doc/eval.R")
 source("doc/methods.R")
 #################################################
@@ -67,12 +70,8 @@ sims.sub <- sims[p2.chosen,]
 nsample <- length(unique(sims.sub$Batch))
 ngroup <- length(unique(sims.sub$Group))
 
-if (batch) {
-    file_name <- paste0("data/positive_control_", nsample, "sample_",
-                        ngroup, "group_Batch_seed", seed, ".rds")
-} else {
-    file_name <- paste0("data/positive_control_", nsample, "sample_",
-                        ngroup, "group_seed", seed, ".rds")
-}
+file_name <- paste0("data/PositiveControl_", nsample, "sample_",
+                    ngroup, "group_seed_", seed, ".rds")
+
 saveRDS(sims.sub, file = filename)
 
