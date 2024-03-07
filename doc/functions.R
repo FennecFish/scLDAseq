@@ -29,13 +29,13 @@ sc_methods <- function(sims, verbose = TRUE) {
     
     K <- ngroup
     
-    dat <- prepsce(sims)
-    prevalence <- as.formula(~dat$meta$time)
+    stm_dat <- prepsce(sims)
+    prevalence <- as.formula(~stm_dat$meta$time)
     content <- NULL
-    sce <- dat$sce
-    documents  <- dat$documents
-    vocab <- dat$vocab
-    data <- dat$meta
+    sce <- stm_dat$sce
+    documents  <- stm_dat$documents
+    vocab <- stm_dat$vocab
+    data <- stm_dat$meta
     sample <- "Batch"
     
     res.stm <- multi_stm(documents = documents, vocab = vocab,

@@ -4,7 +4,7 @@
 #SBATCH --output=eval_%A_%a.out
 #SBATCH --error=eval_%A_%a.err
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=2
 #SBATCH --time=1-
 #SBATCH --mem-per-cpu=15G
 #SBATCH --array=1-10
