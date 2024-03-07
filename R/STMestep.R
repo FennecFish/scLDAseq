@@ -82,7 +82,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           init <- lambda.old[l,]
           if(update.mu) mu.l <- mu[,l]
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
-          print(l)
+          # print(l)
           
           #infer the document
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
@@ -90,7 +90,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
                                            sigs = sigs.i,
                                            beta=beta.l, 
                                            doc=doc, 
-                                           sigmaentropy=sigmaentropy, l = l)
+                                           sigmaentropy=sigmaentropy)
           # update sufficient statistics 
           sigma.ss <- sigma.ss + doc.results$eta$nu
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]

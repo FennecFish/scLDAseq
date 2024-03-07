@@ -11,7 +11,7 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
                               sigs,
                               sigmaentropy, 
                               method="BFGS", control=list(maxit=500),
-                              hpbcpp=TRUE, l ) {
+                              hpbcpp=TRUE) {
   doc.ct <- doc[2,]
   Ndoc <- sum(doc.ct)
   #even at K=100, BFGS is faster than L-BFGS
