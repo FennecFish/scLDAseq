@@ -148,6 +148,7 @@ SEXP hpbcpp(SEXP eta,
    hess.shed_row(neta);
    hess.shed_col(neta);
    //Now we can add in siginv
+   
    hess = hess + siginvs;
    //At this point the Hessian is complete.
    
@@ -157,9 +158,9 @@ SEXP hpbcpp(SEXP eta,
    //arma::set_stream_err2(nullstream);
    //arma::arma_cerr_stream<char>(&nullstream);
    
-   ////
-   //Invert via cholesky decomposition
-   ////
+
+   // Invert via cholesky decomposition
+
    //Start by initializing an object
    arma::mat nu = arma::mat(hess.n_rows, hess.n_rows);
    //This version of chol generates a boolean which tells us if it failed.
@@ -168,15 +169,15 @@ SEXP hpbcpp(SEXP eta,
      //It failed!  Oh Nos.
      // So the matrix wasn't positive definite.  In practice this means that it hasn't
      // converged probably along some minor aspect of the dimension.
-     
+
      //Here we make it positive definite through diagonal dominance
      arma::vec dvec = hess.diag();
-     //find the magnitude of the diagonal 
+     //find the magnitude of the diagonal
      arma::vec magnitudes = sum(abs(hess), 1) - abs(dvec);
      //iterate over each row and set the minimum value of the diagonal to be the magnitude of the other terms
      int Km1 = dvec.size();
      for(int j=0; j < Km1;  j++){
-       if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j); //enforce diagonal dominance 
+       if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j) + 0.01; //enforce restrict diagonal dominance
      }
      //overwrite the diagonal of the hessian with our new object
      hess.diag() = dvec;
@@ -185,17 +186,17 @@ SEXP hpbcpp(SEXP eta,
    }
    //compute 1/2 the determinant from the cholesky decomposition
    double detTerm = -sum(log(nu.diag()));
-   
+
    //Now finish constructing nu
    nu = arma::inv(arma::trimatu(nu));
    nu = nu * nu.t(); //trimatu doesn't do anything for multiplication so it would just be timesink to signal here.
-   
+
    //Precompute the difference since we use it twice
    arma::vec diff = etas - mus - pis;
    //Now generate the bound and make it a scalar
-   // double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy); 
-   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff); 
-   
+   // double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy);
+   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff);
+
    // Generate a return list that mimics the R output
    return Rcpp::List::create(
         Rcpp::Named("phis") = EB,

@@ -67,7 +67,6 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   
   # browser()
   omega <- matrix(0, nrow = I, ncol = I)
-  # browser()
   for (i in 1:I) {
   psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
   sigs.i <- diag(sigs)[i]
@@ -83,14 +82,15 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           init <- lambda.old[l,]
           if(update.mu) mu.l <- mu[,l]
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
-            # print(siginv)
+          print(l)
+          
           #infer the document
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
                                            siginv=siginv, 
                                            sigs = sigs.i,
                                            beta=beta.l, 
                                            doc=doc, 
-                                           sigmaentropy=sigmaentropy)
+                                           sigmaentropy=sigmaentropy, l = l)
           # update sufficient statistics 
           sigma.ss <- sigma.ss + doc.results$eta$nu
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]

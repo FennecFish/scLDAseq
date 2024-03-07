@@ -23,9 +23,12 @@ if (length(args) == 0) {
 file_name <- args[1]
 cat(file_name)
 
+file_name <- "NegativeControl_3sample_3group_seed_11999.rds"
+# file_name <- basename(file_name)
 sim_name <- sub("\\.rds$", "", file_name)
 source("doc/functions.R")
-sims <- readRDS(file_name)
+
+sims <- readRDS(paste0("data/",file_name))
 
 dat <- sc_methods(sims)
 write.csv(dat, file = paste0("res/colData_", sim_name, ".csv"))
