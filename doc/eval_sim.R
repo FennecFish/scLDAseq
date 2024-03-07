@@ -1,4 +1,5 @@
-setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
+# setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
+setwd("/proj/milovelab/wu/scLDAseq/scLDAseq")
 set.seed(1)
 library(slam)
 library(SingleCellExperiment)
