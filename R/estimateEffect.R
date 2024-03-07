@@ -158,7 +158,7 @@ estimateEffect <- function(formula,
       if(!sampleIDs %in% stmobj$sampleID) stop("Sample ids specified must be exactly the same as the ones used in the model")
       metadata = metadata[metadata[,sampleNames] == sampleIDs,]
       subDocName <- stmobj$DocName[stmobj$sampleID %in% sampleIDs]
-      stmobj <- STMsubset(stmobj, subDocName) ### keep wprking on this
+      stmobj <- STMsubset(stmobj, subDocName) 
   } 
 
   mf <- model.frame(termobj, data=metadata)
