@@ -211,15 +211,18 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   }
   beta$beta <- NULL
   lambda <- cbind(lambda,0)
+  # browser()
   model <- list(mu=mu, sigma=sigma, beta=beta, 
                 sigs = sigs, psi = pi, settings=settings,
-                vocab=vocab, convergence=convergence,
+                vocab=vocab, DocName = names(documents), 
+                sampleID = samples, convergence=convergence,
                 theta=exp(lambda - log(rowSums(exp(lambda)))),
                 #note altered from row.lse above because of a
                 #Windows specific bug that was happening with
                 #matrixStats package and large matrices 8/27
                 eta=lambda[,-ncol(lambda), drop=FALSE],
-                invsigma=solve(sigma), time=time, version=utils::packageDescription("stm")$Version)
+                invsigma=solve(sigma), time=time, 
+                version=utils::packageDescription("stm")$Version)
   
   class(model) <- "STM"
   return(model)

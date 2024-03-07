@@ -703,5 +703,5 @@ multi_stm <- function(documents, vocab, K,
   # Finally run the actual model
   ###
   # browser()
-  return(stm.control(documents, vocab, settings,model))
+  return(stm.control(documents, vocab, settings, model))
 }

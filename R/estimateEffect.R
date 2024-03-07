@@ -114,7 +114,8 @@
 #' summary(prep)
 #' @export
 estimateEffect <- function(formula,
-                     stmobj, metadata=NULL,
+                     stmobj, metadata=NULL, 
+                     sampleNames = NULL, sampleIDs = NULL, # if id = null, then combine all samples
                      uncertainty=c("Global", "Local", "None"), documents=NULL,
                      nsims=25, prior=NULL) {
   origcall <- match.call()
@@ -150,6 +151,16 @@ estimateEffect <- function(formula,
   } else {
     K <- 1:stmobj$settings$dim$K
   }
+  
+  # now we subset the metadata to include only sample specified
+  if(!is.null(sampleIDs)) {
+      if(is.null(sampleNames)) stop("Please specify the colname name for sampleIDs in the input metadata")
+      if(!sampleIDs %in% stmobj$sampleID) stop("Sample ids specified must be exactly the same as the ones used in the model")
+      metadata = metadata[metadata[,sampleNames] == sampleIDs,]
+      subDocName <- stmobj$DocName[stmobj$sampleID %in% sampleIDs]
+      stmobj <- STMsubset(stmobj, subDocName) ### keep wprking on this
+  } 
+
   mf <- model.frame(termobj, data=metadata)
   xmat <- model.matrix(termobj,data=metadata)
   varlist <- all.vars(termobj)
@@ -166,6 +177,8 @@ estimateEffect <- function(formula,
   }
   metadata <- data
   rm(data)
+  
+  
   ##
   #Step 2: Compute the QR decomposition
   ##
