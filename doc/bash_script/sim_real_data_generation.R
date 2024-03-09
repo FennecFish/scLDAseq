@@ -4,16 +4,24 @@ setwd("/proj/milovelab/wu/scLDAseq/scLDAseq")
 
 library("Seurat")
 library(dplyr)
+library(scuttle)
 library(tidyverse)
 library(splatter)
+library(scran)
+library(Rcpp)
+library(slam)
+library(SingleCellExperiment)
+library(Matrix)
+library(ggplot2)
+library(mclust)
+library(Seurat)
+library(RaceID)
+library(cidr)
+library(cluster)
 
 set.seed(1)
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) == 0) {
-  stop("No arguments supplied. Usage: Rscript test.R <filename>", call. = FALSE)
-}
-
 file_name <- args[1]
 cat(file_name)
 
@@ -29,7 +37,7 @@ params <- readRDS(paste0("data/", file_name))
 
 params <- setParams(params, group.prob = c(0.3, 0.3, 0.4),
                     de.prob = c(0.2, 0.2, 0.2), 
-                    nGenes = 10000, batchCells=c(2000,2000,2000))
+                    nGenes = 5000, batchCells=c(2000,2000,2000))
 sims <- splatSimulate(params, method = "groups",
                       verbose = FALSE, batch.rmEffect = FALSE)
 

@@ -15,33 +15,30 @@ library(cluster)
 
 set.seed(1)
 
-cat("start loading args")
+cat("start loading args \n")
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) == 0) {
-    stop("No arguments supplied. Usage: Rscript test.R <filename>", call. = FALSE)
-}
 
 file_name <- args[1]
 cat(file_name)
 
 # files <- list.files(path = "data/", pattern = "BIOKEY_.*_sims.rds")
-swap = TRUE
+swap = FALSE
 # file_name <- "BIOKEY_8_sims.rds"
 file_name <- basename(file_name)
 sim_name <- sub("\\.rds$", "", file_name)
 source("doc/functions.R")
 
 cat(paste0("data/",file_name))
-sims <- readRDS(paste0("data/",file_name))
-
-#### QC ######
-sims <- quickPerCellQC(sims)
-#### feature selection #####
-sims <- scuttle::logNormCounts(sims)
-dec.p2 <- modelGeneVar(sims)
-# feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=2000)
-sims <- sims[p2.chosen,]
+sims <- readRDS(paste0("data/control/",file_name))
+# 
+# #### QC ######
+# sims <- quickPerCellQC(sims)
+# #### feature selection #####
+# sims <- scuttle::logNormCounts(sims)
+# dec.p2 <- modelGeneVar(sims)
+# # feature selection
+# p2.chosen <- getTopHVGs(dec.p2, n=2000)
+# sims <- sims[p2.chosen,]
 
 dat <- sc_methods(sims)
 write.csv(dat, file = paste0("res/colData_", sim_name, ".csv"))
@@ -54,12 +51,12 @@ if (swap) {
     mutate(time = ifelse(Batch %in% c("Batch1", "Batch2"), new_time, time))
   sims$time <- sampled_data$time
   samp <- paste0(samp,"_oppo")
+  saveRDS(sims, paste0("data/",samp,"_sims.rds"))
+  dat <- sc_methods(sims)
+  write.csv(dat, file = paste0("res/colData_", sim_name, ".csv"))
 }
 
-saveRDS(sims, paste0("data/",samp,"_sims.rds"))
 
-dat <- sc_methods(sims)
-write.csv(dat, file = paste0("res/colData_", samp, ".csv"))
 
 # 
 # res <- sc_eval(sims, dat = dat)

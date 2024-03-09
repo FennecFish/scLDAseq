@@ -6,8 +6,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --time=1-
-#SBATCH --mem-per-cpu=25G
-#SBATCH --array=1-7
+#SBATCH --mem-per-cpu=10G
+#SBATCH --array=1-14
 #SBATCH --mail-type=all
 #SBATCH --mail-user=euphyw@live.unc.edu
 
@@ -20,7 +20,7 @@ FILES=($(find "$DIR" -maxdepth 1 -type f -name "BIOKEY*params.rds"))
 
 INDEX=$(($SLURM_ARRAY_TASK_ID - 1)) # Calculate array index
 
-Rscript sim_real_data_generation.R
+Rscript sim_real_data_generation.R ${FILES[$INDEX]}
 
 
 
