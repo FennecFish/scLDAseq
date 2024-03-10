@@ -81,7 +81,7 @@ sims.sub <- sims[p2.chosen,]
 nsample <- length(unique(sims.sub$Batch))
 ngroup <- length(unique(sims.sub$Group))
 
-file_name <- paste0("data/NegativeControl_", nsample, "sample_",
+file_name <- paste0("/work/users/e/u/euphyw/scLDAseq/control_batch/NegativeControl_", nsample, "sample_",
                     ngroup, "group_seed_", seed, ".rds")
 
 saveRDS(sims.sub, file = file_name)

@@ -16,7 +16,7 @@
 module load r/4.3.1
 
 SEED=$RANDOM
-BATCH="TRUE"
+rmBATCH="FALSE"
 
-Rscript sims_NegativeControl.R $SEED $BATCH
+Rscript sims_NegativeControl.R $SEED $rmBATCH
 

@@ -16,21 +16,21 @@ library(Rtsne)
 library(rsvd)
 set.seed(1)
 
-# dat <- readRDS("/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/raw/cohort1_filtered.rds")
-# scdat <- as.SingleCellExperiment(dat)
-# sims <- scdat
-# cat("Completed Transition to sce, starting QC \n")
-# rm(dat)
-# #### QC ######
-# sims <- quickPerCellQC(sims)
-# #### feature selection #####
-# sims <- scuttle::logNormCounts(sims)
-# dec.p2 <- modelGeneVar(sims)
-# # feature selection
-# p2.chosen <- getTopHVGs(dec.p2, n=6000)
-# sims.sub <- sims[p2.chosen,]
-# 
-# ngroup <- length(unique(sims.sub$Group))
+dat <- readRDS("/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/raw/cohort1_filtered.rds")
+subdat <- subset(dat, subset = expansion=="E")
+sims <- as.SingleCellExperiment(subdat)
+rm(dat)
+rm(subdat)
+cat("Completed Transition to sce, starting QC \n")
+
+#### QC ######
+sims <- quickPerCellQC(sims)
+#### feature selection #####
+sims <- scuttle::logNormCounts(sims)
+dec.p2 <- modelGeneVar(sims)
+# feature selection
+p2.chosen <- getTopHVGs(dec.p2, n=5000)
+sims.sub <- sims[p2.chosen,]
 
 ###########################################################
 ################## scLDAseq ###############################
@@ -42,13 +42,13 @@ sourceCpp("src/STMCfuns.cpp")
 t1 <- proc.time()
 
 K <- 8
-# 
-# stm_dat <- prepsce(sims.sub)
-# 
-# saveRDS(stm_dat, file = "/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1.rds")
-# cat("Prepreation Completed")
 
-stm_dat <- readRDS("/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1.rds")
+stm_dat <- prepsce(sims.sub)
+
+saveRDS(stm_dat, file = "/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1_E_only.rds")
+cat("Prepreation Completed")
+
+# stm_dat <- readRDS("/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1.rds")
 prevalence <- as.formula(~stm_dat$meta$timepoint)
 content <- NULL
 sce <- stm_dat$sce
@@ -67,7 +67,7 @@ res.stm <- multi_stm(documents = documents, vocab = vocab,
                      kappa.prior= "L1",
                      control = list(gamma.maxits=3000))
 
-saveRDS(res.stm, file = "res/Anti-PD1_stmRes.rds")
+saveRDS(res.stm, file = "res/Anti-PD1_E_only_stmRes.rds")
 msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
 cat(msg)
 

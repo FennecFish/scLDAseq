@@ -34,7 +34,7 @@ params <- setParams(params, group.prob = c(0.2,0.3,0.5),
                     de.prob = c(0.1, 0.1, 0.05),
                     nGenes = 5000, batchCells=c(2000,2000,2000), seed = seed)
 sims <- splatSimulate(params, method = "groups",
-                      verbose = FALSE, batch.rmEffect = TRUE)
+                      verbose = FALSE, batch.rmEffect = batch)
 
 # we assume that the cells pre and post treatment are equal
 cell_count <- matrix(colSums(table(sims$Group, sims$Batch))/length(unique(sims$Group)))
@@ -75,7 +75,7 @@ sims.sub <- sims[p2.chosen,]
 nsample <- length(unique(sims.sub$Batch))
 ngroup <- length(unique(sims.sub$Group))
 
-file_name <- paste0("data/PositiveControl_", nsample, "sample_",
+file_name <- paste0("/work/users/e/u/euphyw/scLDAseq/control_batch/PositiveControl_", nsample, "sample_",
                     ngroup, "group_seed_", seed, ".rds")
 
 saveRDS(sims.sub, file = file_name)

@@ -3,7 +3,7 @@
 #SBATCH --job-name=PositiveControl_sim
 #SBATCH --output=PositiveControl_sim_%A_%a.out
 #SBATCH --error=PositiveControl_sim_%A_%a.err
-#SBATCH --ntasks=5
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --time=1:00:00
 #SBATCH --mem=5G
@@ -16,6 +16,6 @@
 module load r/4.3.1
 
 SEED=$RANDOM
-BATCH="TRUE"
+rmBATCH="FALSE"
 
-Rscript sims_PositiveControl.R $SEED $BATCH
+Rscript sims_PositiveControl.R $SEED $rmBATCH
