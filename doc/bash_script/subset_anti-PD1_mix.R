@@ -20,7 +20,8 @@ set.seed(1)
 ################### the following script is for Response Patients Only ##########################
 ###############################################################################################
 dat <- readRDS("/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/raw/cohort1_filtered.rds")
-subdat <- subset(dat, subset = expansion=="E")
+patient <- paste0("BIOKEY_",c(4,6,15,16))
+subdat <- subset(dat, subset = patient_id %in% patient)
 sims <- as.SingleCellExperiment(subdat)
 rm(dat)
 rm(subdat)
@@ -32,25 +33,26 @@ sims <- quickPerCellQC(sims)
 sims <- scuttle::logNormCounts(sims)
 dec.p2 <- modelGeneVar(sims)
 # feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=2000)
+p2.chosen <- getTopHVGs(dec.p2, n=1000)
 sims.sub <- sims[p2.chosen,]
 rm(sims)
-saveRDS(sims.sub, file = "/work/users/e/u/euphyw/scLDAseq/data/PD1_E_only_2000genes.rds")
-###########################################################
-################## scLDAseq ###############################
-###########################################################
+saveRDS(sims.sub, file = "/work/users/e/u/euphyw/scLDAseq/data/PD1_sub_mix_response_samples_1000g.rds")
+
 r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
 t1 <- proc.time()
 
-K <- 8
 
-stm_dat <- prepsce(sims.sub)
 
-saveRDS(stm_dat, file = "/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1_E_only_2000genes.rds")
+# stm_dat <- prepsce(sims.sub)
+
+saveRDS(stm_dat, file = "/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1_mix_1000g.rds")
 cat("Prepreation Completed")
+
+# stm_dat <- readRDS("/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1_mix.rds")
+
 
 # stm_dat <- readRDS("/work/users/e/u/euphyw/sc_cancer_proj/data/Anti-PD1/stm_prepsce_anti-PD1.rds")
 prevalence <- as.formula(~stm_dat$meta$timepoint)
@@ -61,6 +63,7 @@ vocab <- stm_dat$vocab
 data <- stm_dat$meta
 sample <- "patient_id"
 
+K <- 12
 res.stm <- multi_stm(documents = documents, vocab = vocab,
                      K = K, prevalence = prevalence, content = NULL,
                      data = data,
@@ -71,14 +74,6 @@ res.stm <- multi_stm(documents = documents, vocab = vocab,
                      kappa.prior= "L1",
                      control = list(gamma.maxits=3000))
 
-saveRDS(res.stm, file = "res/Anti-PD1_E_only_2000genes_stmRes.rds")
+saveRDS(res.stm, file = "res/Anti-PD1_mix_K12_stmRes.rds")
 msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
 cat(msg)
-
-# max_indices <- apply(res.stm$theta, 1, which.max)
-# colnames(res.stm$theta) <- paste0("topic_", 1:ncol(res.stm$theta))
-# rownames(res.stm$theta) <- colnames(res.stm$mu$mu)
-# res_cluster <- colnames(res.stm$theta)[max_indices]
-# names(res_cluster) <- rownames(res.stm$theta)
-# dat$scSTM_cluster <- res_cluster[match(names(res_cluster), dat$Cell)]
-
