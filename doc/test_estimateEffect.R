@@ -9,6 +9,30 @@ library(ggplot2)
 library(dplyr)
 library(mclust)
 
+##### estimating effect size for real data
+r.file <- paste0("R/",list.files("R/"))
+sapply(r.file, source)
+sourceCpp("src/STMCfuns.cpp")
+
+res.multi <- readRDS("res/Anti-PD1_E_only_stmRes.rds")
+K = 8
+sims <- readRDS("data/PD1_E_only.rds")
+meta <- colData(sims) %>% data.frame()
+
+multi_eff <- estimateEffect(1:K ~ timepoint, 
+                            stmobj = res.multi, 
+                            meta= meta, uncertainty = "Global")
+
+multi_eff_15 <- estimateEffect(1:K ~ timepoint, 
+                            stmobj = res.multi, 
+                            sampleNames = "patient_id", 
+                            sampleIDs = "BIOKEY_15",
+                            meta= meta, uncertainty = "Global")
+
+summary(multi_eff)
+
+##################################################
+##### estimating effectsize for simulation #####
 sims <- readRDS("data/PositiveControl_2sample_3group_flip.rds")
 
 time_prop <- colData(sims) %>% 
