@@ -14,6 +14,7 @@
 #' @param N number of docs to be partially held out
 #' @param proportion proportion of docs to be held out.
 #' @param seed the seed, set for replicability
+#' @sample 
 #' @examples
 #' 
 #' prep <- prepDocuments(poliblog5k.docs, poliblog5k.voc,
@@ -31,15 +32,30 @@
 #' eval.heldout(stm1, heldout$missing)
 #' 
 #' @export
-make.heldout <- function(documents, vocab, N=floor(.1*length(documents)), 
-                         proportion=.5, seed=NULL) {
+make.heldout <- function(documents = NULL, vocab = NULL, prepsce = NULL, N=floor(.1*length(documents)), 
+                         proportion=.5, seed=NULL ) {
   if(!is.null(seed)) set.seed(seed)
   
-  # Convert the corpus to the internal STM format
-  args <- asSTMCorpus(documents, vocab)
-  documents <- args$documents
-  vocab <- args$vocab
-
+    if(is.null(documents) & is.null(vocab) & is.null(prepsce)) stop("You will need to input either documents and vocab, 
+                                                                    or an output from prepsce")
+    if(is.null(prepsce) & is.null(vocab)) stop("Please input documents")
+    if(is.null(prepsce) & is.null(documents)) stop("Please input vocab")
+    
+    if(!is.null(prepsce)) {
+        documents <- prepsce$documents
+        vocab <- prepsce$vocab
+        sample <- prepsce$sample
+    } else {
+        # Convert the corpus to the internal STM format
+        args <- asSTMCorpus(documents, vocab)
+        documents <- args$documents
+        vocab <- args$vocab
+        sample <- NULL
+    }
+    
+    if(!is.null(sample)){
+        
+    }
   index <- sort(sample(1:length(documents), N))
   pie <- proportion
   missing <- vector(mode="list", length=N)

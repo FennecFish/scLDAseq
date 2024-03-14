@@ -15,7 +15,7 @@ read.slam <- function(corpus) {
 }
 
 # require SingleCellExperiment, with meta data in ColData
-prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf, 
+prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf, 
                     verbose=TRUE){
     #Functions:
     # 1) Detect and renumber zero-indexed data.
@@ -32,6 +32,7 @@ prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf,
     
     # extract documents (cell) and vocab (genes) 
     documents <- read.slam(slam::as.simple_triplet_matrix(t(assays(sce)$counts)))
+    # browser()
     vocab <- rownames(sce)
     
     #error check for inputs
@@ -51,7 +52,7 @@ prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf,
     #     documents <- documents[index]
     #     if(!is.null(meta)) meta <- meta[index, , drop = FALSE] 
     # }
-    
+    # browser()
     #check that there are no 0 length documents
     len <- unlist(lapply(documents, length))
     if(any(len==0)) {
@@ -120,10 +121,22 @@ prepsce <- function(sce, lower.thresh=1, upper.thresh=Inf,
     # browser()
     # re-organize sce to remove vocab and docs
     sce <- sce[vocab, rownames(meta)]
-    
     #recast everything as an integer
     documents <- lapply(documents, function(x) matrix(as.integer(x), nrow=2))
-    return(list(documents=documents, vocab=vocab, meta=meta, sce=sce,
-                words.removed=droppedwords, docs.removed=docs.removed, 
-                tokens.removed=sum(wordcounts[toremove]), wordcounts=wordcounts))
+    
+    if(!is.null(sample)) {
+        sample_list <- meta[sample]
+        return(list(documents=documents, vocab=vocab, 
+                    sample = sample_list, meta=meta, sce=sce,
+                    words.removed=droppedwords, docs.removed=docs.removed, 
+                    tokens.removed=sum(wordcounts[toremove]), wordcounts=wordcounts))
+    } else {
+        return(list(documents=documents, vocab=vocab, 
+                    sample = NULL, meta=meta, sce=sce, 
+                    words.removed=droppedwords, docs.removed=docs.removed, 
+                    tokens.removed=sum(wordcounts[toremove]), wordcounts=wordcounts))
+    }
+    
+    
+   
 }

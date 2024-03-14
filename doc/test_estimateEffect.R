@@ -14,7 +14,7 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
-res.multi <- readRDS("res/Anti-PD1_E_only_stmRes.rds")
+res.multi <- readRDS("res/Anti-PD1_E_only_2000genes_stmRes.rds")
 K = 8
 sims <- readRDS("data/PD1_E_only.rds")
 meta <- colData(sims) %>% data.frame()
@@ -23,16 +23,24 @@ multi_eff <- estimateEffect(1:K ~ timepoint,
                             stmobj = res.multi, 
                             meta= meta, uncertainty = "Global")
 
-multi_eff_15 <- estimateEffect(1:K ~ timepoint, 
+multi_eff_28 <- estimateEffect(1:K ~ timepoint, 
                             stmobj = res.multi, 
                             sampleNames = "patient_id", 
-                            sampleIDs = "BIOKEY_15",
+                            sampleIDs = "BIOKEY_28",
                             meta= meta, uncertainty = "Global")
 
-summary(multi_eff)
+summary(multi_eff_16)
 
+plot(multi_eff_28, "timepoint", xlim = c(-0.3,0.3),
+     main = "Estimated Effect of Time as a Covariate to Cell-Topic Proportion for Patient ID 28",
+     method="difference",cov.value1="Pre",cov.value2="On",
+     model = res.multi,
+     labeltype = "frex",
+     xlab = "Proportion Difference (95% Confidence Interval) ")
+# plot()
 ##################################################
 ##### estimating effectsize for simulation #####
+##################################################
 sims <- readRDS("data/PositiveControl_2sample_3group_flip.rds")
 
 time_prop <- colData(sims) %>% 
