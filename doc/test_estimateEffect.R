@@ -1,4 +1,5 @@
-setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
+# setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
+setwd("/proj/milovelab/wu/scLDAseq/scLDAseq")
 library(splatter)
 library(scran)
 library(Rcpp)
@@ -14,29 +15,30 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
-res.multi <- readRDS("res/Anti-PD1_E_only_2000genes_stmRes.rds")
-K = 8
-sims <- readRDS("data/PD1_E_only.rds")
+res.multi <- readRDS("res/Anti-PD1_mix_K40_stmRes.rds")
+K = res.multi$settings$dim$K
+sims <- readRDS("/work/users/e/u/euphyw/scLDAseq/data/PD1_sub_mix_response_samples_1000g.rds")
 meta <- colData(sims) %>% data.frame()
 
-multi_eff <- estimateEffect(1:K ~ timepoint, 
-                            stmobj = res.multi, 
-                            meta= meta, uncertainty = "Global")
+# multi_eff <- estimateEffect(1:K ~ timepoint,
+#                             stmobj = res.multi, 
+#                             meta= meta, uncertainty = "Global")
 
-multi_eff_28 <- estimateEffect(1:K ~ timepoint, 
+
+multi_eff_26 <- estimateEffect(36:39 ~ timepoint, 
                             stmobj = res.multi, 
                             sampleNames = "patient_id", 
-                            sampleIDs = "BIOKEY_28",
+                            sampleIDs = "BIOKEY_26",
                             meta= meta, uncertainty = "Global")
 
-summary(multi_eff_16)
-
-plot(multi_eff_28, "timepoint", xlim = c(-0.3,0.3),
-     main = "Estimated Effect of Time as a Covariate to Cell-Topic Proportion for Patient ID 28",
+summary(multi_eff_26)
+plot(multi_eff_26, "timepoint", xlim = c(-0.3,0.3),
+     main = "Estimated Effect of Time as a Covariate to Cell-Topic Proportion for Sample 2",
      method="difference",cov.value1="Pre",cov.value2="On",
      model = res.multi,
      labeltype = "frex",
      xlab = "Proportion Difference (95% Confidence Interval) ")
+
 # plot()
 ##################################################
 ##### estimating effectsize for simulation #####
