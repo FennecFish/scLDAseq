@@ -193,8 +193,11 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       }
     }
     #Convergence
+    # cat("Bound is ", bound.ss, "\n")
+    # cat("Convergence is ", convergence, "\n")
     convergence <- convergence.check(bound.ss, convergence, settings)
     stopits <- convergence$stopits
+    # cat("stopits is", stopits, "\n")
 
     #Print Updates if we haven't yet converged
     if(!stopits & verbose) report(convergence, ntokens=ntokens, beta, vocab,

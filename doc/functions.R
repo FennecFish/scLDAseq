@@ -1,3 +1,4 @@
+setwd("/proj/milovelab/wu/scLDAseq")
 library(splatter)
 library(scran)
 library(Rcpp)
@@ -80,7 +81,7 @@ sc_methods <- function(sims, verbose = TRUE) {
     ###########################################################
     t1 <- proc.time()
 
-    res.cidr <- scDataConstructor(counts(sims))
+    res.cidr <- scDataConstructor(as.matrix(counts(sims)))
     res.cidr <- determineDropoutCandidates(res.cidr)
     res.cidr <- wThreshold(res.cidr)
     res.cidr <- scDissim(res.cidr)
@@ -128,21 +129,21 @@ sc_eval <- function(sims, dat) {
     
   res <- data.frame()
     # compute silhouette score
-    dist.matrix <- dist(t(counts(sims)))
-    scSTM.sil <- silhouette(as.numeric(as.factor(dat$scSTM_cluster)), dist.matrix)
-    seurat.sil <- silhouette(as.numeric(as.factor(dat$seurat_cluster)), dist.matrix)
-    raceid.sil <- silhouette(as.numeric(as.factor(dat$raceID_cluster)), dist.matrix)
-    cidr.sil <- silhouette(as.numeric(as.factor(dat$cidr_cluster)), dist.matrix)
+    # dist.matrix <- dist(t(counts(sims)))
+    # scSTM.sil <- silhouette(as.numeric(as.factor(dat$scSTM_cluster)), dist.matrix)
+    # seurat.sil <- silhouette(as.numeric(as.factor(dat$seurat_cluster)), dist.matrix)
+    # raceid.sil <- silhouette(as.numeric(as.factor(dat$raceID_cluster)), dist.matrix)
+    # cidr.sil <- silhouette(as.numeric(as.factor(dat$cidr_cluster)), dist.matrix)
     
     res <- data.frame(
         scSTM_adjR = adjustedRandIndex(dat$scSTM_cluster,sims$Group),
         Seurat_adjR = adjustedRandIndex(dat$seurat_cluster, sims$Group), 
         raceID_adjR = adjustedRandIndex(dat$raceID_cluster,sims$Group),
-        CIDR_adjR = adjustedRandIndex(dat$cidr_cluster,sims$Group),
-        scSTM_sil = mean(scSTM.sil[,3]),
-        seurat_sil = mean(seurat.sil[,3]),
-        raceID_sil = mean(raceid.sil[,3]),
-        CIDR_sil = mean(cidr.sil[,3])
+        CIDR_adjR = adjustedRandIndex(dat$cidr_cluster,sims$Group)#,
+    #     scSTM_sil = mean(scSTM.sil[,3]),
+    #     seurat_sil = mean(seurat.sil[,3]),
+    #     raceID_sil = mean(raceid.sil[,3]),
+    #     CIDR_sil = mean(cidr.sil[,3])
     )
     return(res)
 }

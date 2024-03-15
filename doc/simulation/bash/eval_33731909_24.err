@@ -1,0 +1,235 @@
+Loading required package: SingleCellExperiment
+Loading required package: SummarizedExperiment
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+Loading required package: scuttle
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:Biobase’:
+
+    combine
+
+The following objects are masked from ‘package:GenomicRanges’:
+
+    intersect, setdiff, union
+
+The following object is masked from ‘package:GenomeInfoDb’:
+
+    intersect
+
+The following objects are masked from ‘package:IRanges’:
+
+    collapse, desc, intersect, setdiff, slice, union
+
+The following objects are masked from ‘package:S4Vectors’:
+
+    first, intersect, rename, setdiff, setequal, union
+
+The following objects are masked from ‘package:BiocGenerics’:
+
+    combine, intersect, setdiff, union
+
+The following object is masked from ‘package:matrixStats’:
+
+    count
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Package 'mclust' version 6.0.1
+Type 'citation("mclust")' for citing this R package in publications.
+Loading required package: SeuratObject
+Loading required package: sp
+
+Attaching package: ‘sp’
+
+The following object is masked from ‘package:IRanges’:
+
+    %over%
+
+
+Attaching package: ‘SeuratObject’
+
+The following object is masked from ‘package:SummarizedExperiment’:
+
+    Assays
+
+The following object is masked from ‘package:GenomicRanges’:
+
+    intersect
+
+The following object is masked from ‘package:GenomeInfoDb’:
+
+    intersect
+
+The following object is masked from ‘package:IRanges’:
+
+    intersect
+
+The following object is masked from ‘package:S4Vectors’:
+
+    intersect
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    intersect
+
+The following object is masked from ‘package:base’:
+
+    intersect
+
+
+Attaching package: ‘Seurat’
+
+The following object is masked from ‘package:SummarizedExperiment’:
+
+    Assays
+
+Registered S3 methods overwritten by 'RcppArmadillo':
+  method               from     
+  predict.fastLm       RcppEigen
+  print.fastLm         RcppEigen
+  summary.fastLm       RcppEigen
+  print.summary.fastLm RcppEigen
+using C++ compiler: ‘g++ (GCC) 11.2.0’
+using C++11
+Calculating gene variances
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating feature variances of standardized and clipped values
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Centering and scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+PC_ 1 
+Positive:  Gene4162, Gene3626, Gene3027, Gene995, Gene2277, Gene3663, Gene1296, Gene3346, Gene3649, Gene3259 
+	   Gene4003, Gene2367, Gene778, Gene851, Gene498, Gene2181, Gene248, Gene3249, Gene2027, Gene2979 
+	   Gene1020, Gene4568, Gene1931, Gene4633, Gene1804, Gene1521, Gene482, Gene1070, Gene3647, Gene4707 
+Negative:  Gene1877, Gene3550, Gene4994, Gene2811, Gene3197, Gene2790, Gene4432, Gene4628, Gene1750, Gene2026 
+	   Gene330, Gene1853, Gene2281, Gene4130, Gene4185, Gene841, Gene1541, Gene1961, Gene1314, Gene4424 
+	   Gene2554, Gene4885, Gene2645, Gene4658, Gene3585, Gene1648, Gene4780, Gene4397, Gene4699, Gene743 
+PC_ 2 
+Positive:  Gene889, Gene3609, Gene2979, Gene3480, Gene1967, Gene2636, Gene3649, Gene4382, Gene3663, Gene811 
+	   Gene3423, Gene1521, Gene3736, Gene1235, Gene710, Gene2037, Gene4007, Gene4170, Gene163, Gene822 
+	   Gene470, Gene2181, Gene4003, Gene3023, Gene1779, Gene2172, Gene932, Gene2589, Gene1296, Gene3989 
+Negative:  Gene582, Gene4920, Gene1804, Gene1070, Gene3449, Gene3280, Gene2308, Gene4639, Gene2279, Gene1425 
+	   Gene493, Gene3336, Gene4153, Gene482, Gene4925, Gene4127, Gene2925, Gene3040, Gene3304, Gene2555 
+	   Gene1276, Gene3999, Gene121, Gene1263, Gene508, Gene1936, Gene851, Gene1953, Gene4072, Gene498 
+PC_ 3 
+Positive:  Gene4719, Gene2172, Gene2077, Gene1967, Gene3649, Gene4382, Gene3736, Gene995, Gene822, Gene4007 
+	   Gene811, Gene4180, Gene622, Gene2037, Gene2181, Gene2261, Gene1296, Gene3280, Gene1779, Gene3336 
+	   Gene3697, Gene2704, Gene573, Gene1774, Gene2403, Gene3989, Gene2925, Gene1070, Gene1378, Gene2979 
+Negative:  Gene4568, Gene2926, Gene4630, Gene498, Gene4003, Gene4444, Gene1343, Gene829, Gene3134, Gene3119 
+	   Gene3609, Gene2854, Gene342, Gene2146, Gene2420, Gene4633, Gene710, Gene889, Gene1425, Gene1043 
+	   Gene851, Gene3988, Gene2242, Gene1521, Gene2098, Gene3023, Gene2818, Gene1619, Gene69, Gene4289 
+PC_ 4 
+Positive:  Gene4631, Gene150, Gene4740, Gene2704, Gene3922, Gene4673, Gene3249, Gene675, Gene4187, Gene1737 
+	   Gene2555, Gene3268, Gene1936, Gene3554, Gene630, Gene1304, Gene1769, Gene2818, Gene2979, Gene2021 
+	   Gene3588, Gene902, Gene3730, Gene4072, Gene633, Gene350, Gene1075, Gene4827, Gene2610, Gene2185 
+Negative:  Gene3663, Gene2277, Gene1020, Gene3626, Gene3280, Gene2279, Gene2351, Gene3985, Gene2550, Gene829 
+	   Gene3432, Gene4797, Gene995, Gene3609, Gene2475, Gene3649, Gene4639, Gene2549, Gene3984, Gene1484 
+	   Gene3374, Gene4707, Gene889, Gene4925, Gene3421, Gene163, Gene3999, Gene1235, Gene231, Gene1976 
+PC_ 5 
+Positive:  Gene470, Gene2247, Gene2926, Gene4630, Gene851, Gene4072, Gene1343, Gene1235, Gene3040, Gene1189 
+	   Gene766, Gene4061, Gene2643, Gene3588, Gene121, Gene2367, Gene3999, Gene518, Gene1075, Gene747 
+	   Gene3107, Gene4162, Gene1413, Gene1763, Gene4715, Gene4363, Gene4180, Gene3806, Gene4643, Gene2261 
+Negative:  Gene710, Gene3027, Gene3663, Gene582, Gene2925, Gene4719, Gene4040, Gene2021, Gene4960, Gene4631 
+	   Gene1412, Gene4568, Gene2301, Gene4636, Gene2854, Gene3647, Gene4477, Gene2619, Gene3141, Gene2967 
+	   Gene4293, Gene3609, Gene3885, Gene4127, Gene630, Gene1936, Gene4110, Gene3362, Gene3970, Gene4007 
+Computing nearest neighbor graph
+Computing SNN
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Found more than one class "dist" in cache; using the first, from namespace 'BiocGenerics'
+Also defined by ‘spam’
+Found more than one class "dist" in cache; using the first, from namespace 'BiocGenerics'
+Also defined by ‘spam’
+rm: cannot remove '/work/appscr/r/euphyw/RtmpbOvLCa/sourceCpp-x86_64-pc-linux-gnu-1.0.10/sourcecpp_1c8d0737ab24bc': Directory not empty

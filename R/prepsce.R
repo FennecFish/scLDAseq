@@ -1,5 +1,5 @@
 # from stm
-read.slam <- function(corpus) {
+read.slam.doc <- function(corpus) {
     #convert a simple triplet matrix to list format.
     if(!inherits(corpus, "simple_triplet_matrix")) stop("corpus is not a simple triplet matrix")
     if (inherits(corpus,"TermDocumentMatrix")) {
@@ -31,7 +31,7 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     }
     
     # extract documents (cell) and vocab (genes) 
-    documents <- read.slam(slam::as.simple_triplet_matrix(t(assays(sce)$counts)))
+    documents <- read.slam.doc(slam::as.simple_triplet_matrix(t(assays(sce)$counts)))
     # browser()
     vocab <- rownames(sce)
     

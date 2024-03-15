@@ -21,6 +21,7 @@ convergence.check <- function(bound.ss, convergence, settings) {
     old <- convergence$bound[convergence$its-1]
     new <- convergence$bound[convergence$its]
     convergence.check <- (new-old)/abs(old)
+    cat("convergence.check is", convergence.check, "\n")
     #if(convergence.check < emtol & convergence.check > 0) {
     if(emtol!=0) {
       # if(convergence.check > 0 | settings$convergence$allow.neg.change) {

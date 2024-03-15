@@ -10,6 +10,7 @@ opt.sigma <- function(nu, omega, lambda, pi, mu, sigprior, samples) {
         sigs <- diag(diag(omega)[i], nrow = nrow(mu), ncol = nrow(mu))
         #find the covariance
         if(ncol(mu)==1) {
+          browser()
             covariance <- crossprod(sweep(lambda[Ni,], 2, STATS=as.numeric(mu[,Ni] - psi), FUN="-"))
         } else {
             covariance <- crossprod(matrix(lambda[Ni,], nrow = length(Ni))-matrix(t(mu)[Ni,], nrow = length(Ni)) - psi) 

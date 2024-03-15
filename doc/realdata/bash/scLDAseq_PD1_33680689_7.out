@@ -1,0 +1,464 @@
+BIOKEY_26 
+        R/alignCorpus.R R/asSTMCorpus.R R/checkBeta.R R/cloud.R
+value   ?               ?               ?             ?        
+visible FALSE           FALSE           FALSE         FALSE    
+        R/convertCorpus.R R/estimateEffect.R R/exclusivity.R R/findThoughts.R
+value   ?                 ?                  ?               ?               
+visible FALSE             FALSE              FALSE           FALSE           
+        R/findTopic.R R/fitNewDocuments.R R/heldout.R R/jeffreyskappa.R
+value   ?             ?                   ?           ?                
+visible FALSE         FALSE               FALSE       FALSE            
+        R/labelTopics.R R/makeDesignMatrix.R R/manyTopics.R R/multiSTM.R
+value   ?               ?                    ?              ?           
+visible FALSE           FALSE                FALSE          FALSE       
+        R/permute.R R/plot.estimateEffect.R R/plot.searchK.R R/plot.STM.R
+value   ?           ?                       ?                ?           
+visible FALSE       FALSE                   FALSE            FALSE       
+        R/plotModels.R R/plotQuote.R R/plotRemoved.R R/plottingutilfns.R
+value   ?              ?             ?               ?                  
+visible FALSE          FALSE         FALSE           FALSE              
+        R/plotTopicLoess.R R/prepDocuments.R R/prepsce.R R/produce_cmatrix.R
+value   ?                  ?                 ?           ?                  
+visible FALSE              FALSE             FALSE       FALSE              
+        R/RcppExports.R R/readCorpus.R R/residuals.R R/s.R R/sageLabels.R
+value   ?               ?              ?             ?     ?             
+visible FALSE           FALSE          FALSE         FALSE FALSE         
+        R/searchK.R R/selectModel.R R/semanticCoherence.R R/simBetas.R
+value   ?           ?               ?                     ?           
+visible FALSE       FALSE           FALSE                 FALSE       
+        R/spectral.R R/stm-package.R R/stm.control.R R/stm.R R/STMconvergence.R
+value   ?            NULL            ?               ?       ?                 
+visible FALSE        TRUE            FALSE           FALSE   FALSE             
+        R/STMestep.R R/STMfunctions.R R/STMinit.R R/STMlncpp.R R/STMmnreg.R
+value   ?            ?                ?           ?            ?           
+visible FALSE        FALSE            FALSE       FALSE        FALSE       
+        R/STMmu.R R/STMoptbeta.R R/STMreport.R R/STMsigma.R R/STMsigs.R
+value   ?         ?              ?             ?            ?          
+visible FALSE     FALSE          FALSE         FALSE        FALSE      
+        R/STMsubset.R R/summary.STM.R R/tau.R R/textProcessor.R
+value   ?             ?               ?       ?                
+visible FALSE         FALSE           FALSE   FALSE            
+        R/thetaPosterior.R R/toLDAvis.R R/topicCorr.R R/topicLasso.R
+value   ?                  ?            ?             ?             
+visible FALSE              FALSE        FALSE         FALSE         
+        R/topicQuality.R R/writeLdac.R R/zzz.R
+value   ?                ?             ?      
+visible FALSE            FALSE         FALSE  
+Removing 1 of 2000 genes (1 of 3104655 tokens) due to frequency 
+Your Dataset now has 7559 cells, 1999 genes and 3104654 tokens.Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	........
+	 Recovering initialization...
+ 	...................
+Initialization complete.
+....................................................................................................
+Completed E-Step (74 seconds). 
+Completed M-Step (3 seconds). 
+Completing Iteration 1 (approx. per word bound = -5.753) 
+....................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step. 
+convergence.check is 0.01103436 
+Completing Iteration 2 (approx. per word bound = -5.690, relative change = 1.103e-02) 
+....................................................................................................
+Completed E-Step (41 seconds). 
+Completed M-Step. 
+convergence.check is 0.005804868 
+Completing Iteration 3 (approx. per word bound = -5.657, relative change = 5.805e-03) 
+....................................................................................................
+Completed E-Step (40 seconds). 
+Completed M-Step. 
+convergence.check is 0.002215744 
+Completing Iteration 4 (approx. per word bound = -5.644, relative change = 2.216e-03) 
+....................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step. 
+convergence.check is 0.001098831 
+Completing Iteration 5 (approx. per word bound = -5.638, relative change = 1.099e-03) 
+Topic 1: REG1A, MGP, IGKV1-6, XBP1, B2M 
+ Topic 2: GAPDH, RPL30, RPL8, VIM, IGF2 
+ Topic 3: FTL, FTH1, SPP1, GAPDH, CD74 
+ Topic 4: CD74, ACTB, MT-CO1, MT-CO2, TMSB4X 
+ Topic 5: RPL30, RPL8, CRABP1, MGP, PTMA 
+ Topic 6: COL1A1, COL1A2, MALAT1, COL3A1, VIM 
+ Topic 7: MALAT1, MT-CO2, MT-CO1, MGP, MT-ND4L 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (36 seconds). 
+Completed M-Step. 
+convergence.check is 0.0004997788 
+Completing Iteration 6 (approx. per word bound = -5.635, relative change = 4.998e-04) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 0.0002540231 
+Completing Iteration 7 (approx. per word bound = -5.634, relative change = 2.540e-04) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001685393 
+Completing Iteration 8 (approx. per word bound = -5.633, relative change = 1.685e-04) 
+....................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001528442 
+Completing Iteration 9 (approx. per word bound = -5.632, relative change = 1.528e-04) 
+....................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001928321 
+Completing Iteration 10 (approx. per word bound = -5.631, relative change = 1.928e-04) 
+Topic 1: MGP, REG1A, PPIB, BGN, MFGE8 
+ Topic 2: GAPDH, RPL8, RPL30, VIM, IGF2 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, GAPDH 
+ Topic 4: CD74, ACTB, MT-CO1, MT-CO2, TMSB4X 
+ Topic 5: RPL30, RPL8, CRABP1, MGP, PTMA 
+ Topic 6: COL1A1, COL1A2, MALAT1, COL3A1, VIM 
+ Topic 7: MALAT1, MT-CO2, MT-CO1, MT-ND4L, MGP 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step. 
+convergence.check is 0.0002229619 
+Completing Iteration 11 (approx. per word bound = -5.630, relative change = 2.230e-04) 
+....................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001889825 
+Completing Iteration 12 (approx. per word bound = -5.629, relative change = 1.890e-04) 
+....................................................................................................
+Completed E-Step (36 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001355748 
+Completing Iteration 13 (approx. per word bound = -5.628, relative change = 1.356e-04) 
+....................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001061255 
+Completing Iteration 14 (approx. per word bound = -5.627, relative change = 1.061e-04) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 8.88878e-05 
+Completing Iteration 15 (approx. per word bound = -5.627, relative change = 8.889e-05) 
+Topic 1: MGP, BGN, REG1A, PPIB, PTGDS 
+ Topic 2: GAPDH, RPL8, RPL30, VIM, IGF2 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, GAPDH 
+ Topic 4: CD74, ACTB, MT-CO1, MT-CO2, TMSB4X 
+ Topic 5: RPL30, CRABP1, RPL8, PTMA, MGP 
+ Topic 6: COL1A1, COL1A2, MALAT1, COL3A1, VIM 
+ Topic 7: MALAT1, MT-CO2, MT-CO1, MT-ND4L, MT-ND4 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 7.917486e-05 
+Completing Iteration 16 (approx. per word bound = -5.626, relative change = 7.917e-05) 
+....................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step. 
+convergence.check is 7.327604e-05 
+Completing Iteration 17 (approx. per word bound = -5.626, relative change = 7.328e-05) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 6.913146e-05 
+Completing Iteration 18 (approx. per word bound = -5.626, relative change = 6.913e-05) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 6.590865e-05 
+Completing Iteration 19 (approx. per word bound = -5.625, relative change = 6.591e-05) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 6.283557e-05 
+Completing Iteration 20 (approx. per word bound = -5.625, relative change = 6.284e-05) 
+Topic 1: MGP, BGN, CHI3L1, PTGDS, REG1A 
+ Topic 2: GAPDH, RPL8, RPL30, VIM, IGF2 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, GAPDH 
+ Topic 4: CD74, ACTB, MT-CO1, TMSB4X, MT-CO2 
+ Topic 5: RPL30, CRABP1, RPL8, MGP, PTMA 
+ Topic 6: COL1A1, COL1A2, MALAT1, COL3A1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 6.056689e-05 
+Completing Iteration 21 (approx. per word bound = -5.625, relative change = 6.057e-05) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 5.876887e-05 
+Completing Iteration 22 (approx. per word bound = -5.624, relative change = 5.877e-05) 
+....................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step. 
+convergence.check is 5.778153e-05 
+Completing Iteration 23 (approx. per word bound = -5.624, relative change = 5.778e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 5.633625e-05 
+Completing Iteration 24 (approx. per word bound = -5.624, relative change = 5.634e-05) 
+....................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step. 
+convergence.check is 5.413113e-05 
+Completing Iteration 25 (approx. per word bound = -5.623, relative change = 5.413e-05) 
+Topic 1: MGP, BGN, CHI3L1, PTGDS, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, MT-CO1, TMSB4X, B2M 
+ Topic 5: RPL30, CRABP1, MGP, RPL8, PTMA 
+ Topic 6: COL1A1, COL1A2, MALAT1, COL3A1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 5.301373e-05 
+Completing Iteration 26 (approx. per word bound = -5.623, relative change = 5.301e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 5.234907e-05 
+Completing Iteration 27 (approx. per word bound = -5.623, relative change = 5.235e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 5.139774e-05 
+Completing Iteration 28 (approx. per word bound = -5.622, relative change = 5.140e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 5.072924e-05 
+Completing Iteration 29 (approx. per word bound = -5.622, relative change = 5.073e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 5.086824e-05 
+Completing Iteration 30 (approx. per word bound = -5.622, relative change = 5.087e-05) 
+Topic 1: MGP, BGN, CHI3L1, PTGDS, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, MT-CO1, TMSB4X, B2M 
+ Topic 5: RPL30, MGP, CRABP1, RPL8, PTMA 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 4.928447e-05 
+Completing Iteration 31 (approx. per word bound = -5.622, relative change = 4.928e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 4.933997e-05 
+Completing Iteration 32 (approx. per word bound = -5.621, relative change = 4.934e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 4.949322e-05 
+Completing Iteration 33 (approx. per word bound = -5.621, relative change = 4.949e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 4.988221e-05 
+Completing Iteration 34 (approx. per word bound = -5.621, relative change = 4.988e-05) 
+....................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step. 
+convergence.check is 5.032689e-05 
+Completing Iteration 35 (approx. per word bound = -5.620, relative change = 5.033e-05) 
+Topic 1: MGP, BGN, CHI3L1, PTGDS, CST3 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, MT-CO1, TMSB4X, B2M 
+ Topic 5: RPL30, MGP, CRABP1, RPL8, S100A6 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step. 
+convergence.check is 5.102457e-05 
+Completing Iteration 36 (approx. per word bound = -5.620, relative change = 5.102e-05) 
+....................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step. 
+convergence.check is 5.223925e-05 
+Completing Iteration 37 (approx. per word bound = -5.620, relative change = 5.224e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 5.158385e-05 
+Completing Iteration 38 (approx. per word bound = -5.620, relative change = 5.158e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 5.129679e-05 
+Completing Iteration 39 (approx. per word bound = -5.619, relative change = 5.130e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 4.919635e-05 
+Completing Iteration 40 (approx. per word bound = -5.619, relative change = 4.920e-05) 
+Topic 1: MGP, BGN, FABP5, CST3, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, TMSB4X, MT-CO1, B2M 
+ Topic 5: RPL30, MGP, CRABP1, RPL8, S100A6 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 4.613245e-05 
+Completing Iteration 41 (approx. per word bound = -5.619, relative change = 4.613e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 4.265526e-05 
+Completing Iteration 42 (approx. per word bound = -5.619, relative change = 4.266e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 3.889569e-05 
+Completing Iteration 43 (approx. per word bound = -5.618, relative change = 3.890e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 3.69324e-05 
+Completing Iteration 44 (approx. per word bound = -5.618, relative change = 3.693e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 3.440113e-05 
+Completing Iteration 45 (approx. per word bound = -5.618, relative change = 3.440e-05) 
+Topic 1: MGP, BGN, FABP5, CST3, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, TMSB4X, B2M, MT-CO1 
+ Topic 5: MGP, RPL30, CRABP1, RPL8, S100A6 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 3.277785e-05 
+Completing Iteration 46 (approx. per word bound = -5.618, relative change = 3.278e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 3.132871e-05 
+Completing Iteration 47 (approx. per word bound = -5.618, relative change = 3.133e-05) 
+....................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step. 
+convergence.check is 2.975047e-05 
+Completing Iteration 48 (approx. per word bound = -5.617, relative change = 2.975e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 2.779436e-05 
+Completing Iteration 49 (approx. per word bound = -5.617, relative change = 2.779e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 2.561617e-05 
+Completing Iteration 50 (approx. per word bound = -5.617, relative change = 2.562e-05) 
+Topic 1: MGP, FABP5, BGN, CST3, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, TMSB4X, B2M, MT-CO1 
+ Topic 5: MGP, RPL30, CRABP1, RPL8, S100A6 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step. 
+convergence.check is 2.431931e-05 
+Completing Iteration 51 (approx. per word bound = -5.617, relative change = 2.432e-05) 
+....................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step. 
+convergence.check is 2.30375e-05 
+Completing Iteration 52 (approx. per word bound = -5.617, relative change = 2.304e-05) 
+....................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step. 
+convergence.check is 2.147743e-05 
+Completing Iteration 53 (approx. per word bound = -5.617, relative change = 2.148e-05) 
+....................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step. 
+convergence.check is 1.977313e-05 
+Completing Iteration 54 (approx. per word bound = -5.617, relative change = 1.977e-05) 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.807078e-05 
+Completing Iteration 55 (approx. per word bound = -5.616, relative change = 1.807e-05) 
+Topic 1: MGP, FABP5, BGN, CST3, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, TMSB4X, B2M, MT-CO1 
+ Topic 5: MGP, RPL30, CRABP1, RPL8, S100A6 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.638966e-05 
+Completing Iteration 56 (approx. per word bound = -5.616, relative change = 1.639e-05) 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.484597e-05 
+Completing Iteration 57 (approx. per word bound = -5.616, relative change = 1.485e-05) 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.378257e-05 
+Completing Iteration 58 (approx. per word bound = -5.616, relative change = 1.378e-05) 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.312328e-05 
+Completing Iteration 59 (approx. per word bound = -5.616, relative change = 1.312e-05) 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.231013e-05 
+Completing Iteration 60 (approx. per word bound = -5.616, relative change = 1.231e-05) 
+Topic 1: MGP, FABP5, BGN, CST3, S100A1 
+ Topic 2: GAPDH, IGF2, VIM, RPL30, RPL8 
+ Topic 3: FTL, FTH1, SPP1, TMSB4X, CD74 
+ Topic 4: CD74, ACTB, TMSB4X, B2M, MT-CO1 
+ Topic 5: MGP, RPL30, CRABP1, RPL8, S100A6 
+ Topic 6: COL1A1, COL1A2, COL3A1, MALAT1, VIM 
+ Topic 7: MT-CO2, MALAT1, MT-CO1, MT-ND4L, MT-ATP6 
+ Topic 8: RPL30, RPL8, RPS18, RPLP0, PABPC1 
+....................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step. 
+convergence.check is 1.130612e-05 
+Completing Iteration 61 (approx. per word bound = -5.616, relative change = 1.131e-05) 
+....................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step. 
+convergence.check is 1.026399e-05 
+Completing Iteration 62 (approx. per word bound = -5.616, relative change = 1.026e-05) 
+....................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step. 
+convergence.check is 9.259295e-06 
+Model Converged 

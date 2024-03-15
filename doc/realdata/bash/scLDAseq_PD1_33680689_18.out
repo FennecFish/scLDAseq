@@ -1,0 +1,138 @@
+BIOKEY_25 
+        R/alignCorpus.R R/asSTMCorpus.R R/checkBeta.R R/cloud.R
+value   ?               ?               ?             ?        
+visible FALSE           FALSE           FALSE         FALSE    
+        R/convertCorpus.R R/estimateEffect.R R/exclusivity.R R/findThoughts.R
+value   ?                 ?                  ?               ?               
+visible FALSE             FALSE              FALSE           FALSE           
+        R/findTopic.R R/fitNewDocuments.R R/heldout.R R/jeffreyskappa.R
+value   ?             ?                   ?           ?                
+visible FALSE         FALSE               FALSE       FALSE            
+        R/labelTopics.R R/makeDesignMatrix.R R/manyTopics.R R/multiSTM.R
+value   ?               ?                    ?              ?           
+visible FALSE           FALSE                FALSE          FALSE       
+        R/permute.R R/plot.estimateEffect.R R/plot.searchK.R R/plot.STM.R
+value   ?           ?                       ?                ?           
+visible FALSE       FALSE                   FALSE            FALSE       
+        R/plotModels.R R/plotQuote.R R/plotRemoved.R R/plottingutilfns.R
+value   ?              ?             ?               ?                  
+visible FALSE          FALSE         FALSE           FALSE              
+        R/plotTopicLoess.R R/prepDocuments.R R/prepsce.R R/produce_cmatrix.R
+value   ?                  ?                 ?           ?                  
+visible FALSE              FALSE             FALSE       FALSE              
+        R/RcppExports.R R/readCorpus.R R/residuals.R R/s.R R/sageLabels.R
+value   ?               ?              ?             ?     ?             
+visible FALSE           FALSE          FALSE         FALSE FALSE         
+        R/searchK.R R/selectModel.R R/semanticCoherence.R R/simBetas.R
+value   ?           ?               ?                     ?           
+visible FALSE       FALSE           FALSE                 FALSE       
+        R/spectral.R R/stm-package.R R/stm.control.R R/stm.R R/STMconvergence.R
+value   ?            NULL            ?               ?       ?                 
+visible FALSE        TRUE            FALSE           FALSE   FALSE             
+        R/STMestep.R R/STMfunctions.R R/STMinit.R R/STMlncpp.R R/STMmnreg.R
+value   ?            ?                ?           ?            ?           
+visible FALSE        FALSE            FALSE       FALSE        FALSE       
+        R/STMmu.R R/STMoptbeta.R R/STMreport.R R/STMsigma.R R/STMsigs.R
+value   ?         ?              ?             ?            ?          
+visible FALSE     FALSE          FALSE         FALSE        FALSE      
+        R/STMsubset.R R/summary.STM.R R/tau.R R/textProcessor.R
+value   ?             ?               ?       ?                
+visible FALSE         FALSE           FALSE   FALSE            
+        R/thetaPosterior.R R/toLDAvis.R R/topicCorr.R R/topicLasso.R
+value   ?                  ?            ?             ?             
+visible FALSE              FALSE        FALSE         FALSE         
+        R/topicQuality.R R/writeLdac.R R/zzz.R
+value   ?                ?             ?      
+visible FALSE            FALSE         FALSE  
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	........
+	 Recovering initialization...
+ 	....................
+Initialization complete.
+..........................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (2 seconds). 
+Completing Iteration 1 (approx. per word bound = -5.649) 
+..........................................................................................................
+Completed E-Step (3 seconds). 
+Completed M-Step. 
+convergence.check is 0.02354635 
+Completing Iteration 2 (approx. per word bound = -5.516, relative change = 2.355e-02) 
+..........................................................................................................
+Completed E-Step (3 seconds). 
+Completed M-Step. 
+convergence.check is 0.00351989 
+Completing Iteration 3 (approx. per word bound = -5.497, relative change = 3.520e-03) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 0.001911196 
+Completing Iteration 4 (approx. per word bound = -5.486, relative change = 1.911e-03) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 0.000716569 
+Completing Iteration 5 (approx. per word bound = -5.483, relative change = 7.166e-04) 
+Topic 1: ACTB, TMSB4X, MT-CO1, GAPDH, B2M 
+ Topic 2: MT-CO2, MT-CO1, MALAT1, IGFBP7, VIM 
+ Topic 3: COL1A1, IGFBP7, FN1, MT-CO1, FTH1 
+ Topic 4: MT-CO1, MT-CO2, MGP, RPS12, RPS4X 
+ Topic 5: FTL, CD74, FTH1, TMSB4X, ACTB 
+ Topic 6: CD74, MT-CO1, MT-CO2, MALAT1, RPS12 
+ Topic 7: MALAT1, MT-CO1, RPS12, B2M, RPS27 
+ Topic 8: GAPDH, MT-CO2, FTH1, MT-CO1, FTL 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 0.0002439654 
+Completing Iteration 6 (approx. per word bound = -5.481, relative change = 2.440e-04) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 0.0001204277 
+Completing Iteration 7 (approx. per word bound = -5.481, relative change = 1.204e-04) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 6.738624e-05 
+Completing Iteration 8 (approx. per word bound = -5.480, relative change = 6.739e-05) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 4.025568e-05 
+Completing Iteration 9 (approx. per word bound = -5.480, relative change = 4.026e-05) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 2.441667e-05 
+Completing Iteration 10 (approx. per word bound = -5.480, relative change = 2.442e-05) 
+Topic 1: ACTB, TMSB4X, MT-CO1, GAPDH, MT-CO2 
+ Topic 2: MT-CO2, MT-CO1, MALAT1, IGFBP7, VIM 
+ Topic 3: COL1A1, IGFBP7, FN1, FTH1, ACTB 
+ Topic 4: MT-CO1, MT-CO2, MGP, RPS4X, RPS12 
+ Topic 5: FTL, CD74, FTH1, ACTB, TMSB4X 
+ Topic 6: CD74, MT-CO1, MT-CO2, MALAT1, RPS12 
+ Topic 7: MALAT1, MT-CO1, RPS12, B2M, RPS27 
+ Topic 8: GAPDH, MT-CO2, FTH1, FTL, MT-CO1 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 1.667689e-05 
+Completing Iteration 11 (approx. per word bound = -5.480, relative change = 1.668e-05) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 1.286982e-05 
+Completing Iteration 12 (approx. per word bound = -5.480, relative change = 1.287e-05) 
+..........................................................................................................
+Completed E-Step (2 seconds). 
+Completed M-Step. 
+convergence.check is 1.033272e-05 
+Completing Iteration 13 (approx. per word bound = -5.480, relative change = 1.033e-05) 
+..........................................................................................................
+Completed E-Step (1 seconds). 
+Completed M-Step. 
+convergence.check is 9.052918e-06 
+Model Converged 
