@@ -47,7 +47,10 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   # browser()
   bound <- vector(length=N)
   lambda <- vector("list", length=N)
-  
+  nu <- vector(mode="list", length=N)
+  for(i in 1:N) {
+      nu[[i]] <- matrix(0, nrow=K-1,ncol=K-1)
+  }
   # 2) Precalculate common components
     # calculate inverse and entropy of sigmat
   
@@ -96,6 +99,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
+          nu[[l]] <- doc.results$eta$nu
           pi.ss[l] <- pi.ss[l]+ doc.results$pi
           
           if(verbose && l%%ctevery==0) cat(".")
@@ -113,6 +117,6 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   }
   lambda <- do.call(rbind, lambda)
   return(list(sigma=sigma.ss, beta=beta.ss, bound=bound, 
-              lambda=lambda, pi = pi.ss.avg, omega = omega))
+              lambda=lambda, nu = nu, pi = pi.ss.avg, omega = omega))
 }
 

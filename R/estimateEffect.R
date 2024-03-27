@@ -219,6 +219,7 @@ estimateEffect <- function(formula,
       #lm.mod <- lm(thetasims[,k]~ xmat -1)
       #storage[[which(k==K)]][[i]] <- list(coef=coef(lm.mod),vcov=vcov(lm.mod))
       lm.mod <- qr.lm(thetasims[,k], qx)
+      # browser()
       storage[[which(k==K)]][[i]] <- summary.qr.lm(lm.mod)      
     }
   }

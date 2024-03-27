@@ -6,7 +6,7 @@ vb.variational.reg <- function(Y,X, b0=1, d0=1, Xcorr=NULL, maxits=1000) {
     if(is.null(Xcorr)) Xcorr <- crossprod(X)
     XYcorr <- crossprod(X,Y) 
     
-    an <- (1 + nrow(X))/2
+    an <- 1 + nrow(X)/2 #an is changed slightly from the original STM code
     D <- ncol(X)
     N <- nrow(X)
     w <- rep(0, ncol(X))

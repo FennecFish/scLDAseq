@@ -58,6 +58,7 @@
 thetaPosterior <- function(model, nsims=100, type=c("Global", "Local"), documents=NULL) {
   type <- match.arg(type)
   if(type=="Local" & is.null(documents)) stop("Documents must be provided to perform local theta uncertainty calculations.")
+  
   switch(type,
          Global=thetapost.global(model, nsims),
          Local=thetapost.local(model, documents, nsims))
@@ -66,34 +67,18 @@ thetaPosterior <- function(model, nsims=100, type=c("Global", "Local"), document
 #Take nsims draws from the variational posterior over theta using 
 # a global approximation to the covariance matrix
 thetapost.global <- function(model, nsims) {
-  Sigma <- model$sigma
-  mu <- model$mu$mu
+  # Sigma <- model$sigma
+  # mu <- model$mu$mu
   lambda <- model$eta
-  
-  ##
-  #Calculate approximate global covariance matrix
-  ##
-  #the general idea is to subtract off the component of the Sigma update arising from deviation to the
-  # global mean leaving us with the component that comes from nu
-  if(ncol(mu)==1) { 
-    #if there is only one global mean vector we avoid storing them all, thus calc done with a sweep
-    covariance <- crossprod(sweep(lambda, 2, STATS=as.numeric(mu), FUN="-"))
-  } else {
-    #the typical calculation when there are frequency covariates
-    covariance <- crossprod(lambda-t(mu)) 
-  }
-  #rescale by the number of documents
-  covariance <- covariance/nrow(lambda)
-  #subtract off the effect from the global covariance
-  Sigma <- Sigma - covariance
-  
+  nu <- model$nu
   ##
   #Sample and Project to Simplex
   ##
-  choleskydecomp <- chol(Sigma)
   out <- vector(mode="list",length=nrow(lambda)) 
   for (i in 1:length(out)) {
-    mat <- rmvnorm(nsims, lambda[i,],Sigma,choleskydecomp)
+    sigma <- nu[[i]]
+    choleskydecomp <- chol(sigma)
+    mat <- rmvnorm(nsims, lambda[i,],nu[[i]],choleskydecomp)
     mat <- cbind(mat, 0)
     out[[i]] <- exp(mat - row.lse(mat))
   }
@@ -222,3 +207,4 @@ ln.hess <- function(eta, theta, beta,doc.ct, siginv) {
               Ndoc*(diag(theta) - theta%o%theta))[1:length(eta),1:length(eta)] + siginv
   return(hess)
 }
+

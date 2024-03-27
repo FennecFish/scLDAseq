@@ -170,7 +170,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       omega <- suffstats$omega
       beta.ss <- suffstats$beta
       bound.ss <- suffstats$bound
-      # browser()
+      nu <- suffstats$nu
       #do the m-step
       mu <- opt.mu(lambda=lambda, pi = pi,
                    nsamples = nsamples, mode=settings$gamma$mode,
@@ -214,9 +214,8 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   }
   beta$beta <- NULL
   lambda <- cbind(lambda,0)
-  # browser()
   model <- list(mu=mu, sigma=sigma, beta=beta, 
-                sigs = sigs, psi = pi, settings=settings,
+                psi = pi, sigs = sigs, settings=settings,
                 vocab=vocab, DocName = names(documents), 
                 sampleID = samples, convergence=convergence,
                 theta=exp(lambda - log(rowSums(exp(lambda)))),
@@ -224,6 +223,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                 #Windows specific bug that was happening with
                 #matrixStats package and large matrices 8/27
                 eta=lambda[,-ncol(lambda), drop=FALSE],
+                nu = nu,
                 invsigma=solve(sigma), time=time, 
                 version=utils::packageDescription("stm")$Version)
   

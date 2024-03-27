@@ -507,6 +507,7 @@ multi_stm <- function(documents, vocab, K,
                  Try a simpler formula.")
         }
         xmat <- Matrix::Matrix(xmat)
+        
       }
       propSparse <- 1 - Matrix::nnzero(xmat)/length(xmat) 
       #if its less than 50% sparse or there are fewer than 50 columns, just convert to a standard matrix
@@ -572,7 +573,6 @@ multi_stm <- function(documents, vocab, K,
     if(max.em.its <= model$convergence$its) stop("when restarting a model, max.em.its represents the total iterations of the model 
                                                  and thus must be greater than the length of the original run")
   }
-  # browser()
   ###
   # Now Construct the Settings File
   ###
@@ -702,6 +702,5 @@ multi_stm <- function(documents, vocab, K,
   ###
   # Finally run the actual model
   ###
-  # browser()
   return(stm.control(documents, vocab, settings, model))
 }
