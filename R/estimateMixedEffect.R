@@ -12,14 +12,31 @@ thetaPosteriorSample <- function(model, nsims=100) {
     return(out)
 }
 
+mixed.lm <- function(stmobj, xmat, K) {
+  thetasims <- thetaPosteriorSample(stmobj, nsims=1)
+  thetasims <- do.call(rbind, thetasims)
+  thetaLogit <- log(thetasims/(1-thetasims))
+  output <- vector(mode="list", length=length(K))
+  for(k in K) {
+    y <- thetaLogit[,k]
+    lm.mod = lmer(y ~ time + (1|sample), REML = F, data = xmat)
+    est <- summary(lm.mod)$coefficients[,1]
+    output[[which(k==K)]] <- est
+  }
+  names(output) <- paste0("topic",K)
+  output <- do.call(rbind,output)
+  return(output)
+}
+
 estimateMixedEffect <- function(alt.formula, null.formula = NULL,
                            stmobj, metadata=NULL, 
                            # slope = FALSE,
                            # sampleNames = NULL, sampleIDs = NULL, # if id = null, then combine all samples
                            uncertainty=c("Global", "None"), 
-                           nsims=25, prior=NULL) {
+                           nsims=100, numCores = TRUE) {
     origcall <- match.call()
     thetatype <- match.arg(uncertainty)
+    
     if(thetatype=="None") nsims <- 1 #override nsims for no uncertainty
     
     #Step 1: Extract the fixed effect formula and do some error checking
@@ -27,6 +44,10 @@ estimateMixedEffect <- function(alt.formula, null.formula = NULL,
     if(!inherits(alt.formula,"formula")) stop("formula must be a formula object.")
     if(!is.null(null.formula) & !inherits(null.formula,"formula")) stop("formula must be a formula object.")
     if(!is.null(metadata) & !is.data.frame(metadata)) metadata <- as.data.frame(metadata)
+    if(is.null(metadata)) {
+      metadata = as.data.frame(stmobj$settings$covariates$X)
+      colnames(metadata) <- sub(".*\\$(.*)", "\\1", colnames(metadata))
+    } 
     termobj <- terms(alt.formula, data=metadata)
     if(attr(termobj, "response")==1){
         #if a response is specified we have to parse it and remove it.
@@ -55,140 +76,161 @@ estimateMixedEffect <- function(alt.formula, null.formula = NULL,
     #     subDocName <- stmobj$DocName[stmobj$sampleID %in% sampleIDs]
     #     stmobj <- STMsubset(stmobj, subDocName) 
     # } 
-    
     mf <- model.frame(termobj, data=metadata)
     xmat <- model.matrix(termobj,data=metadata)
     varlist <- all.vars(termobj)
-    if(!is.null(metadata)) {
-        data <- metadata[, varlist, drop=FALSE]
-    } else {
-        templist <- list()
-        for(i in 1:length(varlist)) {
-            templist[[i]] <- get(varlist[i])
-        }
-        data <- data.frame(templist)
-        names(data) <- varlist
-        rm(templist)
-    }
-    metadata <- data
-    rm(data)
-    
+    # if(!is.null(metadata)) {
+    #     data <- metadata[, varlist, drop=FALSE]
+    # } else {
+    #     templist <- list()
+    #     for(i in 1:length(varlist)) {
+    #         templist[[i]] <- get(varlist[i])
+    #     }
+    #     data <- data.frame(templist)
+    #     names(data) <- varlist
+    #     rm(templist)
+    # }
+    metadata <- metadata[, varlist, drop=FALSE]
+    # rm(data)
     
     ##
-    #Step 2: Compute the QR decomposition
+    #Step 2: Draw Response Variables from Posterior Distribution
     ##
-    # all the models here are essentially just OLS regressions
-    # becuase we will run them many times we want to cache the 
-    # expensive components in advance.
-    # if(!is.null(prior)) {
-    #     if(!is.matrix(prior)) {
-    #         prior <- diag(prior, nrow=ncol(xmat))
-    #     } 
-    #     if(ncol(prior)!=ncol(xmat)) stop("number of columns in prior does not match columns in design matrix")
-    #     prior.pseudo <- chol(prior)
-    #     xmat <- rbind(xmat,prior.pseudo)
-    # }
-    # repeat the design matrix nsims times
-     xmat <- do.call(rbind, replicate(nsims, xmat, simplify=FALSE))
-    # qx <- qr(xmat)
-    # if(qx$rank < ncol(xmat)) {
-    #     prior <- diag(1e-5, nrow=ncol(xmat))
-    #     prior.pseudo <- chol(prior)
-    #     xmat <- rbind(xmat,prior.pseudo)
-    #     qx <- qr(xmat)
-    #     warning("Covariate matrix is singular.  See the details of ?estimateEffect() for some common causes.
-    #          Adding a small prior 1e-5 for numerical stability.")
-    # }
     xmat <- as.data.frame(xmat)
-    xmat$sample <- rep(stmobj$sampleID, nsims)
-    xmat <- xmat[,-1]
+    xmat$sample <- stmobj$sampleID
+    # xmat <- xmat[,-1]
     ##  
     #Step 3: Calculate Coefficients
     ##
     
     # first simulate theta 
     storage <- vector(mode="list", length=nsims)
-    for(i in 1:nsims) {
-        # 3a) simulate theta
-        if(thetatype=="None") thetasims <- stmobj$theta
-        else {
-            thetasims <- thetaPosteriorSample(stmobj, nsims=1)
-            thetasims <- do.call(rbind, thetasims)
-            storage[[i]] <- thetasims
+    
+    # setup parallel running if numCores is specified
+    if(numCores|is.numeric(numCores)) {
+      if(is.numeric(numCores)) {
+        cl <- numCores 
+        if(cl > detectCores()) stop(paste0("Number of cores is more than available. The max cores available is ", detectCores()))
+      } else{
+        numCores <- detectCores()
+      }
+      cl <- makeCluster(numCores)
+      clusterEvalQ(cl, {
+        library(lme4)
+      })
+      clusterExport(cl, c("stmobj","xmat","K", "mixed.lm", "thetaPosteriorSample", "rmvnorm",
+                          "row.lse"))
+      # start_time <- Sys.time()
+      storage <- parLapply(cl, 1:nsims,function(i) mixed.lm(stmobj, xmat, K))
+      stopCluster(cl)
+      # end_time <- Sys.time()
+      # elapsed_time <- end_time - start_time
+    } else{
+      
+      for(i in 1:nsims) {
+        storage[[i]] <- mixed.lm(stmobj, xmat, K)
+        if (i %% 10 == 0) {  # Print progress every 10 iterations
+          cat(sprintf("...%d%% ", i /nsims * 100))
+          flush.console()
         }
+      }
+      cat("\n")
     }
-    storage <- do.call(rbind, storage)
+    
+    # storage <- do.call(rbind, storage)
     # transform theta into logit of theta
-    thetaLogit <- log(storage/(1-storage))
+    
+    # thetaLogit <- log(thetasims/(1-thetasims))
     
     # 3b) perform linear mixed effect model
-    output <- vector(mode="list", length=length(K))
-    for(k in K) {
-        y <- thetaLogit[,k]
-         lm.mod <- mix.lm(y, xmat, alt.formula, null.formula)
-         output[[k]] <- lm.mod 
-         names(output) <- paste0("topic",K)
-    }
+
+    # browser()
     ##
     #Step 4: Return Values
     ##
 
     # Process 'output' for 'plrt'
-    plrt <- lapply(K, function(k) as.data.frame(output[[k]]$LRT))
-    names(plrt) <- paste0("topic", K)
+    # plrt <- lapply(K, function(k) as.data.frame(output[[k]]$LRT))
+    # names(plrt) <- paste0("topic", K)
     
     # Process 'output' for 'param'
-    param <- lapply(K, function(k) list(est = output[[k]]$coef[, 1], # Assuming you want all rows, first column for estimates
-                                        std = output[[k]]$coef[, 2], # Assuming you want all rows, second column for std
-                                        vcov = output[[k]]$vcov))
-    names(param) <- paste0("topic", K)
-    
-    # Process 'output' for 'fixEffect'
-    fixEffect <- lapply(K, function(k) output[[k]]$coef)
-    names(fixEffect) <- paste0("topic", K)
-    
-    toreturn <- list(parameters=param, LRT = plrt,
-                     fixedEffect = fixEffect, topics=K,
-                     call=origcall, uncertainty=thetatype, 
-                     fixed.formula=alt.formula, data=metadata,
+    # param <- lapply(K, function(k) list(est = output[[k]]$coef[, 1], # Assuming you want all rows, first column for estimates
+    #                                     std = output[[k]]$coef[, 2], # Assuming you want all rows, second column for std
+    #                                     vcov = output[[k]]$vcov))
+    # names(param) <- paste0("topic", K)
+    # 
+    # # Process 'output' for 'fixEffect'
+    # fixEffect <- lapply(K, function(k) output[[k]]$coef)
+    # names(fixEffect) <- paste0("topic", K)
+    # 
+    toreturn <- list(param.est=storage, 
+                     topics=K,
+                     call=origcall, uncertainty=thetatype,
+                     data=metadata,
                      modelframe=mf, varlist=varlist)
     class(toreturn) <- "estimateMixedEffect"
-    return(toreturn)
+    return(output)
 }
 
-# a function for performing mixed linear effect model
-mix.lm <- function(y, xmat, alt.formula, null.formula){
-    xdat <- xmat
-    xdat$y <- y
-    # varlist <- c(varlist, "(1|sample)")
-    alt.form <- as.formula(paste("y", 
-                                 paste(c(alt.formula,"(1|sample)"), 
-                                       collapse = "+")))
-    # random intercept 
-    int.lmer = lmer(alt.form, REML = F, data = xdat)
-    
-    # null model
-    if (!is.null(null.formula)) {
-        null.formula <- formula(paste(as.character(null.formula)[c(1,3)], collapse = " "))
-        null.form <- as.formula(paste("y", 
-                                     paste(c(null.formula,"(1|sample)"), 
-                                           collapse = "+")))
-    } else{
-        null.form <- as.formula("y ~ (1|sample)")
-    }
-    # null.x <- varlist[!(varlist %in% "time")]
-    # null.formula <- as.formula(paste("y~", 
-    #                                  paste(null.x, collapse = " + ")))
-    null.fit <- lmer(null.form, REML = F, data = xdat)
-    # perform LRT 
-    res.lrt <- anova(null.fit, int.lmer)
-    res.lm <- summary(int.lmer, ddf = "Satterthwaite")
-    out <- list(coef = res.lm$coefficients, 
-         resduals = res.lm$residuals,
-         vcov = res.lm$vcov,
-         LRT = res.lrt)
-    out
+summary.estMixedEffect <- function(object, topics = NULL){
+  if(!class(object)=="estimateMixedEffect")stop("The input needs to be a estimateMixedEffect Object")
+  if(is.null(topics)) topics <- object$topics
+  if(any(!(topics %in% object$topics))) {
+    stop("Some topics specified with the topics argument are not available in this estimateMixedEffect object.")
+  }
+  tables <- vector(mode="list", length=length(topics))
+  for(i in 1:length(topics)) {
+    topic <- topics[i]
+    est.sim <- lapply(object$param, function(df) df[paste0("topic", topic), ])
+    est.sim <- do.call(rbind, est)
+    # apply t-test to each covariate
+    output <- apply(est.sim, 2, function(x) t.test(x, mu = 0))
+    est <- do.call(rbind,lapply(output, function(df) df["estimate"]))
+    stdr <- do.call(rbind,lapply(output, function(df) df["stderr"]))
+    tvalue <- do.call(rbind,lapply(output, function(df) df["statistic"]))
+    p.value <- do.call(rbind,lapply(output, function(df) df["p.value"]))
+    coefficient <- cbind(est, stdr, tvalue, p.value)
+    colnames(coefficient) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
+    tables[[i]] <- coefficient
+  }
+  out <- list(call=object$call, topics=topics, tables=tables)
+  class(out) <- "summary.estimateMixedEffect"
+  return(out)
 }
+
+# # a function for performing mixed linear effect model
+# mix.lm <- function(y, xmat, alt.formula, null.formula){
+#     xdat <- xmat
+#     xdat$y <- y
+#     # varlist <- c(varlist, "(1|sample)")
+#     alt.form <- as.formula(paste("y", 
+#                                  paste(c(alt.formula,"(1|sample)"), 
+#                                        collapse = "+")))
+#     # random intercept 
+#     int.lmer = lmer(alt.form, REML = F, data = xdat)
+#     
+#     # null model
+#     if (!is.null(null.formula)) {
+#         null.formula <- formula(paste(as.character(null.formula)[c(1,3)], collapse = " "))
+#         null.form <- as.formula(paste("y", 
+#                                      paste(c(null.formula,"(1|sample)"), 
+#                                            collapse = "+")))
+#     } else{
+#         null.form <- as.formula("y ~ (1|sample)")
+#     }
+#     # null.x <- varlist[!(varlist %in% "time")]
+#     # null.formula <- as.formula(paste("y~", 
+#     #                                  paste(null.x, collapse = " + ")))
+#     null.fit <- lmer(null.form, REML = F, data = xdat)
+#     # perform LRT 
+#     res.lrt <- anova(null.fit, int.lmer)
+#     res.lm <- summary(int.lmer, ddf = "Satterthwaite")
+#     out <- list(coef = res.lm$coefficients, 
+#          resduals = res.lm$residuals,
+#          vcov = res.lm$vcov,
+#          LRT = res.lrt)
+#     out
+# }
     # slp.lmer = lmer(y ~ xmat$time + (1 + xmat$time|xmat$sample), REML = F)
     # testing if random slope is necessary
     # lm.res <- anova(int.lmer, slp.lmer)

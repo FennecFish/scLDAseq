@@ -218,9 +218,18 @@ estimateEffect <- function(formula,
     for(k in K) {
       #lm.mod <- lm(thetasims[,k]~ xmat -1)
       #storage[[which(k==K)]][[i]] <- list(coef=coef(lm.mod),vcov=vcov(lm.mod))
-      lm.mod <- qr.lm(thetasims[,k], qx)
+      
+      # lm.mod <- qr.lm(thetasims[,k], qx)
+      # storage[[which(k==K)]][[i]] <- summary.qr.lm(lm.mod)  
       # browser()
-      storage[[which(k==K)]][[i]] <- summary.qr.lm(lm.mod)      
+      logit_theta <- log(thetasims[,k]/(1-thetasims[,k]))
+      lm.mod <- lmer(logit_theta ~ xmat[,2] + (1|stmobj$sampleID), REML = F)
+      lm.null <- lmer(logit_theta ~ (1|stmobj$sampleID), REML = F)
+      anova(lm.mod, lm.null)
+      lm.res <- summary(lm.mod)
+      storage[[which(k==K)]][[i]] <- list(est = lm.res$coefficients[,1], vcov = lm.res$vcov)    
+      
+      # lm.mod <- lmer(alt.form, REML = F, data = xdat)
     }
   }
     
