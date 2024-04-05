@@ -12,15 +12,24 @@ thetaPosteriorSample <- function(model, nsims=100) {
     return(out)
 }
 
-mixed.lm <- function(stmobj, xmat, K) {
-  thetasims <- thetaPosteriorSample(stmobj, nsims=1)
+mixed.lm <- function(stmobj, xmat, K, formula) {
+  thetasims <- thetaPosteriorSample(stmobj, nsims=1) # draw from posterior distribution
   thetasims <- do.call(rbind, thetasims)
+  # compute 
   thetaLogit <- log(thetasims/(1-thetasims))
   output <- vector(mode="list", length=length(K))
+  # limma test
+  
   for(k in K) {
     y <- thetaLogit[,k]
-    lm.mod = lmer(y ~ time + (1|sample), REML = F, data = xmat)
-    est <- summary(lm.mod)$coefficients[,1]
+    # lm.mod = lmer(y ~ time + (1|sample), REML = F, data = xmat)
+    
+    form <- as.formula(paste0("y ~ ", as.character(formula)[-1], " + (1|sample)"))
+    lm.mod = lmer(form, REML = F, data = xmat)
+    # est <- summary(lm.mod)$coefficients[,1]
+    lm_0 <-lmer(y ~ (1|sample), REML = F, data = xmat)
+    anova(lm.mod,lm_0)
+    PBmodcomp(lm.mod,lm_0,nsim=200)
     output[[which(k==K)]] <- est
   }
   names(output) <- paste0("topic",K)
@@ -28,12 +37,12 @@ mixed.lm <- function(stmobj, xmat, K) {
   return(output)
 }
 
-estimateMixedEffect <- function(alt.formula, null.formula = NULL,
+estimateMixedEffect <- function(formula, 
                            stmobj, metadata=NULL, 
                            # slope = FALSE,
                            # sampleNames = NULL, sampleIDs = NULL, # if id = null, then combine all samples
                            uncertainty=c("Global", "None"), 
-                           nsims=100, numCores = TRUE) {
+                           nsims=25, numCores = TRUE) {
     origcall <- match.call()
     thetatype <- match.arg(uncertainty)
     
@@ -41,29 +50,29 @@ estimateMixedEffect <- function(alt.formula, null.formula = NULL,
     
     #Step 1: Extract the fixed effect formula and do some error checking
     ##
-    if(!inherits(alt.formula,"formula")) stop("formula must be a formula object.")
-    if(!is.null(null.formula) & !inherits(null.formula,"formula")) stop("formula must be a formula object.")
+    if(!inherits(formula,"formula")) stop("formula must be a formula object.")
+    # if(!is.null(null.formula) & !inherits(null.formula,"formula")) stop("formula must be a formula object.")
     if(!is.null(metadata) & !is.data.frame(metadata)) metadata <- as.data.frame(metadata)
     if(is.null(metadata)) {
       metadata = as.data.frame(stmobj$settings$covariates$X)
       colnames(metadata) <- sub(".*\\$(.*)", "\\1", colnames(metadata))
     } 
-    termobj <- terms(alt.formula, data=metadata)
+    termobj <- terms(formula, data=metadata)
     if(attr(termobj, "response")==1){
         #if a response is specified we have to parse it and remove it.
         # as.character of a formula turns
         # dv ~ iv
         # into:  c("~", "dv", "iv")
-        response <- as.character(alt.formula)[2] #second object is the response in this cases
+        response <- as.character(formula)[2] #second object is the response in this cases
         K <- eval(parse(text=response))
         # browser()
         if(!(posint(K) && max(K)<=stmobj$settings$dim$K)) stop("Topics specified as response in formula must be a set of positive integers equal to or less than the number of topics in the model.")   
         #now we reconstruct the formula removing the response
-        alt.formula <- formula(paste(as.character(alt.formula)[c(1,3)], collapse = " "))
+        formula <- formula(paste(as.character(formula)[c(1,3)], collapse = " "))
  
         #the above used to be the below code but the use got deprecated.
         #as.formula(as.character(formula)[c(1,3)])
-        termobj <- terms(alt.formula, data=metadata)
+        termobj <- terms(formula, data=metadata)
     } else {
         K <- 1:stmobj$settings$dim$K
     }
@@ -99,6 +108,34 @@ estimateMixedEffect <- function(alt.formula, null.formula = NULL,
     xmat <- as.data.frame(xmat)
     xmat$sample <- stmobj$sampleID
     # xmat <- xmat[,-1]
+    
+    thetasims <- thetaPosteriorSample(stmobj, nsims=1) # draw from posterior distribution
+    thetasims <- do.call(rbind, thetasims)
+    # limma test
+    thetasims <- t(thetasims)
+    rownames(thetasims) <- paste0("topic",K)
+    
+    Time <- factor(xmat[,2])
+    levels(Time) <- c("pre", "on")
+    tdesign <- model.matrix(~0+Time)
+    colnames(tdesign) <- levels(Time)
+    corfit <- duplicateCorrelation(thetasims,tdesign,block=stmobj$sampleID)
+    fit <- lmFit(thetasims,design = tdesign,block=stmobj$sampleID,correlation=corfit$consensus)
+    cm <- makeContrasts(Time1v2 = on-pre, levels=tdesign)
+    fit2 <- contrasts.fit(fit, cm)
+    fit2 <- eBayes(fit2)
+    topTable(fit2, coef="Time1v2")
+    
+    fit1$coefficients
+    # target <- data.frame(Subject =  rep(1:6, each =2), 
+    #                      +                      Condition = rep(c("Diseased", "Normal"), each = 6),
+    #                      +                      Tissue = rep(c("A", "B"), rep = 6))
+    # colnames(thetasims) <- pas
+    # compute 
+    # thetaLogit <- log(thetasims/(1-thetasims))
+    # output <- vector(mode="list", length=length(K))
+    
+    
     ##  
     #Step 3: Calculate Coefficients
     ##
@@ -119,9 +156,9 @@ estimateMixedEffect <- function(alt.formula, null.formula = NULL,
         library(lme4)
       })
       clusterExport(cl, c("stmobj","xmat","K", "mixed.lm", "thetaPosteriorSample", "rmvnorm",
-                          "row.lse"))
+                          "row.lse", "formula"))
       # start_time <- Sys.time()
-      storage <- parLapply(cl, 1:nsims,function(i) mixed.lm(stmobj, xmat, K))
+      storage <- parLapply(cl, 1:nsims,function(i) mixed.lm(stmobj, xmat, K, formula))
       stopCluster(cl)
       # end_time <- Sys.time()
       # elapsed_time <- end_time - start_time
@@ -165,11 +202,10 @@ estimateMixedEffect <- function(alt.formula, null.formula = NULL,
     # 
     toreturn <- list(param.est=storage, 
                      topics=K,
-                     call=origcall, uncertainty=thetatype,
                      data=metadata,
                      modelframe=mf, varlist=varlist)
     class(toreturn) <- "estimateMixedEffect"
-    return(output)
+    return(toreturn)
 }
 
 summary.estMixedEffect <- function(object, topics = NULL){
@@ -181,8 +217,8 @@ summary.estMixedEffect <- function(object, topics = NULL){
   tables <- vector(mode="list", length=length(topics))
   for(i in 1:length(topics)) {
     topic <- topics[i]
-    est.sim <- lapply(object$param, function(df) df[paste0("topic", topic), ])
-    est.sim <- do.call(rbind, est)
+    est.sim <- lapply(object$param.est, function(df) df[paste0("topic", topic), ])
+    est.sim <- do.call(rbind, est.sim)
     # apply t-test to each covariate
     output <- apply(est.sim, 2, function(x) t.test(x, mu = 0))
     est <- do.call(rbind,lapply(output, function(df) df["estimate"]))

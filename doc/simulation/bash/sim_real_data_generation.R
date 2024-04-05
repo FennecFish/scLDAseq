@@ -1,6 +1,6 @@
 # This script is design to generate simulation results from real data
 # the parameters are estimated from parameter_estimate.R
-setwd("/proj/milovelab/wu/scLDAseq/scLDAseq")
+setwd("/proj/milovelab/wu/scLDAseq")
 
 library("Seurat")
 library(dplyr)
@@ -14,9 +14,6 @@ library(SingleCellExperiment)
 library(Matrix)
 library(ggplot2)
 library(mclust)
-library(Seurat)
-library(RaceID)
-library(cidr)
 library(cluster)
 
 set.seed(1)
@@ -25,24 +22,49 @@ args <- commandArgs(trailingOnly = TRUE)
 file_name <- args[1]
 cat(file_name)
 
-swap = TRUE # to flip two patients
+swap = FALSE # to flip two patients
 
-# files <- list.files(path = "data/", pattern = "BIOKEY_.*_params.rds")
-# file_name <- "BIOKEY_8_sims.rds"
+#####
+#### 3 samples 3 cell types ####
+####
+group.prob = c(0.3, 0.3, 0.4)
+de.prob = c(0.2, 0.2, 0.2)
+batchCells=c(2000,2000,2000)
+pre_prp <- c(0.3, 0.5, 0.2)
+
+#################### 5 samples/ 5 cellTypes ##############################
+# nsample <- 10
+# ngroup <- 5
+# 
+# # Generate nsample random numbers
+# rn_group <- runif(ngroup)
+# group.prob <- rn_group / sum(rn_group)
+# 
+# de.prob <- runif(ngroup,0.05, 0.5)
+# # generate samples
+# batchCells <- sample(1800:3000, nsample, replace = T)
+# 
+# rn_pre <- runif(ngroup)
+# pre_prp <- rn_pre/ sum(rn_pre)
+  
+#####################################################
+############## generate samples #####################
+#####################################################
+
 file_name <- basename(file_name)
 
 samp <- sub("\\_params.rds$", "", file_name)
 
 params <- readRDS(paste0("data/", file_name))
 
-params <- setParams(params, group.prob = c(0.3, 0.3, 0.4),
-                    de.prob = c(0.2, 0.2, 0.2), 
-                    nGenes = 5000, batchCells=c(2000,2000,2000))
+params <- setParams(params, group.prob = group.prob,
+                    de.prob = de.prob, 
+                    nGenes = 5000, batchCells=batchCells)
 sims <- splatSimulate(params, method = "groups",
                       verbose = FALSE, batch.rmEffect = FALSE)
 
 cell_count <- matrix(colSums(table(sims$Group, sims$Batch))/length(unique(sims$Group)))
-pre_prp <- matrix(c(0.3, 0.5, 0.2))
+pre_prp <- matrix(pre_prp)
 pre_count <- cell_count %*% t(pre_prp)
 colnames(pre_count) <- paste0("Group",1:length(unique(sims$Group)))
 rownames(pre_count) <- paste0("Batch", 1:length(unique(sims$Batch)))
@@ -83,15 +105,16 @@ ngroup <- length(unique(sims.sub$Group))
 
 cat("QC Completed.\n")
 
-saveRDS(sims, file = paste0("data/", samp, "_", nsample, "samples_", ngroup, "cellTypes_sims.rds"))
+saveRDS(sims.sub, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/", 
+                                samp, "_", nsample, "samples_", ngroup, "cellTypes_sims.rds"))
 
-if (swap){
-  rand.samp <- sample(unique(sims.sub$Batch), size = 2, replace = FALSE)
-  sampled_data <- colData(sims.sub) %>%
-    data.frame() %>%
-    mutate(new_time = ifelse(time == 1 & Batch %in% rand.samp, 2, 1)) %>%
-    mutate(time = ifelse(Batch %in% rand.samp, new_time, time))
-  sims.sub$time <- sampled_data$time
-  cat("Flip Completed.\n")
-  saveRDS(sims.sub, file = paste0("data/", samp, "_flip_", nsample, "samples_", ngroup, "cellTypes_sims.rds"))
-}
+# if (swap){
+#   rand.samp <- sample(unique(sims.sub$Batch), size = 2, replace = FALSE)
+#   sampled_data <- colData(sims.sub) %>%
+#     data.frame() %>%
+#     mutate(new_time = ifelse(time == 1 & Batch %in% rand.samp, 2, 1)) %>%
+#     mutate(time = ifelse(Batch %in% rand.samp, new_time, time))
+#   sims.sub$time <- sampled_data$time
+#   cat("Flip Completed.\n")
+#   saveRDS(sims.sub, file = paste0("data/", samp, "_flip_", nsample, "samples_", ngroup, "cellTypes_sims.rds"))
+# }

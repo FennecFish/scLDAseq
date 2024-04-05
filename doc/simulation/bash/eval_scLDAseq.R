@@ -8,9 +8,6 @@ library(Matrix)
 library(ggplot2)
 library(dplyr)
 library(mclust)
-library(Seurat)
-library(RaceID)
-library(cidr)
 library(cluster)
 
 set.seed(1)
@@ -24,11 +21,11 @@ cat(file_name, "\n")
 file_name <- basename(file_name)
 sim_name <- sub("\\_sims.rds$", "", file_name)
 
-cat(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/",file_name))
+cat(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/",file_name), "\n")
 # file_name <- "BIOKEY_22_flip_3samples_3cellTypes_sims.rds"
 sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/",file_name))
 
-source("doc/functions.R")
-dat <- sc_methods(sims, sim_name = sim_name)
-write.csv(dat, file = paste0("res/clustering_benchmark/colData_", sim_name, ".csv"))
+source("doc/scLDAseq_functions.R")
+dat <- scLDAseq(sims)
+saveRDS(dat, file = paste0("/work/users/e/u/euphyw/scLDAseq/res/simulation/scLDAseq_", sim_name, ".rds"))
 
