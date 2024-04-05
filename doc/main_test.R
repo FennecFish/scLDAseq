@@ -86,7 +86,7 @@ plot.fixedEffect(effM, "time")
 
 eff <- estimateEffect(1:K ~ time, 
                             stmobj = res, meta= meta, uncertainty = "Global")
-summary(multi_eff)
+summary(eff)
 
 # # using swish?
 # # library(MASS)
