@@ -1,5 +1,5 @@
-# setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
-setwd("/proj/milovelab/wu/scLDAseq")
+setwd("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/scLDAseq")
+# setwd("/proj/milovelab/wu/scLDAseq")
 set.seed(1)
 library(slam)
 library(SingleCellExperiment)
@@ -13,41 +13,42 @@ library(lmerTest)
 library(dplyr)
 library(tibble)
 library(stats)
-# 
-# params <- newSplatParams()
-# params <- setParams(params, group.prob = c(0.3,0.3, 0.4),
-#                     de.prob = c(0.3, 0.3, 0.3),
-#                     nGenes = 500, batchCells=c(500,500, 500),
-#                     lib.loc = 15)
-# sims <- splatSimulate(params, method = "groups",
-#                       verbose = FALSE, batch.rmEffect = FALSE)# create change of proportions
-# 
-# cell_count <- matrix(colSums(table(sims$Group, sims$Batch))/length(unique(sims$Group)))
-# pre_prp <- matrix(c(0.3,0.3, 0.4))
-# pre_count <- cell_count %*% t(pre_prp)
-# colnames(pre_count) <- paste0("Group",1:length(unique(sims$Group)))
-# rownames(pre_count) <- paste0("Batch", 1:length(unique(sims$Batch)))
-# 
-# sampled_data <- colData(sims) %>%
-#     data.frame() %>%
-#     group_by(Group, Batch) %>%
-#     mutate(time = 2) %>%
-#     ungroup()
-# 
-# for (i in 1:nrow(pre_count)) {
-#     batch_name <- rownames(pre_count)[i]
-#     for (j in 1:ncol(pre_count)) {
-#         group_name <- colnames(pre_count)[j]
-#         sampled_data <- sampled_data %>%
-#             group_by(Group, Batch) %>%
-#             mutate(time = ifelse(
-#                 Group == group_name & Batch == batch_name &
-#                     row_number() %in% sample(row_number(), min(pre_count[i,j], n())), 1, time)) %>%
-#             ungroup()
-#     }
-# }
-# sims$time <- sampled_data$time
-saveRDS(sims, file = "data/toydat_neg.rds")
+library(splatter)
+library(scater)
+params <- newSplatParams()
+params <- setParams(params, group.prob = c(0.3,0.3, 0.4),
+                    de.prob = c(0.3, 0.3, 0.3),
+                    nGenes = 500, batchCells=c(200,200,100,200),
+                    lib.loc = 15)
+sims <- splatSimulate(params, method = "groups",
+                      verbose = FALSE, batch.rmEffect = FALSE)# create change of proportions
+
+cell_count <- matrix(colSums(table(sims$Group, sims$Batch))/length(unique(sims$Group)))
+pre_prp <- matrix(c(0.3,0.3, 0.4))
+pre_count <- cell_count %*% t(pre_prp)
+colnames(pre_count) <- paste0("Group",1:length(unique(sims$Group)))
+rownames(pre_count) <- paste0("Batch", 1:length(unique(sims$Batch)))
+
+sampled_data <- colData(sims) %>%
+    data.frame() %>%
+    group_by(Group, Batch) %>%
+    mutate(time = 2) %>%
+    ungroup()
+
+for (i in 1:nrow(pre_count)) {
+    batch_name <- rownames(pre_count)[i]
+    for (j in 1:ncol(pre_count)) {
+        group_name <- colnames(pre_count)[j]
+        sampled_data <- sampled_data %>%
+            group_by(Group, Batch) %>%
+            mutate(time = ifelse(
+                Group == group_name & Batch == batch_name &
+                    row_number() %in% sample(row_number(), min(pre_count[i,j], n())), 1, time)) %>%
+            ungroup()
+    }
+}
+sims$time <- sampled_data$time
+saveRDS(sims, file = "data/toydat.rds")
 
 sims <- readRDS("data/toydat.rds")
 
@@ -62,6 +63,7 @@ colData(sims) %>% as.data.frame() %>%
 sims <- quickPerCellQC(sims)
 #### feature selection #####
 sims <- scuttle::logNormCounts(sims)
+library(scran)
 dec.p2 <- modelGeneVar(sims)
 # feature selection
 p2.chosen <- getTopHVGs(dec.p2, n=1000)
@@ -75,25 +77,34 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
-dat <- prepsce(sims)
+# dat <- prepsce(sims)
 K <- length(unique(sims$Group))
 
-res.scLDAseq <- multi_stm(documents = dat$documents, vocab = dat$vocab,
+test <- selectModel(sce = sims,
+                    K = K, prevalence = ~time, content = NULL,
+                    sample = "Batch", N = 2, runs = 20)
+
+all_values <- unlist(test$bound)
+max_value <- max(all_values)
+max_position_in_vector <- which(all_values == max_value)
+
+res <- test$runout[[max_position_in_vector]]
+
+res <- multi_stm(sce = sims,
                           K = K, prevalence = ~time, content = NULL,
-                          data = dat$meta, 
-                          sce = dat$sce,
                           sample = "Batch",
-                          init.type= "Spectral",
+                          init.type= "NMF",
                           gamma.prior= "Pooled",
                           kappa.prior= "L1",
                           control = list(gamma.maxits=3000))
+
 saveRDS(res.scLDAseq, file = "data/scLDAseq_toydat_neg.rds")
 
-max_indices <- apply(res.scLDAseq$theta, 1, which.max)
-colnames(res.scLDAseq$theta) <- paste0("topic_", 1:ncol(res.scLDAseq$theta))
-rownames(res.scLDAseq$theta) <- colnames(res.scLDAseq$mu$mu)
-res_cluster <- colnames(res.scLDAseq$theta)[max_indices]
-names(res_cluster) <- rownames(res.scLDAseq$theta)
+max_indices <- apply(res$theta, 1, which.max)
+colnames(res$theta) <- paste0("topic_", 1:ncol(res$theta))
+rownames(res$theta) <- colnames(res$mu$mu)
+res_cluster <- colnames(res$theta)[max_indices]
+names(res_cluster) <- rownames(res$theta)
 scSTM_cluster <- res_cluster[match(names(res_cluster), sims$Cell)]
 adjustedRandIndex(scSTM_cluster, sims$Group)
 

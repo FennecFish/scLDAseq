@@ -6,13 +6,13 @@ vb.variational.reg <- function(Y,X, b0=1, d0=1, Xcorr=NULL, maxits=1000) {
     if(is.null(Xcorr)) Xcorr <- crossprod(X)
     XYcorr <- crossprod(X,Y) 
     
-    an <- 1 + nrow(X)/2 #an is changed slightly from the original STM code
-    D <- ncol(X)
     N <- nrow(X)
+    D <- ncol(X)
+    an <- 1 + N/2 #an is changed slightly from the original STM code
     w <- rep(0, ncol(X))
     error.prec <- 1 #expectation of the error precision
     converge <- 1000
-    cn <- ncol(X) # - 1 for the intercept and +1 in the update cancel
+    cn <- 1 + ncol(X)/2 # - 1 for the intercept and +1 in the update cancel
     dn <- 1
     Ea <- cn/dn #expectation of the precision on the weights
     ba <- 1

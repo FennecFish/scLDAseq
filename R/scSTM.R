@@ -404,12 +404,11 @@
 #'                 data=out$meta, model=mod.out, max.em.its=10)
 #' }
 #' @export
-multi_stm <- function(documents, vocab, K,
-                prevalence=NULL, content=NULL, data=NULL,
-                sce = NULL,
+multi_stm <- function(sce = NULL, K,
+                prevalence=NULL, content=NULL, 
                 sample = NULL, # specify sample ID column name
-                init.type=c("Spectral", "LDA", "Random", "Custom"), seed=NULL,
-                max.em.its=500, emtol=1e-5,
+                init.type=c("Spectral", "LDA", "Random", "Custom", "NMF"), seed=NULL,
+                max.em.its=500, emtol=1e-6,
                 verbose=TRUE, reportevery=5,
                 LDAbeta=TRUE, interactions=TRUE,
                 ngroups=1, model=NULL,
@@ -420,12 +419,13 @@ multi_stm <- function(documents, vocab, K,
   #Match Arguments and save the call
   init.type <- match.arg(init.type)
   Call <- match.call()
-
+  
   # Convert the corpus to the internal STM format
-  args <- asSTMCorpus(documents, vocab, data)
+  args <- prepsce(sce)
+  # cat("Preparing data...\n")
   documents <- args$documents
   vocab <- args$vocab
-  data <- args$data
+  data <- args$meta
   
   #Documents
   if(missing(documents)) stop("Must include documents")
@@ -599,6 +599,7 @@ multi_stm <- function(documents, vocab, K,
                              s=.05, p=3000, d.group.size=2000, recoverEG=TRUE,
                              tSNE_init.dims=50, tSNE_perplexity=30), 
                    seed=seed,
+                   sce = sce,
                    ngroups=ngroups)
   if(init.type=="Spectral" & V > 10000) {
     settings$init$maxV <- 10000

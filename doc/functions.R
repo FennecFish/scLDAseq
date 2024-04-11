@@ -13,7 +13,7 @@ library(RaceID)
 library(cidr)
 library(cluster)
 
-sc_methods <- function(sims, verbose = TRUE) {
+sc_methods <- function(sims, sim_name, verbose = TRUE) {
     
     ngroup <- length(unique(sims$Group))
     dat <- colData(sims) %>% 
@@ -48,7 +48,7 @@ sc_methods <- function(sims, verbose = TRUE) {
                          gamma.prior= "Pooled",
                          kappa.prior= "L1",
                          control = list(gamma.maxits=3000))
-
+    saveRDS(res.stm, file = paste0("/work/users/e/u/euphyw/scLDAseq/res/simulation/scLDAseq_", sim_name, ".rds"))
     max_indices <- apply(res.stm$theta, 1, which.max)
     colnames(res.stm$theta) <- paste0("topic_", 1:ncol(res.stm$theta))
     rownames(res.stm$theta) <- colnames(res.stm$mu$mu)
@@ -75,24 +75,24 @@ sc_methods <- function(sims, verbose = TRUE) {
     dat$seurat_cluster <- Idents(seurat.sims)[match(names(Idents(seurat.sims)), dat$Cell)]
     msg <- sprintf("Completed Seurat (%d seconds). \n", floor((proc.time()-t1)[3]))
     if(verbose) cat(msg)
-    
+    saveRDS(seurat.sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/res/simulation/seurat_", sim_name, ".rds"))
     ###########################################################
     ###################### CIDR ###############################
     ###########################################################
-    t1 <- proc.time()
-
-    res.cidr <- scDataConstructor(as.matrix(counts(sims)))
-    res.cidr <- determineDropoutCandidates(res.cidr)
-    res.cidr <- wThreshold(res.cidr)
-    res.cidr <- scDissim(res.cidr)
-    res.cidr <- scPCA(res.cidr)
-    res.cidr <- nPC(res.cidr)
-    nCluster(res.cidr)
-    res.cidr <- scCluster(res.cidr)
-    dat$cidr_cluster <- res.cidr@clusters[match(colnames(res.cidr@tags), dat$Cell)]
-
-    msg <- sprintf("Completed CIDR (%d seconds). \n", floor((proc.time()-t1)[3]))
-    if(verbose) cat(msg)
+    # t1 <- proc.time()
+    # 
+    # res.cidr <- scDataConstructor(as.matrix(counts(sims)))
+    # res.cidr <- determineDropoutCandidates(res.cidr)
+    # res.cidr <- wThreshold(res.cidr)
+    # res.cidr <- scDissim(res.cidr)
+    # res.cidr <- scPCA(res.cidr)
+    # res.cidr <- nPC(res.cidr)
+    # nCluster(res.cidr)
+    # res.cidr <- scCluster(res.cidr)
+    # dat$cidr_cluster <- res.cidr@clusters[match(colnames(res.cidr@tags), dat$Cell)]
+    # 
+    # msg <- sprintf("Completed CIDR (%d seconds). \n", floor((proc.time()-t1)[3]))
+    # if(verbose) cat(msg)
     ###########################################################
     ##################### RACEID ###############################
     ###########################################################
@@ -116,6 +116,8 @@ sc_methods <- function(sims, verbose = TRUE) {
     dat$raceID_cluster <- sc@cluster$kpart[match(dat$Cell,names(sc@cluster$kpart))]
     msg <- sprintf("Completed RaceID (%d seconds). \n", floor((proc.time()-t1)[3]))
     if(verbose) cat(msg)
+    
+    saveRDS(sc, file = paste0("/work/users/e/u/euphyw/scLDAseq/res/simulation/raceID_", sim_name, ".rds"))
     
     return(dat)
 }

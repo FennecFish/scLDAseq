@@ -68,7 +68,6 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   # the challenge with multicore is efficient scheduling while
   # maintaining a small dimension for the sufficient statistics.
   
-  # browser()
   omega <- matrix(0, nrow = I, ncol = I)
   for (i in 1:I) {
   psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
@@ -97,6 +96,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           # update sufficient statistics 
           sigma.ss <- sigma.ss + doc.results$eta$nu
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
+          phis <- doc.results$phis
           bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
           nu[[l]] <- doc.results$eta$nu
@@ -117,6 +117,6 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   }
   lambda <- do.call(rbind, lambda)
   return(list(sigma=sigma.ss, beta=beta.ss, bound=bound, 
-              lambda=lambda, nu = nu, pi = pi.ss.avg, omega = omega))
+              lambda=lambda, nu = nu, pi = pi.ss.avg, omega = omega, phis = phis))
 }
 

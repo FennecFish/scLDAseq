@@ -5,7 +5,6 @@ opt.sigma <- function(nu, omega, lambda, pi, mu, sigprior, samples) {
     for (i in 1:length(unique(samples))) {
 
         Ni <- which(samples == unique(samples)[i])
-        # browser()
         psi <- matrix(rep(pi[i], times = length(Ni)*ncol(lambda)), nrow = length(Ni))
         sigs <- diag(diag(omega)[i], nrow = nrow(mu), ncol = nrow(mu))
         #find the covariance

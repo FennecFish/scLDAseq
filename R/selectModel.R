@@ -86,10 +86,10 @@
 #' selected<-mod.out$runout[[1]]
 #' }
 #' @export
-selectModel <- function(documents, vocab, K,
-                        prevalence=NULL, content=NULL, data=NULL,
+selectModel <- function(sce = sce, K, sample = sample,
+                        prevalence=NULL, content=NULL,
                         max.em.its=100, verbose=TRUE, init.type = "LDA",
-                        emtol= 1e-05, seed=NULL,runs=50, frexw=.7, 
+                        emtol= 1e-06, seed=NULL, runs=50, nmf_run = 5, frexw=.7, 
                         net.max.em.its=2, netverbose=FALSE, M=10, N=NULL,
                         to.disk=F, ...){
   if(!is.null(seed)) set.seed(seed)
@@ -98,25 +98,48 @@ selectModel <- function(documents, vocab, K,
     N <-  round(.2*runs)
   }
   
-  if(runs<2){
+  if(runs + nmf_run < 2){
     stop("Number of runs must be two or greater.")
   }
   
-  if(runs<N){
+  if(runs + nmf_run < N){
     stop("Number in the net must be greater or equal to the number of final models.")
   }
-  
+    
+    args <- prepsce(sce)
+    documents <- args$documents
+    vocab <- args$vocab
+    data <- args$meta
+    
+    
   seedout <- NULL
   likelihood <- NULL
   cat("Casting net \n")
   for(i in 1:runs){
     cat(paste(i, "models in net \n"))
-    mod.out <- stm(documents, vocab, K,
-                   prevalence=prevalence, content=content, data=data, init.type=init.type,
+    mod.out <- multi_stm(sce = sce, sample = sample, K, 
+                   prevalence=prevalence, content=content, init.type=init.type,
                    max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
     seedout[i] <- mod.out$settings$seed
     likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
   }
+
+  
+  # evaluate NMF and spectral in addition to LDA
+  for(i in 1:nmf_run){
+      mod.out <- multi_stm(sce = sce, sample = sample, K, 
+                           prevalence=prevalence, content=content, init.type="NMF",
+                           max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+      likelihood[runs + i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+      seedout[runs + i] <- mod.out$settings$seed
+  }
+  
+  mod.out <- multi_stm(sce = sce, sample = sample, K, 
+                       prevalence=prevalence, content=content, init.type="Spectral",
+                       max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+  likelihood[runs + nmf_run + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+  seedout[runs + nmf_run + 1] <- mod.out$settings$seed
+  
 
   keep <- order(likelihood, decreasing=T)[1:N]
   keepseed <- seedout[keep]
@@ -125,13 +148,29 @@ selectModel <- function(documents, vocab, K,
   semcoh <- list()
   exclusivity <- list()
   sparsity <- list()
+  bound <- list()
+  
   for(i in 1:length(keepseed)){
     cat(paste(i, "select model run \n"))
     initseed <- keepseed[i]
-    mod.out <- stm(documents, vocab, K,
-                   prevalence=prevalence, content=content, data=data, init.type=init.type, seed=initseed,
-                   max.em.its=max.em.its, emtol=emtol, verbose=verbose,...)
+    initseed_index <- which(seedout == initseed)
+    if (initseed_index <= runs) {
+        # If the index is within the first 'runs', use LDA
+        init_type <- init.type
+    } else if (runs < initseed_index && initseed_index <= runs + nmf_run) {
+        # If the index is within the range for NMF initialization
+        init_type <- "NMF"
+    } else {
+        # Otherwise, use Spectral initialization
+        init_type <- "Spectral"
+    }
+    
+    mod.out <- multi_stm(sce = sce, sample = sample, K = K, 
+                         prevalence = prevalence, content = content, init.type = init_type, 
+                         seed = initseed, max.em.its = max.em.its, emtol = emtol, 
+                         verbose = verbose, ...)
     runout[[i]] <- mod.out
+    bound[[i]] <- max(mod.out$convergence$bound)
     if(to.disk==T){
       mod <- mod.out
       save(mod, file=paste("runout", i, ".RData", sep=""))
@@ -149,7 +188,8 @@ selectModel <- function(documents, vocab, K,
       sparsity[[i]] = numsparse/ncol(kappas)
     }
   }
-  out <- list(runout=runout, semcoh=semcoh, exclusivity=exclusivity, sparsity=sparsity)
+  
+  out <- list(runout=runout, bound = bound, semcoh=semcoh, exclusivity=exclusivity, sparsity=sparsity)
   class(out) <- "selectModel"
   return(out)
 }

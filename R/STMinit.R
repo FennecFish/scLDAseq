@@ -10,14 +10,15 @@ stm.init <- function(documents, settings) {
   A <- settings$dim$A
   N <- settings$dim$N
   I <- settings$dim$I
-  samples <- settings$dim$samples
+  samples <- as.factor(settings$dim$samples)
   mode <- settings$init$mode
   nits <- settings$init$nits 
   alpha <- settings$init$alpha 
   eta <- settings$init$eta 
   burnin <- settings$init$burnin 
   maxV <- settings$init$maxV
-    
+  sce <- settings$sce
+
   #Different Modes
   if(mode=="LDA") {
     resetdocs <- lapply(documents, function(x) {
@@ -41,7 +42,23 @@ stm.init <- function(documents, settings) {
     rm(theta) #clear out theta
     mu <- colMeans(lambda) #make a globally shared mean
     mu <- matrix(mu, ncol=1)
-    sigma <- cov(lambda)    
+    sigma <- cov(lambda) 
+    
+    temp <- cbind(lambda, samples) %>%
+        as.data.frame() %>%
+        tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
+        group_by(samples, topic) %>%
+        summarise(avg = mean(value), .groups = "drop") %>%
+        tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
+        select(-samples)
+    
+    pi <- rowMeans(temp)
+    pi <- matrix(pi, ncol = 1)
+    sigs <- apply(temp, 1, var)
+    sigs <- diag(sigs)
+    mu <- colMeans(lambda) #make a globally shared mean
+    mu <- matrix(mu, ncol=1)
+    rm(temp)
   }
   if(mode=="Random" | mode=="Custom") {
     #Random initialization or if Custom, initalize everything randomly
@@ -50,6 +67,8 @@ stm.init <- function(documents, settings) {
     beta <- matrix(rgamma(V * K, .1), ncol = V)
     beta <- beta/rowSums(beta)
     lambda <- matrix(0, nrow=N, ncol=(K-1))
+    sigs <- diag(30, nrow=I, ncol = I)
+    
   }
   if(mode=="Spectral" | mode=="SpectralRP") {
     verbose <- settings$verbose
@@ -130,6 +149,31 @@ stm.init <- function(documents, settings) {
     
     if(verbose) cat("Initialization complete.\n")
   }
+  if(mode == "NMF") {
+        cat("Initialization with fastTopics. \n")
+        fit <- fastTopics::fit_topic_model(t(counts(sce)),k = K)
+        beta <- t(fit$F)
+        theta <- fit$L
+        lambda <- log(theta) - log(theta[,K]) #get the log-space version
+        lambda <- lambda[,-K, drop=FALSE] #drop off the last column
+        rm(theta) #clear out theta
+        temp <- cbind(lambda, samples) %>%
+            as.data.frame() %>%
+            tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
+            group_by(samples, topic) %>%
+            summarise(avg = mean(value), .groups = "drop") %>%
+            tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
+            select(-samples)
+        pi <- rowMeans(temp)
+        pi <- matrix(pi, ncol = 1)
+        sigs <- apply(temp, 1, var)
+        sigs <- diag(sigs)
+        mu <- colMeans(lambda) #make a globally shared mean
+        mu <- matrix(mu, ncol=1)
+        sigma <- cov(lambda)  
+        rm(temp)
+  }
+
   #turn beta into a list and assign it for each aspect
   beta <- rep(list(beta),A)
   model <- list(mu=mu, sigma=sigma, sigs = sigs, 
@@ -149,7 +193,7 @@ stm.init <- function(documents, settings) {
     #okay at this point we probably have checked it enough- copy it over.
     model$beta <- lapply(newbeta, exp)
   }
-  # browser()
+  
   return(model)
 }
 

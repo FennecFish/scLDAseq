@@ -114,10 +114,9 @@
 #' summary(prep)
 #' @export
 estimateEffect <- function(formula,
-                     stmobj, metadata=NULL, 
-                     sampleNames = NULL, sampleIDs = NULL, # if id = null, then combine all samples
-                     uncertainty=c("Global", "Local", "None"), documents=NULL,
-                     nsims=25, prior=NULL) {
+                           stmobj, metadata=NULL,
+                           uncertainty=c("Global", "Local", "None"), documents=NULL,
+                           nsims=25, prior=NULL) {
   origcall <- match.call()
   thetatype <- match.arg(uncertainty)
   if(thetatype=="None") nsims <- 1 #override nsims for no uncertainty
@@ -145,22 +144,12 @@ estimateEffect <- function(formula,
     if(!(posint(K) && max(K)<=stmobj$settings$dim$K)) stop("Topics specified as response in formula must be a set of positive integers equal to or less than the number of topics in the model.")   
     #now we reconstruct the formula removing the response
     formula <- formula(paste(as.character(formula)[c(1,3)], collapse = " "))
-      #the above used to be the below code but the use got deprecated.
-      #as.formula(as.character(formula)[c(1,3)])
+    #the above used to be the below code but the use got deprecated.
+    #as.formula(as.character(formula)[c(1,3)])
     termobj <- terms(formula, data=metadata)
   } else {
     K <- 1:stmobj$settings$dim$K
   }
-  
-  # now we subset the metadata to include only sample specified
-  if(!is.null(sampleIDs)) {
-      if(is.null(sampleNames)) stop("Please specify the colname name for sampleIDs in the input metadata")
-      if(!sampleIDs %in% stmobj$sampleID) stop("Sample ids specified must be exactly the same as the ones used in the model")
-      metadata = metadata[metadata[,sampleNames] == sampleIDs,]
-      subDocName <- stmobj$DocName[stmobj$sampleID %in% sampleIDs]
-      stmobj <- STMsubset(stmobj, subDocName) 
-  } 
-
   mf <- model.frame(termobj, data=metadata)
   xmat <- model.matrix(termobj,data=metadata)
   varlist <- all.vars(termobj)
@@ -177,8 +166,6 @@ estimateEffect <- function(formula,
   }
   metadata <- data
   rm(data)
-  
-  
   ##
   #Step 2: Compute the QR decomposition
   ##
@@ -205,7 +192,7 @@ estimateEffect <- function(formula,
   ##  
   #Step 3: Calculate Coefficients
   ##
-
+  
   storage <- vector(mode="list", length=length(K))
   for(i in 1:nsims) {
     # 3a) simulate theta
@@ -219,11 +206,10 @@ estimateEffect <- function(formula,
       #lm.mod <- lm(thetasims[,k]~ xmat -1)
       #storage[[which(k==K)]][[i]] <- list(coef=coef(lm.mod),vcov=vcov(lm.mod))
       lm.mod <- qr.lm(thetasims[,k], qx)
-      # browser()
       storage[[which(k==K)]][[i]] <- summary.qr.lm(lm.mod)      
     }
   }
-    
+  
   ##
   #Step 4: Return Values
   ##
@@ -345,7 +331,7 @@ print.summary.estimateEffect <- function(x, digits = max(3L, getOption("digits")
     cat("\nCoefficients:\n")
     coefs <- x$tables[[i]]
     stats::printCoefmat(coefs, digits = digits, signif.stars = signif.stars, 
-                 na.print = "NA", ...)
+                        na.print = "NA", ...)
     cat("\n")
   }
   invisible(x)

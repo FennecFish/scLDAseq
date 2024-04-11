@@ -171,16 +171,17 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       beta.ss <- suffstats$beta
       bound.ss <- suffstats$bound
       nu <- suffstats$nu
+      phi <- suffstats$phis
       #do the m-step
       mu <- opt.mu(lambda=lambda, pi = pi,
                    nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
-      # browser()
+     
       sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
                          pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)
-      #browser()
+      
       beta <- opt.beta(beta.ss, beta$kappa, settings)
       sigs <- opt.sigs(pi, omega, samples)
       
@@ -195,7 +196,9 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     #Convergence
     # cat("Bound is ", bound.ss, "\n")
     # cat("Convergence is ", convergence, "\n")
-    convergence <- convergence.check(bound.ss, convergence, settings)
+    bound <- llh.bound(bound.ss, pi, sigs, omega, phi)
+    # cat("bound \n")
+    convergence <- convergence.check(bound, convergence, settings)
     stopits <- convergence$stopits
     # cat("stopits is", stopits, "\n")
 
