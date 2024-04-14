@@ -72,7 +72,12 @@ sims <- sims[p2.chosen,]
 nsample <- length(unique(sims$Batch))
 ngroup <- length(unique(sims$Group))
 
+
 #### scLDAseq#############
+
+sims <-readRDS("data/sims_1712865809_L7.rds")
+sims <-readRDS("data/toydat.rds")
+
 r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
@@ -82,7 +87,7 @@ K <- length(unique(sims$Group))
 
 test <- selectModel(sce = sims,
                     K = K, prevalence = ~time, content = NULL,
-                    sample = "Batch", N = 2, runs = 20)
+                    sample = "Batch", N = 3, runs = 5)
 
 all_values <- unlist(test$bound)
 max_value <- max(all_values)

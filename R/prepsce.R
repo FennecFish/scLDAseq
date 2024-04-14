@@ -1,18 +1,31 @@
-# from stm
-read.slam.doc <- function(corpus) {
-    #convert a simple triplet matrix to list format.
-    if(!inherits(corpus, "simple_triplet_matrix")) stop("corpus is not a simple triplet matrix")
-    if (inherits(corpus,"TermDocumentMatrix")) {
-        non_empty_docs <- which(slam::col_sums(corpus) != 0)
-        documents <- ijv.to.doc(corpus[,non_empty_docs]$j, corpus[,non_empty_docs]$i, corpus[,non_empty_docs]$v) 
-        names(documents) <- corpus[,non_empty_docs]$dimnames[[1]]
-    } else {
-        non_empty_docs <- which(slam::row_sums(corpus) != 0)
-        documents <- ijv.to.doc(corpus[non_empty_docs,]$i, corpus[non_empty_docs,]$j, corpus[non_empty_docs,]$v) 
-        names(documents) <- corpus[non_empty_docs,]$dimnames[[1]]
-    }
-    return(documents=documents)
+convert_count_matrix <- function(count_matrix) {
+    
+    gene_indices <- seq_len(ncol(count_matrix))
+    
+    cell_list <- apply(count_matrix, 1, function(cell_counts) {
+        # Identify nonzero gene counts
+        nonzero_indices <- which(cell_counts != 0)
+        
+        # Filter out zeros from counts and corresponding gene indices
+        if (length(nonzero_indices) > 0) {
+            nonzero_gene_indices <- gene_indices[nonzero_indices]
+            nonzero_counts <- cell_counts[nonzero_indices]
+            
+            # Construct the matrix with filtered indices and counts
+            mat <- rbind(nonzero_gene_indices, nonzero_counts)
+            dimnames(mat) <- NULL
+            return(list(mat))
+        } 
+    })
+    
+    # Simplify the list structure if nested due to list conversion in apply
+    cell_list <- unlist(cell_list, recursive = FALSE)
+    
+    # Set names for each list element
+    names(cell_list) <- rownames(count_matrix)
+    return(cell_list)
 }
+
 
 # require SingleCellExperiment, with meta data in ColData
 prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf, 
@@ -30,8 +43,20 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
         stop("The input data needs to be a SingleCellExperiment Object")
     }
     
+    gene_sums <- colSums(counts(sce))
+    sce <- sce[, gene_sums > 0]
+    if(sum(gene_sums==0) > 0) {
+        cat("Removing", sum(gene_sums==0), "genes have 0 cells...\n")
+    } 
+    
+    cell_sums <- rowSums(counts(sce))
+    sce <- sce[cell_sums > 0, ]
+    if(sum(cell_sums==0) > 0) {
+        cat("Removing", sum(cell_sums==0), "cells have 0 genes...\n")
+    } 
+    
     # extract documents (cell) and vocab (genes) 
-    documents <- read.slam.doc(slam::as.simple_triplet_matrix(t(assays(sce)$counts)))
+    documents <- convert_count_matrix(t(assays(sce)$counts))
     # browser()
     vocab <- rownames(sce)
     
@@ -54,26 +79,22 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     # }
     # browser()
     #check that there are no 0 length documents
-    len <- unlist(lapply(documents, length))
-    if(any(len==0)) {
-        stop("Some documents have 0 length.  Please check input. 
-          See ?prepDocuments() for more info.")
-    } 
+
     
-    triplet <- doc.to.ijv(documents) #this also fixes the zero indexing.
-    nms <- names(documents) 
-    documents <- ijv.to.doc(triplet$i, triplet$j, triplet$v)
-    names(documents) <- nms
-    meta <- colData(sce)[nms,]
+    # triplet <- doc.to.ijv(documents) #this also fixes the zero indexing.
+    # nms <- names(documents) 
+    # documents <- ijv.to.doc(triplet$i, triplet$j, triplet$v)
+    # names(documents) <- nms
+    meta <- colData(sce)
     docs.removed <- c()
     
     #Detect Missing Terms
     miss.vocab <- NULL
-    vocablist <- sort(unique(triplet$j))
-    wordcounts <- tabulate(triplet$j)
-    if(length(vocablist)>length(vocab)) {
-        stop("Your documents object has more unique features than your vocabulary file has entries.")
-    } 
+    vocablist <- sort(seq_along(rownames(sce)))
+    nonzero_counts <- t(counts(sce)) > 0
+    wordcounts <- colSums(nonzero_counts)
+    names(wordcounts) = NULL
+
     if(length(vocablist)<length(vocab)) {
         if(verbose) cat("Detected Missing Terms, renumbering \n")
         miss.vocab <- vocab[-vocablist]

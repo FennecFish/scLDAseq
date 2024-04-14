@@ -407,7 +407,7 @@
 multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
                 prevalence=NULL, content=NULL, 
                 sample = NULL, # specify sample ID column name
-                init.type=c("Spectral", "LDA", "Random", "Custom", "NMF"), seed=NULL,
+                init.type=c("Spectral", "LDA", "Random", "Custom", "TopicScore"), seed=NULL,
                 max.em.its=500, emtol=1e-6,
                 verbose=TRUE, reportevery=5,
                 LDAbeta=TRUE, interactions=TRUE,

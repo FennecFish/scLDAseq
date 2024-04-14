@@ -60,16 +60,16 @@ stm.init <- function(documents, settings) {
     mu <- matrix(mu, ncol=1)
     rm(temp)
   }
-  if(mode=="Random" | mode=="Custom") {
-    #Random initialization or if Custom, initalize everything randomly
-    mu <- matrix(0, nrow=(K-1),ncol=1)
-    sigma <- diag(20, nrow=(K-1))
-    beta <- matrix(rgamma(V * K, .1), ncol = V)
-    beta <- beta/rowSums(beta)
-    lambda <- matrix(0, nrow=N, ncol=(K-1))
-    sigs <- diag(30, nrow=I, ncol = I)
-    
-  }
+  # if(mode=="Random" | mode=="Custom") {
+  #   #Random initialization or if Custom, initalize everything randomly
+  #   mu <- matrix(0, nrow=(K-1),ncol=1)
+  #   sigma <- diag(20, nrow=(K-1))
+  #   beta <- matrix(rgamma(V * K, .1), ncol = V)
+  #   beta <- beta/rowSums(beta)
+  #   lambda <- matrix(0, nrow=N, ncol=(K-1))
+  #   sigs <- diag(30, nrow=I, ncol = I)
+  #   
+  # }
   if(mode=="Spectral" | mode=="SpectralRP") {
     verbose <- settings$verbose
     if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
@@ -149,11 +149,15 @@ stm.init <- function(documents, settings) {
     
     if(verbose) cat("Initialization complete.\n")
   }
-  if(mode == "NMF") {
-        cat("Initialization with fastTopics. \n")
-        fit <- fastTopics::fit_topic_model(t(counts(sce)),k = K)
+  if(mode == "TopicScore") {
+        cat("Initialization with topicScore. \n")
+        fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
+                                           k = K, 
+                                           init.method = "topicscore",
+                                           verbose = "none")
         beta <- t(fit$F)
         theta <- fit$L
+        theta <- theta/rowSums(theta)
         lambda <- log(theta) - log(theta[,K]) #get the log-space version
         lambda <- lambda[,-K, drop=FALSE] #drop off the last column
         rm(theta) #clear out theta
@@ -172,6 +176,35 @@ stm.init <- function(documents, settings) {
         mu <- matrix(mu, ncol=1)
         sigma <- cov(lambda)  
         rm(temp)
+  }
+  
+  if(mode == "Random") {
+      cat("Initialization with Poisson NMF \n")
+      fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
+                                          k = K, 
+                                          init.method = "random",
+                                          verbose = "none")
+      beta <- t(fit$F)
+      theta <- fit$L
+      theta <- theta/rowSums(theta) # normalize theta
+      lambda <- log(theta) - log(theta[,K]) #get the log-space version
+      lambda <- lambda[,-K, drop=FALSE] #drop off the last column
+      rm(theta) #clear out theta
+      temp <- cbind(lambda, samples) %>%
+          as.data.frame() %>%
+          tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
+          group_by(samples, topic) %>%
+          summarise(avg = mean(value), .groups = "drop") %>%
+          tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
+          select(-samples)
+      pi <- rowMeans(temp)
+      pi <- matrix(pi, ncol = 1)
+      sigs <- apply(temp, 1, var)
+      sigs <- diag(sigs, nrow = I)
+      mu <- colMeans(lambda) #make a globally shared mean
+      mu <- matrix(mu, ncol=1)
+      sigma <- cov(lambda)  
+      rm(temp)
   }
 
   #turn beta into a list and assign it for each aspect
