@@ -1,11 +1,10 @@
 # calculate bound for convergence
 llh.bound <- function(leta, alpha, sigs, omega, phi) {
     leta <- sum(leta)
-    
     # compute chol of sigma^s
     det_sigs <- det(sigs)
     # compute inv of sigma^s
-    inv_sigs <- diag(1 / diag(sigs))
+    inv_sigs <- diag(1 /diag(sigs), nrow = nrow(sigs))
     tr <- sum(diag(omega %*% inv_sigs))
     Ep_psi <- -0.5*det_sigs -0.5*t(alpha) %*% inv_sigs %*% alpha + 0.5*tr
     Eq_psi <- -0.5*sum(diag(omega))

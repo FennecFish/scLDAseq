@@ -26,7 +26,7 @@ convergence.check <- function(bound,convergence, settings) {
     #if(convergence.check < emtol & convergence.check > 0) {
     if(emtol!=0) {
       # if(convergence.check > 0 | settings$convergence$allow.neg.change) {
-        if(convergence.check > 0) {
+        if(convergence.check > 0 | settings$convergence$allow.neg.change) {
         if(abs(convergence.check) < emtol) {
           convergence$converged <- TRUE
           convergence$stopits <- TRUE

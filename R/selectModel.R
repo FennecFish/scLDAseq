@@ -86,11 +86,11 @@
 #' selected<-mod.out$runout[[1]]
 #' }
 #' @export
-selectModel <- function(sce = sce, K, sample = sample,
+selectModel <- function(sce , K, sample = NULL,
                         prevalence=NULL, content=NULL,
                         max.em.its=100, verbose=TRUE, init.type = "LDA",
-                        emtol= 1e-06, seed=NULL, runs=50, nmf_run = 5, frexw=.7, 
-                        net.max.em.its=2, netverbose=FALSE, M=10, N=NULL,
+                        emtol= 1e-06, seed=NULL, runs=50, nmf_run = 10, frexw=.7, 
+                        net.max.em.its=3, netverbose=FALSE, M=10, N=NULL,
                         to.disk=F, ...){
   if(!is.null(seed)) set.seed(seed)
 
@@ -117,24 +117,26 @@ selectModel <- function(sce = sce, K, sample = sample,
   cat("Casting net \n")
   for(i in 1:runs){
     cat(paste(i, "models in net \n"))
-    mod.out <- multi_stm(sce = sce, sample = sample, K, 
+    mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+                         sample = sample, K = K, 
                    prevalence=prevalence, content=content, init.type=init.type,
                    max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
     seedout[i] <- mod.out$settings$seed
     likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
   }
-
   
   # evaluate NMF and spectral in addition to LDA
   for(i in 1:nmf_run){
-      mod.out <- multi_stm(sce = sce, sample = sample, K, 
+      mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+                           sample = sample, K, 
                            prevalence=prevalence, content=content, init.type="NMF",
                            max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
       likelihood[runs + i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
       seedout[runs + i] <- mod.out$settings$seed
   }
   
-  mod.out <- multi_stm(sce = sce, sample = sample, K, 
+  mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+                       sample = sample, K, 
                        prevalence=prevalence, content=content, init.type="Spectral",
                        max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
   likelihood[runs + nmf_run + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
@@ -165,7 +167,8 @@ selectModel <- function(sce = sce, K, sample = sample,
         init_type <- "Spectral"
     }
     
-    mod.out <- multi_stm(sce = sce, sample = sample, K = K, 
+    mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+                         sample = sample, K = K, 
                          prevalence = prevalence, content = content, init.type = init_type, 
                          seed = initseed, max.em.its = max.em.its, emtol = emtol, 
                          verbose = verbose, ...)

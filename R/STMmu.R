@@ -18,7 +18,9 @@ vb.variational.reg <- function(Y,X, b0=1, d0=1, Xcorr=NULL, maxits=1000) {
     ba <- 1
     
     ct <- 1
+   
     while(converge>.0001) {
+      
         w.old <- w
         
         #add the coefficient prior.  Form depends on whether X is a Matrix object or a regular matrix.

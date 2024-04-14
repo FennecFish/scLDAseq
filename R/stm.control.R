@@ -68,7 +68,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     stopits <- TRUE
     if(verbose) cat("Returning Initialization.")
   }
-  # browser()
+ 
   ############
   #Step 2: Run EM
   ############
@@ -154,7 +154,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       t1 <- proc.time()
       #run the model
       # source("R/STMestep.R")
-      # browser()
+
       suffstats <- estep(documents=documents, beta.index=betaindex,
                          update.mu=(!is.null(mu$gamma)),
                          beta = beta, lambda.old = lambda,

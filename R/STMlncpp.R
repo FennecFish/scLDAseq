@@ -37,7 +37,7 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
   # }
   # omega.update <- 1/(sum(diag(siginv)) + 1/(diag(omega)[1]))
   # docvar$omega <- omega.update
-  # browser()
+
   sigs_inv <- diag(1/sigs, nrow = nrow(siginv), ncol = ncol(siginv))
   # doc.weight <- doc.ct/Ndoc
   # sigma <- solve(siginv)

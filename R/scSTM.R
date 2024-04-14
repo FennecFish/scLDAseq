@@ -404,7 +404,7 @@
 #'                 data=out$meta, model=mod.out, max.em.its=10)
 #' }
 #' @export
-multi_stm <- function(sce = NULL, K,
+multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
                 prevalence=NULL, content=NULL, 
                 sample = NULL, # specify sample ID column name
                 init.type=c("Spectral", "LDA", "Random", "Custom", "NMF"), seed=NULL,
@@ -419,13 +419,15 @@ multi_stm <- function(sce = NULL, K,
   #Match Arguments and save the call
   init.type <- match.arg(init.type)
   Call <- match.call()
-  
-  # Convert the corpus to the internal STM format
-  args <- prepsce(sce)
-  # cat("Preparing data...\n")
-  documents <- args$documents
-  vocab <- args$vocab
-  data <- args$meta
+  if(missing(sce)) stop("Must include sce object")
+  if(is.null(documents)|is.null(vocab)|is.null(data)){
+    # Convert the corpus to the internal STM format
+    args <- prepsce(sce)
+    # cat("Preparing data...\n")
+    documents <- args$documents
+    vocab <- args$vocab
+    data <- args$meta
+  }
   
   #Documents
   if(missing(documents)) stop("Must include documents")
@@ -462,7 +464,6 @@ multi_stm <- function(sce = NULL, K,
   } 
   #note we only do the tabulation after making sure it will actually work.
   # wcounts$x <- tabulate(wcountvec)
-  # browser()
   # wcounts$x <- as.vector(rowSums(assay(sce)))
   if (heldout) {
       wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)
@@ -533,7 +534,7 @@ multi_stm <- function(sce = NULL, K,
   } else {
     xmat <- NULL
   }
-  
+
   if(!is.null(content)) {
     if(inherits(content, "formula")) {
       termobj <- terms(content, data=data)
@@ -556,6 +557,7 @@ multi_stm <- function(sce = NULL, K,
     yvarlevels <- NULL
     betaindex <- rep(1, length(documents))
   }
+  
   A <- length(unique(betaindex)) #define the number of aspects
   
   #Checks for Dimension agreement
@@ -610,7 +612,6 @@ multi_stm <- function(sce = NULL, K,
     if(ncol(xmat)<=2) stop("Cannot use L1 penalization in prevalence model with 2 or fewer covariates.")
   }
 
-    
   ###
   # Fill in some implied arguments.
   ###

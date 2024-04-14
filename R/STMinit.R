@@ -55,7 +55,7 @@ stm.init <- function(documents, settings) {
     pi <- rowMeans(temp)
     pi <- matrix(pi, ncol = 1)
     sigs <- apply(temp, 1, var)
-    sigs <- diag(sigs)
+    sigs <- diag(sigs, nrow = I)
     mu <- colMeans(lambda) #make a globally shared mean
     mu <- matrix(mu, ncol=1)
     rm(temp)
@@ -167,7 +167,7 @@ stm.init <- function(documents, settings) {
         pi <- rowMeans(temp)
         pi <- matrix(pi, ncol = 1)
         sigs <- apply(temp, 1, var)
-        sigs <- diag(sigs)
+        sigs <- diag(sigs, nrow = I)
         mu <- colMeans(lambda) #make a globally shared mean
         mu <- matrix(mu, ncol=1)
         sigma <- cov(lambda)  
