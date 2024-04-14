@@ -91,7 +91,7 @@ selectModel <- function(sce , K, sample = NULL,
                         max.em.its=100, verbose=TRUE, init.type = "TopicScore",
                         emtol= 1e-06, seed=NULL, runs = 20, frexw=.7, 
                         net.max.em.its=3, netverbose=FALSE, M=10, N=NULL,
-                        to.disk=F, ...){
+                        to.disk=F, control=list(), ...){
   if(!is.null(seed)) set.seed(seed)
 
   if(is.null(N)){

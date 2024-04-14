@@ -154,7 +154,8 @@ stm.init <- function(documents, settings) {
         fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
                                            k = K, 
                                            init.method = "topicscore",
-                                           verbose = "none")
+                                           verbose = "detailed",
+                                           control = list(gc = NA))
         beta <- t(fit$F)
         theta <- fit$L
         theta <- theta/rowSums(theta)
@@ -183,7 +184,8 @@ stm.init <- function(documents, settings) {
       fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
                                           k = K, 
                                           init.method = "random",
-                                          verbose = "none")
+                                          verbose = "none",
+                                          control = list(gc = NA))
       beta <- t(fit$F)
       theta <- fit$L
       theta <- theta/rowSums(theta) # normalize theta

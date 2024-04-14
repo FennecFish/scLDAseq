@@ -87,7 +87,8 @@ K <- length(unique(sims$Group))
 
 test <- selectModel(sce = sims,
                     K = K, prevalence = ~time, content = NULL,
-                    sample = "Batch", N = 3, runs = 5)
+                    sample = "Batch", N = 10, runs = 50,
+                    control=list(gc = NA))
 
 all_values <- unlist(test$bound)
 max_value <- max(all_values)
