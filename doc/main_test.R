@@ -75,7 +75,7 @@ ngroup <- length(unique(sims$Group))
 
 #### scLDAseq#############
 
-sims <-readRDS("data/sims_1712865809_L7.rds")
+sims <-readRDS("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/sims_1712865809_L7.rds")
 sims <-readRDS("data/toydat.rds")
 
 r.file <- paste0("R/",list.files("R/"))
@@ -87,8 +87,7 @@ K <- length(unique(sims$Group))
 
 test <- selectModel(sce = sims,
                     K = K, prevalence = ~time, content = NULL,
-                    sample = "Batch", N = 10, runs = 50,
-                    control=list(gc = NA))
+                    sample = "Batch", N = 2, ts_runs = 1, random_run = 1)
 
 all_values <- unlist(test$bound)
 max_value <- max(all_values)
@@ -99,7 +98,7 @@ res <- test$runout[[max_position_in_vector]]
 res <- multi_stm(sce = sims,
                           K = K, prevalence = ~time, content = NULL,
                           sample = "Batch",
-                          init.type= "NMF",
+                          init.type= "Random",
                           gamma.prior= "Pooled",
                           kappa.prior= "L1",
                           control = list(gamma.maxits=3000))
