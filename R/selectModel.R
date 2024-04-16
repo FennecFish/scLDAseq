@@ -89,7 +89,7 @@
 selectModel <- function(sce , K, sample = NULL,
                         prevalence=NULL, content=NULL,
                         max.em.its=100, verbose=TRUE, # init.type = "TopicScore",
-                        emtol= 1e-06, seed=NULL, 
+                        emtol= 1e-05, seed=NULL, 
                         ts_runs = 10, random_run = 20, frexw=.7, 
                         net.max.em.its=2, netverbose=FALSE, M=10, N=NULL,
                         to.disk=F, control=list(), ...){

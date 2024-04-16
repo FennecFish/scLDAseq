@@ -96,29 +96,6 @@ SEXP hpbcpp(SEXP eta,
    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
    //Rcpp::NumericVector sigmaentropym(sigmaentropy);
    //arma::vec entropy(sigmaentropym);
-
-   //Performance Nots from 3/6/2015
-   //  I tried a few different variants and benchmarked this one as roughly twice as
-   //  fast as the R code for a K=100 problem.  Key to performance was not creating
-   //  too many objects and being selective in how things were flagged as triangular.
-   //  Some additional notes in the code below.
-   //
-   //  Some things this doesn't have or I haven't tried
-   //  - I didn't tweak the arguments much.  sigmaentropy is a double, and I'm still
-   //    passing beta in the same way.  I tried doing a ", false" for beta but it didn't
-   //    change much so I left it the same as in gradient.  
-   //  - I tried treating the factors for doc_cts and colSums(EB) as a diagonal matrix- much slower.
-   
-   //  Haven't Tried/Done
-   //  - each_row() might be much slower (not sure but arma is column order).  Maybe transpose in place?
-   //  - depending on costs there are some really minor calculations that could be precomputed: 
-   //     - sum(doc_ct)
-   //     - sqrt(doc_ct)
-   
-   //  More on passing by reference here:
-   //  - Hypothetically we could alter beta (because hessian is last thing we do) however down
-   //    the road we may want to explore treating nonPD hessians by optimization at which point
-   //    we would need it again.
    
    arma::colvec expeta(etas.size()+1); 
    expeta.fill(1);
@@ -190,13 +167,19 @@ SEXP hpbcpp(SEXP eta,
    //Now finish constructing nu
    nu = arma::inv(arma::trimatu(nu));
    nu = nu * nu.t(); //trimatu doesn't do anything for multiplication so it would just be timesink to signal here.
-
+   
    //Precompute the difference since we use it twice
    arma::vec diff = etas - mus - pis;
    //Now generate the bound and make it a scalar
+   
+   // Calculate -phi * log(phi) for matrix EB
+  //arma::mat phi_term = -(EB + 0.01) % arma::log(EB + 0.01); // Element-wise multiplication and logarithm
+   //double phi_sum = arma::accu(phi_term); // Sum all elements
+   
    // double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy);
    double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff);
-
+   
+   //double impbound = bound + arma::as_scalar
    // Generate a return list that mimics the R output
    return Rcpp::List::create(
         Rcpp::Named("phis") = EB,

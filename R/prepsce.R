@@ -127,10 +127,10 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
             if(ncol(doc)==0) docs.removed <- c(docs.removed,i)
         }
         if(length(docs.removed)) {
-            if(verbose) cat(sprintf("Removing %i Cells with No Gene Counts \n", length(docs.removed)))
+            if(verbose) cat(sprintf("Removing %i Cells with No Gene Counts", length(docs.removed), "\n"))
             documents <- documents[-docs.removed]
         }
-        toprint <- sprintf("Your Dataset now has %i cells, %i genes and %i tokens.", 
+        toprint <- sprintf("Your Dataset now has %i cells, %i genes and %i tokens. \n", 
                            length(documents), length(vocab), sum(wordcounts[keepers]))
         if(verbose) cat(toprint)
     }

@@ -24,14 +24,15 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
                      doc_ct=doc.ct, mu=mu,
                      pi = psi, 
                      siginv=siginv, beta=beta)
-  
-  if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
-  
-  #Solve for Hessian/Phi/Bound returning the result
 
+  if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
+
+  #Solve for Hessian/Phi/Bound returning the result
+  
   docvar <- hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
                    siginv=siginv, beta=beta, pi = psi,
                    sigmaentropy=sigmaentropy)
+  
   # if (siginv[1,1] > 1) {
   #     browser()
   # }
