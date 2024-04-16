@@ -88,11 +88,14 @@
 #' @export
 selectModel <- function(sce , K, sample = NULL,
                         prevalence=NULL, content=NULL,
-                        max.em.its=100, verbose=TRUE, init.type = "TopicScore",
-                        emtol= 1e-06, seed=NULL, runs = 20, frexw=.7, 
-                        net.max.em.its=3, netverbose=FALSE, M=10, N=NULL,
+                        max.em.its=100, verbose=TRUE, # init.type = "TopicScore",
+                        emtol= 1e-06, seed=NULL, 
+                        ts_runs = 10, random_run = 20, frexw=.7, 
+                        net.max.em.its=2, netverbose=FALSE, M=10, N=NULL,
                         to.disk=F, control=list(), ...){
   if(!is.null(seed)) set.seed(seed)
+  
+  runs <- ts_runs + random_run + 1
 
   if(is.null(N)){
     N <-  round(.2*runs)
@@ -112,50 +115,48 @@ selectModel <- function(sce , K, sample = NULL,
     data <- args$meta
     
     # divide runs between using Poisson NMF (Random), TopicScore and Spectral
-    if (runs >=3 ) {
-        random_run <- ceiling(runs/2)-1
-        ts_run <- runs-random_run-1
-    }else {
-        ts_run <- runs - 1
-        random_run <- 0
-    }
-    
+    # if (runs >=3 ) {
+    #     random_run <- ceiling(runs/2)-1
+    #     ts_run <- runs-random_run-1
+    # }else {
+    #     ts_run <- runs - 1
+    #     random_run <- 0
+    # }
+    # 
     
   seedout <- NULL
   likelihood <- NULL
   cat("Casting net \n")
-  for(i in 1:ts_run){
+  for(i in 1:ts_runs){
     cat(paste(i, "models in net \n"))
     mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
                          sample = sample, K = K, 
-                   prevalence=prevalence, content=content, init.type=init.type,
+                   prevalence=prevalence, content=content, init.type="TopicScore",
                    max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
     seedout[i] <- mod.out$settings$seed
     likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
   }
   
-  cat(paste(1 + ts_run, "models in net \n"))
+  # running spectral
+  cat(paste(ts_runs + 1, "models in net \n"))
   mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
                        sample = sample, K, 
                        prevalence=prevalence, content=content, init.type="Spectral",
                        max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-  likelihood[1 + ts_run] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
-  seedout[1 + ts_run] <- mod.out$settings$seed
+  likelihood[ts_runs + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+  seedout[ts_runs + 1] <- mod.out$settings$seed
   
   
-  # evaluate NMF and spectral in addition to LDA
-  if(random_run > 0) {
-      for(i in 1:random_run){
-          cat(paste(i + ts_run + 1, "models in net \n"))
-          mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
-                               sample = sample, K, 
-                               prevalence=prevalence, content=content, init.type="Random",
-                               max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-          likelihood[ts_run + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
-          seedout[ts_run + i + 1] <- mod.out$settings$seed
-      }
+  # Random run
+  for(i in 1:random_run){
+    cat(paste(i + ts_runs + 1, "models in net \n"))
+    mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data,
+                         sample = sample, K,
+                         prevalence=prevalence, content=content, init.type="Random",
+                         max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+    likelihood[ts_runs + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+    seedout[ts_runs + i + 1] <- mod.out$settings$seed
   }
-
   keep <- order(likelihood, decreasing=T)[1:N]
   keepseed <- seedout[keep]
   cat("Running select models \n")
@@ -169,15 +170,14 @@ selectModel <- function(sce , K, sample = NULL,
     cat(paste(i, "select model run \n"))
     initseed <- keepseed[i]
     initseed_index <- which(seedout == initseed)
-    if (initseed_index <= ts_run) {
-        # If the index is within the first 'ts_run', use topic_score
-        init_type <- init.type
-    } else if (initseed_index == ts_run + 1) {
-        # If the index is within the range for NMF initialization
-        init_type <- "Spectral"
-    } else {
-        # Otherwise, use Random initialization
-        init_type <- "Random"
+    if (initseed_index <= ts_runs) {
+        # If the index is the last of the run, do Spectral
+      init_type <- "TopicScore"
+    } else if (initseed_index == ts_runs + 1) {
+      # otherwise do default
+      init_type <- "Spectral"
+    } else{
+      init_type <- "Random"
     }
     
     mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 

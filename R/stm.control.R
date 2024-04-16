@@ -184,14 +184,10 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       
       beta <- opt.beta(beta.ss, beta$kappa, settings)
       sigs <- opt.sigs(pi, omega, samples)
-      
-      if(verbose) {
-        timer <- floor((proc.time()-t1)[3])
-        msg <- ifelse(timer>1,
-                      sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3])),
-                      "Completed M-Step. \n")
-        cat(msg)
-      }
+
+      timer <- floor((proc.time()-t1)[3])
+      msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
+      if(verbose) cat(msg)
     }
     #Convergence
     # cat("Bound is ", bound.ss, "\n")
