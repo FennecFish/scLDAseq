@@ -192,12 +192,13 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     #Convergence
     # cat("Bound is ", bound.ss, "\n")
     # cat("Convergence is ", convergence, "\n")
+
     bound <- llh.bound(bound.ss, pi, sigs, omega, phi)
     # cat("bound \n")
     convergence <- convergence.check(bound, convergence, settings)
     stopits <- convergence$stopits
     # cat("stopits is", stopits, "\n")
-
+ 
     #Print Updates if we haven't yet converged
     if(!stopits & verbose) report(convergence, ntokens=ntokens, beta, vocab,
                                        settings$topicreportevery, verbose)
@@ -223,7 +224,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                 #matrixStats package and large matrices 8/27
                 eta=lambda[,-ncol(lambda), drop=FALSE],
                 nu = nu,
-                invsigma=solve(sigma), time=time, 
+                time=time, 
                 version=utils::packageDescription("stm")$Version)
   
   class(model) <- "STM"

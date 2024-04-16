@@ -87,13 +87,22 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           # print(l)
           
           #infer the document
-        
+          # if(i ==1 & l ==1) {browser()}
+          # doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
+          #                                  siginv=siginv,
+          #                                  sigs = sigs.i,
+          #                                  beta=beta.l,
+          #                                  doc=doc,
+          #                                  sigmaentropy=sigmaentropy)
+          # 
+    
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
-                                           siginv=siginv, 
+                                           siginv=siginv,
                                            sigs = sigs.i,
-                                           beta=beta.l, 
-                                           doc=doc, 
+                                           beta=beta.l,
+                                           doc=doc,
                                            sigmaentropy=sigmaentropy)
+
           # update sufficient statistics 
           sigma.ss <- sigma.ss + doc.results$eta$nu
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
@@ -101,7 +110,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
           nu[[l]] <- doc.results$eta$nu
-          pi.ss[l] <- pi.ss[l]+ doc.results$pi
+          pi.ss[l] <- doc.results$pi
           
           if(verbose && l%%ctevery==0) cat(".")
       }

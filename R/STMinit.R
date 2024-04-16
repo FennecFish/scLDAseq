@@ -127,7 +127,6 @@ stm.init <- function(documents, settings) {
     if(verbose) cat("\n\t Recovering initialization...\n \t")
     # beta is a K by V matrix
     beta <- recoverL2(Q, anchor, wprob, verbose=verbose, recoverEG=settings$init$recoverEG)$A
-    
     if(!is.null(keep)) {
       #if there were zeroes, reintroduce them
       #add in a little noise here. essentially summed over the vocab
@@ -135,7 +134,7 @@ stm.init <- function(documents, settings) {
       beta.new <- matrix(0, nrow=K, ncol=V)
       beta.new[,keep] <- beta
       beta.new <- beta.new + .001/V
-      beta <- beta.new/rowSums(beta.new)  
+      beta <- beta.new/rowSums(beta.new) 
       rm(beta.new)
     }
     
@@ -144,7 +143,7 @@ stm.init <- function(documents, settings) {
     sigma <- diag(20, nrow=(K-1))
     lambda <- matrix(0, nrow=N, ncol=(K-1))
     pi <- rep(0,I)
-    sigs <- diag(30, nrow=I, ncol = I)
+    sigs <- diag(20, nrow=I, ncol = I)
     # omega <- diag(30, nrow=I)
     
     if(verbose) cat("Initialization complete.\n")
@@ -157,26 +156,34 @@ stm.init <- function(documents, settings) {
                                            verbose = "detailed",
                                            control = list(gc = NA))
         beta <- t(fit$F)
+        beta <- beta/rowSums(beta)
         theta <- fit$L
         theta <- theta/rowSums(theta)
         lambda <- log(theta) - log(theta[,K]) #get the log-space version
         lambda <- lambda[,-K, drop=FALSE] #drop off the last column
         rm(theta) #clear out theta
-        temp <- cbind(lambda, samples) %>%
-            as.data.frame() %>%
-            tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
-            group_by(samples, topic) %>%
-            summarise(avg = mean(value), .groups = "drop") %>%
-            tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
-            select(-samples)
-        pi <- rowMeans(temp)
-        pi <- matrix(pi, ncol = 1)
-        sigs <- apply(temp, 1, var)
-        sigs <- diag(sigs, nrow = I)
-        mu <- colMeans(lambda) #make a globally shared mean
-        mu <- matrix(mu, ncol=1)
-        sigma <- cov(lambda)  
-        rm(temp)
+        
+        mu <- matrix(0, nrow=(K-1),ncol=1)
+        sigma <- diag(20, nrow=(K-1))
+        lambda <- matrix(0, nrow=N, ncol=(K-1))
+        pi <- rep(0,I)
+        sigs <- diag(20, nrow=I, ncol = I)
+        
+        # temp <- cbind(lambda, samples) %>%
+        #     as.data.frame() %>%
+        #     tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
+        #     group_by(samples, topic) %>%
+        #     summarise(avg = mean(value), .groups = "drop") %>%
+        #     tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
+        #     select(-samples)
+        # pi <- rowMeans(temp)
+        # pi <- matrix(pi, ncol = 1)
+        # sigs <- apply(temp, 1, var)
+        # sigs <- diag(sigs, nrow = I)
+        # mu <- colMeans(lambda) #make a globally shared mean
+        # mu <- matrix(mu, ncol=1)
+        # sigma <- cov(lambda)  
+        # rm(temp)
   }
   
   if(mode == "Random") {
@@ -186,26 +193,32 @@ stm.init <- function(documents, settings) {
                                           init.method = "random",
                                           verbose = "none")
       beta <- t(fit$F)
+      beta <- beta/rowSums(beta)
       theta <- fit$L
       theta <- theta/rowSums(theta) # normalize theta
       lambda <- log(theta) - log(theta[,K]) #get the log-space version
       lambda <- lambda[,-K, drop=FALSE] #drop off the last column
       rm(theta) #clear out theta
-      temp <- cbind(lambda, samples) %>%
-          as.data.frame() %>%
-          tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
-          group_by(samples, topic) %>%
-          summarise(avg = mean(value), .groups = "drop") %>%
-          tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
-          select(-samples)
-      pi <- rowMeans(temp)
-      pi <- matrix(pi, ncol = 1)
-      sigs <- apply(temp, 1, var)
-      sigs <- diag(sigs, nrow = I)
-      mu <- colMeans(lambda) #make a globally shared mean
-      mu <- matrix(mu, ncol=1)
-      sigma <- cov(lambda)  
-      rm(temp)
+      mu <- matrix(0, nrow=(K-1),ncol=1)
+      sigma <- diag(20, nrow=(K-1))
+      lambda <- matrix(0, nrow=N, ncol=(K-1))
+      pi <- rep(0,I)
+      sigs <- diag(20, nrow=I, ncol = I)
+      # temp <- cbind(lambda, samples) %>%
+      #     as.data.frame() %>%
+      #     tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
+      #     group_by(samples, topic) %>%
+      #     summarise(avg = mean(value), .groups = "drop") %>%
+      #     tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
+      #     select(-samples)
+      # pi <- rowMeans(temp)
+      # pi <- matrix(pi, ncol = 1)
+      # sigs <- apply(temp, 1, var)
+      # sigs <- diag(sigs, nrow = I)
+      # mu <- colMeans(lambda) #make a globally shared mean
+      # mu <- matrix(mu, ncol=1)
+      # sigma <- cov(lambda)  
+      # rm(temp)
   }
 
   #turn beta into a list and assign it for each aspect

@@ -15,6 +15,9 @@ library(tibble)
 library(stats)
 library(splatter)
 library(scater)
+
+
+###### simple simulation #########################
 params <- newSplatParams()
 params <- setParams(params, group.prob = c(0.3,0.3, 0.4),
                     de.prob = c(0.3, 0.3, 0.3),
@@ -61,7 +64,7 @@ colData(sims) %>% as.data.frame() %>%
 
 #### QC ######
 sims <- quickPerCellQC(sims)
-#### feature selection #####
+
 sims <- scuttle::logNormCounts(sims)
 library(scran)
 dec.p2 <- modelGeneVar(sims)
@@ -72,23 +75,167 @@ sims <- sims[p2.chosen,]
 nsample <- length(unique(sims$Batch))
 ngroup <- length(unique(sims$Group))
 
+################### difficult simluation ###################
+nsample <- 8
+nCellType <- 5
+batchCells <- rep(200, nsample)
+batch.facLoc <- runif(nsample,0,0.3)
+batch.facScale <- runif(nsample,0,0.3)
+group.prob <- rep(1/nCellType, nCellType)
+de.prob <- runif(nCellType, 0, 0.2) # group de gene prob
+de.facLoc <- 0.01
+out.prob <- 0.05 # outlier expr prob
+out.facScale = 0.5 # count of outlier
+out.facLoc = 4 # how far from the main
+dropout.type = "experiment" #uses the same parameters for every cell in the same batch
+dropout.shape = -1
+
+params <- newSplatParams()
+params <- setParams(params, group.prob = group.prob,
+                    de.prob = de.prob, de.facLoc = de.facLoc,
+                    out.prob = out.prob, out.facScale = out.facScale, out.facLoc = out.facLoc,
+                    dropout.type = dropout.type, dropout.shape = dropout.shape, 
+                    nGenes = 2000, 
+                    batchCells=batchCells, batch.facLoc = batch.facLoc, batch.facScale = batch.facScale)
+
+sims <- splatSimulate(params, method = "groups",
+                      verbose = FALSE, batch.rmEffect = FALSE)
+
+# assume number of cells are equal across time
+cell_count <- matrix(colSums(table(sims$Group, sims$Batch))/2)
+# generate cell type proportion at time 1
+all_rn_pre <- matrix(runif(nsample * nCellType), ncol = nsample)
+pre_prp <- sweep(all_rn_pre, 2, colSums(all_rn_pre), FUN="/")
+#calculate count for each group/batch at time 1
+pre_count <- ceiling(sweep(pre_prp, 2, t(cell_count)[1, ], "*")) 
+rownames(pre_count) <- paste0("Group",1:length(unique(sims$Group)))
+colnames(pre_count) <- paste0("Batch", 1:length(unique(sims$Batch)))
+
+sampled_data <- colData(sims) %>%
+    data.frame() %>%
+    group_by(Group, Batch) %>%
+    mutate(time = 2) %>% 
+    ungroup() 
+
+# randomly assign time = 1 based on the count in pre_count
+for (i in 1:ncol(pre_count)) {
+    batch_name <- colnames(pre_count)[i]
+    for (j in 1:nrow(pre_count)) {
+        group_name <- rownames(pre_count)[j]
+        sampled_data <- sampled_data %>%
+            group_by(Group, Batch) %>%
+            mutate(time = ifelse(
+                Group == group_name & Batch == batch_name & 
+                    row_number() %in% sample(row_number(), min(pre_count[j,i], n())), 1, time)) %>%
+            ungroup() 
+    }
+}
+# assign the new time
+sims$time <- sampled_data$time
 
 #### scLDAseq#############
 
-sims <-readRDS("data/sims_1712865809_L7.rds")
+# sims <-readRDS("data/sims_1712865809_L7.rds")
+# sims <-readRDS("data/toydat.rds")
+
+
+# library(sctransform)
+# library(Seurat)
+# sims <- scuttle::logNormCounts(sims)
+# seurat <- CreateSeuratObject(counts = counts(sims))
+# seurat <- SCTransform(seurat, verbose = FALSE)
 sims <-readRDS("data/toydat.rds")
+sims <- sims[rowSums(counts(sims))!=0,]
 
 r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
+# sims <- readRDS("data/sims_1712873779_L3.rds")
+# scSTM <- readRDS("data/scSTM_allgenes_noContent_1712873779_L3.rds")
+
+K <- length(unique(sims$Group))
+res <- multi_stm(sce = sims,
+                 K = K, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "Spectral",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 seed = 123,
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-5)
+
+res <- selectModel(sce = sims,
+                    K = K, prevalence = ~time, content = NULL,
+                    sample = "Batch", N = 5, ts_runs = 5, random_run = 5)
+all_values <- unlist(res$bound)
+max_value <- max(all_values)
+max_position_in_vector <- which(all_values == max_value)
+res.final <- res$runout[[max_position_in_vector]]
+
+### clustering
+scSTMobj <- res.final
+max_indices <- apply(scSTMobj$theta, 1, which.max)
+colnames(scSTMobj$theta) <- paste0("topic_", 1:ncol(scSTMobj$theta))
+rownames(scSTMobj$theta) <- colnames(scSTMobj$mu$mu)
+res_cluster <- colnames(scSTMobj$theta)[max_indices]
+names(res_cluster) <- rownames(scSTMobj$theta)
+adjustedRandIndex(res_cluster,sims$Group)
+
+res <- multi_stm(sce = sims,
+                 K = K, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "Random",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 seed = 9248714,
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-6)
+
+res <- multi_stm(sce = sims,
+                 K = K, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "Random",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 seed = 1,
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-4)
+
+
 # dat <- prepsce(sims)
 K <- length(unique(sims$Group))
 
+res <- multi_stm(sce = sims,
+                 K = K, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "Random",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 seed = 100,
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-3)
+
+
 test <- selectModel(sce = sims,
                     K = K, prevalence = ~time, content = NULL,
-                    sample = "Batch", N = 10, runs = 50,
-                    control=list(gc = NA))
+                    sample = "Batch", N = 10, ts_runs = 10, random_run = 10)
+
+
+# verify with STM
+dat <- prepsce(sims)
+r.file <- paste0("../stm/R/",list.files("../stm/R/"))
+sapply(r.file, source)
+sourceCpp("../stm/src/STMCfuns.cpp")
+
+res.stm <- stm(documents = dat$documents, vocab = dat$vocab,
+               K = K, prevalence = ~time, content = NULL,
+               data = dat$meta, 
+               init.type= "Random",
+               gamma.prior= "Pooled",
+               kappa.prior= "L1",
+               emtol=1e-3,
+               control = list(gamma.maxits=3000))
 
 all_values <- unlist(test$bound)
 max_value <- max(all_values)
@@ -117,16 +264,7 @@ adjustedRandIndex(scSTM_cluster, sims$Group)
 
 # STM for reference
 library(stm)
-r.file <- paste0("../stm/R/",list.files("../stm/R/"))
-sapply(r.file, source)
-sourceCpp("../stm/src/STMCfuns.cpp")
-res.stm <- stm(documents = dat$documents, vocab = dat$vocab,
-               K = K, prevalence = ~time, content = NULL,
-               data = dat$meta, 
-               init.type= "Spectral",
-               gamma.prior= "Pooled",
-               kappa.prior= "L1",
-               control = list(gamma.maxits=3000))
+
 
 eff <- estimateEffect(1:3 ~ time, 
                       stmobj = res.stm, meta = dat$meta, uncertainty = "Global")
