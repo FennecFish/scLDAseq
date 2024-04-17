@@ -45,7 +45,7 @@ t1 <- proc.time()
 
 scSTM.mod <- selectModel(sce = sims,
                          K = ngroup, prevalence = ~time, content = NULL,
-                         sample = "Batch", N = 2, runs = 2, nmf_run =5)
+                         sample = "Batch", N = 5, ts_runs = 20, random_run =20)
 
 all_values <- unlist(scSTM.mod$bound)
 max_value <- max(all_values)

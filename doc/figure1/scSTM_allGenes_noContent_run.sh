@@ -5,8 +5,8 @@
 #SBATCH --error=scSTM_allGenes_ncontent_%A_%a.err
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=4-
-#SBATCH --mem-per-cpu=35G
+#SBATCH --time=3-
+#SBATCH --mem-per-cpu=25G
 #SBATCH --array=1-90
 #SBATCH --mail-type=all
 #SBATCH --mail-user=euphyw@live.unc.edu

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --job-name=scSTM_filterGenes_nocontent
-#SBATCH --output=scSTM_filterGenes_nocontent_%A_%a.out
-#SBATCH --error=scSTM_filterGenes_nocontent_%A_%a.err
+#SBATCH --job-name=scSTM_allGenes_Content
+#SBATCH --output=scSTM_allGenes_Content_%A_%a.out
+#SBATCH --error=scSTM_allGenes_Content_%A_%a.err
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=3-
+#SBATCH --time=2-
 #SBATCH --mem-per-cpu=25G
 #SBATCH --array=1-90
 #SBATCH --mail-type=all
@@ -20,7 +20,7 @@ FILES=($(find "$DIR" -maxdepth 1 -type f -name "sims*.rds"))
 
 INDEX=$(($SLURM_ARRAY_TASK_ID - 1)) # Calculate array index
 
-Rscript scSTM_filterGenes_noContent_run.R "${FILES[$INDEX]}"
+Rscript scSTM_allGenes_Content_run.R "${FILES[$INDEX]}"
 
 
 

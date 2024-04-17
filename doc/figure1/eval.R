@@ -34,8 +34,8 @@ for(l in level){
   res <- data.frame()
   
   for(file in sim_name){
-    # set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file)
-    set_level <- file
+    set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file)
+    # set_level <- file
     sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/sims_", file, ".rds"))
     dat <- colData(sims) %>% data.frame() %>% select(Cell:Group,time)
     

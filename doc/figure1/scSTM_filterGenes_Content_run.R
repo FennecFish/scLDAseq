@@ -32,7 +32,7 @@ sims <- scuttle::logNormCounts(sims)
 
 dec.p2 <- modelGeneVar(sims)
 # feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=1500)
+p2.chosen <- getTopHVGs(dec.p2, n=2000)
 sims <- sims[p2.chosen,]
 
 nsample <- length(unique(sims$Batch))
