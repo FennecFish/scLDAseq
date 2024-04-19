@@ -16,6 +16,29 @@ library(stats)
 library(splatter)
 library(scater)
 
+### testing ###
+
+# all genes, no content
+sims <- readRDS("data/sims_1712873779_L3.rds")
+sims <- sims[1:200,1:300]
+sims <- quickPerCellQC(sims, filter=TRUE)
+sims <- sims[rowSums(counts(sims)) != 0,]
+
+nsample <- length(unique(sims$Batch))
+ngroup <- length(unique(sims$Group))
+
+r.file <- paste0("R/",list.files("R/"))
+sapply(r.file, source)
+sourceCpp("src/STMCfuns.cpp")
+
+res <- multi_stm(sce = sims,
+                 K = K, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "Random",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-5)
 
 ###### simple simulation #########################
 params <- newSplatParams()
@@ -136,7 +159,7 @@ sims$time <- sampled_data$time
 #### scLDAseq#############
 
 # sims <-readRDS("data/sims_1712865809_L7.rds")
-# sims <-readRDS("data/toydat.rds")
+sims <-readRDS("data/toydat.rds")
 
 
 # library(sctransform)
@@ -145,7 +168,7 @@ sims$time <- sampled_data$time
 # seurat <- CreateSeuratObject(counts = counts(sims))
 # seurat <- SCTransform(seurat, verbose = FALSE)
 
-sims <-readRDS("data/toydat.rds")
+# sims <-readRDS("data/toydat.rds")
 sims <- sims[rowSums(counts(sims))!=0,]
 
 r.file <- paste0("R/",list.files("R/"))
@@ -159,10 +182,9 @@ K <- length(unique(sims$Group))
 res <- multi_stm(sce = sims,
                  K = K, prevalence = ~time, content = NULL,
                  sample = "Batch",
-                 init.type= "Spectral",
+                 init.type= "Random",
                  gamma.prior= "Pooled",
                  kappa.prior= "L1",
-                 seed = 123,
                  control = list(gamma.maxits=3000),
                  emtol=1e-5)
 

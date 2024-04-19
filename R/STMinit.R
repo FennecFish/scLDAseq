@@ -44,21 +44,8 @@ stm.init <- function(documents, settings) {
     mu <- matrix(mu, ncol=1)
     sigma <- cov(lambda) 
     
-    temp <- cbind(lambda, samples) %>%
-        as.data.frame() %>%
-        tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
-        group_by(samples, topic) %>%
-        summarise(avg = mean(value), .groups = "drop") %>%
-        tidyr::pivot_wider(names_from = topic, values_from = avg) %>%
-        select(-samples)
-    
-    pi <- rowMeans(temp)
-    pi <- matrix(pi, ncol = 1)
-    sigs <- apply(temp, 1, var)
-    sigs <- diag(sigs, nrow = I)
-    mu <- colMeans(lambda) #make a globally shared mean
-    mu <- matrix(mu, ncol=1)
-    rm(temp)
+    pi <- rep(0,I)
+    sigs <- diag(20, nrow=I, ncol = I)
   }
   # if(mode=="Random" | mode=="Custom") {
   #   #Random initialization or if Custom, initalize everything randomly
@@ -165,7 +152,9 @@ stm.init <- function(documents, settings) {
         
         mu <- matrix(0, nrow=(K-1),ncol=1)
         sigma <- diag(20, nrow=(K-1))
-        lambda <- matrix(0, nrow=N, ncol=(K-1))
+        # mu <- colMeans(lambda) #make a globally shared mean
+        # mu <- matrix(mu, ncol=1)
+        # sigma <- cov(lambda)
         pi <- rep(0,I)
         sigs <- diag(20, nrow=I, ncol = I)
         
@@ -199,9 +188,12 @@ stm.init <- function(documents, settings) {
       lambda <- log(theta) - log(theta[,K]) #get the log-space version
       lambda <- lambda[,-K, drop=FALSE] #drop off the last column
       rm(theta) #clear out theta
+      
       mu <- matrix(0, nrow=(K-1),ncol=1)
       sigma <- diag(20, nrow=(K-1))
-      lambda <- matrix(0, nrow=N, ncol=(K-1))
+      # mu <- colMeans(lambda)
+      # mu <- matrix(mu, ncol=1)
+      # sigma <- cov(lambda)
       pi <- rep(0,I)
       sigs <- diag(20, nrow=I, ncol = I)
       # temp <- cbind(lambda, samples) %>%

@@ -428,6 +428,7 @@ multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
     vocab <- args$vocab
     data <- args$meta
   }
+  sce <- sce[vocab,names(documents)]
   
   #Documents
   if(missing(documents)) stop("Must include documents")

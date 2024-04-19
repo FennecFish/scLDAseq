@@ -187,6 +187,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
 
       timer <- floor((proc.time()-t1)[3])
       msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
+     
       if(verbose) cat(msg)
     }
     #Convergence
