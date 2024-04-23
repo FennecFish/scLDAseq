@@ -57,6 +57,7 @@ stm.init <- function(documents, settings) {
   #   sigs <- diag(30, nrow=I, ncol = I)
   #   
   # }
+  browser()
   if(mode=="Spectral" | mode=="SpectralRP") {
     verbose <- settings$verbose
     if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
@@ -189,6 +190,7 @@ stm.init <- function(documents, settings) {
       lambda <- lambda[,-K, drop=FALSE] #drop off the last column
       rm(theta) #clear out theta
       
+      # lambda <- matrix(0, nrow=N, ncol=(K-1))
       mu <- matrix(0, nrow=(K-1),ncol=1)
       sigma <- diag(20, nrow=(K-1))
       # mu <- colMeans(lambda)
