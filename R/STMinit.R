@@ -57,7 +57,6 @@ stm.init <- function(documents, settings) {
   #   sigs <- diag(30, nrow=I, ncol = I)
   #   
   # }
-  browser()
   if(mode=="Spectral" | mode=="SpectralRP") {
     verbose <- settings$verbose
     if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
