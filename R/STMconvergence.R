@@ -4,7 +4,6 @@
 # 1) removed word checks
 # 2) distinguish between converged and stopping the em algorithm
 convergence.check <- function(bound,convergence, settings) {
- #  browser()
   #unpack the relevant pieces from the settings
   verbose <- settings$verbose
   emtol <- settings$convergence$em.converge.thresh

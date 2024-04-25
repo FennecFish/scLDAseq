@@ -9,7 +9,6 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   ##########
   #Step 1: Initialize Parameters
   ##########
-  # browser()
   ngroups <- settings$ngroups
   samples <- settings$dim$samples
   nsamples <- as.vector(table(samples))
@@ -177,14 +176,15 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                    nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
-     
+      cat("Updated mu \n")
       sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
                          pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)
-      
+      cat("Updated sigma \n")
       beta <- opt.beta(beta.ss, beta$kappa, settings)
+      cat("Updated beta \n")
       sigs <- opt.sigs(pi, omega, samples)
-
+      cat("Updated sigs \n")
       timer <- floor((proc.time()-t1)[3])
       msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
      
@@ -195,6 +195,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     # cat("Convergence is ", convergence, "\n")
 
     bound <- llh.bound(bound.ss, pi, sigs, omega, phi)
+    cat("calculate log likelihood \n")
     # cat("bound \n")
     convergence <- convergence.check(bound, convergence, settings)
     stopits <- convergence$stopits
