@@ -96,9 +96,12 @@ mnreg <- function(beta.ss,settings) {
       offset2 <- m[i] + offset    
     }
     #keep retrying glmnet until it works
+    # if(i > 1139){browser()}
     mod <- NULL
-    # if(i%%200==0){browser()}
+    ct <- 0
+    #nlambda <- settings$tau$nlambda
     while(is.null(mod)) {
+      ct <- ct + 1
       mod <- tryCatch(glmnet::glmnet(x=covar, y=counts[[i]], family="poisson", 
                              offset=offset2, standardize=FALSE,
                              intercept=is.null(m), 
@@ -107,10 +110,12 @@ mnreg <- function(beta.ss,settings) {
                              maxit=maxit, thresh=thresh),
         warning=function(w) return(NULL),
         error=function(e) stop(e))
+      #if(is.null(mod) & ct > 10){browser()}
+      # if(ct%%10==0){gc()}
       #if it didn't converge, increase nlambda paths by 20% 
       if(is.null(mod)) nlambda <- nlambda + floor(.2*nlambda)
+      if(ct%%10 == 0) {cat(ct,"\n")}
     }
-    # if(i%%200==0){browser()}
     dev <- (1-mod$dev.ratio)*mod$nulldev
     ic <- dev + ic.k*mod$df
     lambda <- which.min(ic)
@@ -118,13 +123,6 @@ mnreg <- function(beta.ss,settings) {
     if(is.null(m)) coef <- c(mod$a0[lambda], coef)
     out[[i]] <- coef
     if(verbose && i%%ctevery==0) cat(".")
-    
-    # if(i%%200==0){browser()}
-    rm(mod)
-    rm(lambda)
-    rm(dev)
-    rm(ic)
-    rm(coef)
   }
   if(verbose) cat("\n") #add a line break for the next message.  
   coef <- do.call(cbind, out)
