@@ -15,11 +15,12 @@ library(tibble)
 library(stats)
 library(splatter)
 library(scater)
+library(batchelor)
 
 ### testing ###
 
 # all genes, no content
-sims <- readRDS("data/sims_1712873779_L3.rds")
+# sims <- readRDS("data/sims_1712873779_L3.rds")
 sims <- sims[1:200,1:300]
 sims <- quickPerCellQC(sims, filter=TRUE)
 sims <- sims[rowSums(counts(sims)) != 0,]
@@ -88,7 +89,15 @@ colData(sims) %>% as.data.frame() %>%
 #### QC ######
 sims <- quickPerCellQC(sims)
 
-sims <- scuttle::logNormCounts(sims)
+# combine dataset to gene by sample
+# batch_info <- data.frame(batch = sims$Batch,
+                         # cell_name = sims$Cell)
+adjusted <- ComBat_seq(counts(sims), batch=sims$Batch, group=NULL)
+
+library(topicmodels)
+
+# test <- batchCorrect(sims, batch = sims$Batch, assay.type = "counts", PARAM=NoCorrectParam())
+# sims <- scuttle::logNormCounts(sims)
 library(scran)
 dec.p2 <- modelGeneVar(sims)
 # feature selection
@@ -175,8 +184,35 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
+test <- optimal_K(sims, K = c(3,5,10,15,20,25), prevalence = ~time, content = NULL,
+                  sample = "Batch")
+
+combined_df <- do.call(cbind, lapply(test$results, function(x) do.call(rbind, x))) %>%
+    as.data.frame()
+colnames(combined_df) <- c("K","perplexity", "heldout",
+                           "residual", "bound", "lbound", 
+                           "em.its")
+long_df <- pivot_longer(combined_df, cols = c("perplexity", "bound", "lbound"), 
+                        names_to = "variable", values_to = "value")
+
+# Plot using ggplot
+ggplot(long_df %>% select(variable == "perplexity"), aes(x = K, y = value, color = variable, group = variable)) +
+    geom_line() +
+    labs(x = "K", y = "Value", title = "Line plot of K vs. Perplexity, Bound, and Lbound") # +
+    # theme_minimal() +
+    # scale_color_manual(values = c("perplexity" = "blue", "bound" = "red", "lbound" = "green"))
 # sims <- readRDS("data/sims_1712873779_L3.rds")
 # scSTM <- readRDS("data/scSTM_allgenes_noContent_1712873779_L3.rds")
+
+perplexity_df <- long_df %>% 
+    filter(variable == "perplexity")
+
+# Plot using ggplot
+ggplot(perplexity_df, aes(x = K, y = value, color = variable, group = variable)) +
+    geom_line() +
+    labs(x = "K", y = "Value", title = "Line plot of K vs. Perplexity") +
+    theme_minimal()
+
 
 K <- length(unique(sims$Group))
 res <- multi_stm(sce = sims,

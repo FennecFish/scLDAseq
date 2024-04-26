@@ -466,13 +466,14 @@ multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
   #note we only do the tabulation after making sure it will actually work.
   # wcounts$x <- tabulate(wcountvec)
   # wcounts$x <- as.vector(rowSums(assay(sce)))
-  if (heldout) {
-      wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)
-      wcounts$x <- tabulate(wcountvec)
-      rm(wcountvec)
-  } else {
-      wcounts$x <- as.vector(rowSums(assay(sce)))
-  }
+  wcounts$x <- as.vector(rowSums(assay(sce)))
+  # if (heldout) {
+  #     wcountvec <- unlist(lapply(documents, function(x) rep(x[1,], times=x[2,])),use.names=FALSE)
+  #     wcounts$x <- tabulate(wcountvec)
+  #     rm(wcountvec)
+  # } else {
+  #     wcounts$x <- as.vector(rowSums(assay(sce)))
+  # }
   # 
   
   #Check the Vocab vector against the observed word indices
@@ -533,7 +534,7 @@ multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
     xmat <- makeTopMatrix(prevalence,data)
     if(is.na(nnzero(xmat))) stop("Missing values in prevalence covariates.")
   } else {
-    xmat <- NULL
+    xmat <- as.matrix(rep(1,N), ncol = 1)
   }
 
   if(!is.null(content)) {
@@ -618,9 +619,9 @@ multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
   ###
   
   #Is there a covariate on top?
-  if(is.null(prevalence)) {
-    settings$gamma$mode <- "CTM" #without covariates has to be estimating the mean.
-  } 
+  # if(is.null(prevalence)) {
+  #   settings$gamma$mode <- "CTM" #without covariates has to be estimating the mean.
+  # } 
   
   #Is there a covariate on the bottom?
   if(is.null(content)) {

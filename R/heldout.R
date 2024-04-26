@@ -1,42 +1,71 @@
-#' Heldout Likelihood by Document Completion
-#' 
-#' Tools for making and evaluating heldout datasets.
-#' 
-#' These functions are used to create and evaluate heldout likelihood using the
-#' document completion method.  The basic idea is to hold out some fraction of
-#' the words in a set of documents, train the model and use the document-level
-#' latent variables to evaluate the probability of the heldout portion. See the
-#' example for the basic workflow.
-#' 
-#' @aliases make.heldout eval.heldout
-#' @param documents the documents to be modeled (see \code{\link{stm}} for format).
-#' @param vocab the vocabulary item
-#' @param N number of docs to be partially held out
-#' @param proportion proportion of docs to be held out.
-#' @param seed the seed, set for replicability
-#' @sample 
-
-#' @export
-make.heldout.sce <- function(sce , N=200, 
-                         proportion=.1, seed=NULL, sample) {
+make.heldout.sce <- function(sce , N=floor(.1*ncol(sce)), 
+                         proportion=.5, seed=NULL, sample = NULL) {
   if(!is.null(seed)) set.seed(seed)
   
     if(is.null(sce)) stop("Please provide a SingleCellExperiment Object")
     
-    # use whichever give more samples N or proportion
-    ndoc <- ncol(sce)
-    pie <- ifelse(proportion * ndoc >= N, proportion, N/ndoc)
+    # Convert the corpus to the internal STM format
+    # args <- prepsce(sce)
+    # documents <- args$documents
+    # vocab <- args$vocab
     
-    # Split the meta data by sample ID
-    groups <- split(seq_along(sce[[sample]]), sce[[sample]])
+    ncell <- ncol(sce)
+    index <- sort(sample(1:ncell, N))
+    pie <- proportion
     
-    # Sample from each group certain proportion
-    sampled_indices <- lapply(groups, function(x) 
-        {sample(x, size = floor(length(x) * pie))})
-    sampled_indices <- sort(unlist(sampled_indices, use.names = FALSE))
+    # in held-out set, select 50% of genes to take out
+    missing <- vector(mode="list", length=N)
+    missing.gene.index <- vector(mode="list", length=N)
+    # missing$index <- index # this is the cells that are missing
     
-    sce_sub <- sce[,sampled_indices]
-  return(list(sce_sub = sce_sub, keep = sampled_indices))
+    training.sce <- sce
+    ct <- 0
+    for(i in index){
+        ct <- ct + 1
+        gene_counts <- counts(training.sce)[,i]
+        nsamp <- floor(pie*sum(gene_counts))
+        missing.index <- sample(1:sum(gene_counts),nsamp)
+        
+        gene_vector <- rep(names(gene_counts), times = gene_counts)
+        missing_genes <- gene_vector[missing.index]
+        missing_gene_counts <- table(missing_genes)
+        missing[[ct]] <- missing_gene_counts
+        
+        train_gene_counts <- gene_counts
+        m.gene.index <- match(names(missing_gene_counts),names(gene_counts))
+        train_gene_counts[m.gene.index] <-
+            gene_counts[m.gene.index] - missing_gene_counts      
+        
+        counts(training.sce)[,i] <- train_gene_counts
+        missing.gene.index[[ct]] <- m.gene.index
+        
+    }
+    
+    missing <- list(index=index, cells=missing, missing.gene.index = missing.gene.index)
+    heldout <- list(training.sce = training.sce, heldout.dat=missing)
+    class(heldout) <- "heldout"
+    return(heldout)
+  #   # use whichever give more samples N or proportion
+  #   ndoc <- ncol(sce)
+  #   pie <- ifelse(proportion * ndoc >= N, proportion, N/ndoc)
+  #   
+  #   # Split the meta data by sample ID
+  #   if(!is.na(sample)){
+  #       groups <- split(seq_along(sce[[sample]]), sce[[sample]])
+  #       
+  #       # Sample from each group certain proportion
+  #       sampled_indices <- lapply(groups, function(x) 
+  #       {sample(x, size = floor(length(x) * pie))})
+  #       sampled_indices <- sort(unlist(sampled_indices, use.names = FALSE))
+  #   } else{
+  #       # if no sample provided
+  #       sampled_indices <- sort(sample(seq_along(1:ncol(sce)), size = floor(ncol(sce) * pie)))
+  #   }
+  #   
+  #   sce_sub <- sce[,sampled_indices]
+  #   missing <- seq_along(1:ncol(sce))[!seq_along(1:ncol(sce)) %in% sampled_indices]
+  # 
+  # return(list(sce_sub = sce_sub, keep = sampled_indices, missing = missing))
 }
 
 #' #' @export

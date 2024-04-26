@@ -74,83 +74,6 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   ############
   while(!stopits) {
 
-    #one set of updates with groups, another without.
-    if(ngroups!=1) {
-      #####
-      #Blocked Updates
-      #####
-      # ordering of groups should be randomized
-      for(i in sample(seq_len(ngroups))) {
-        t1 <- proc.time()
-        #update the group id
-        gindex <- groups[[i]]
-        #construct the group specific sets
-        gdocs <- documents[gindex]
-        if(is.null(mu$gamma)) {
-          gmu <- mu$mu
-        } else {
-          gmu <- mu$mu[,gindex]
-        }
-        gbetaindex <- betaindex[gindex]
-        glambda <- lambda[gindex,]
-
-        #run the model
-        
-        suffstats[[i]] <- estep(documents=gdocs, beta.index=gbetaindex,
-                                update.mu=(!is.null(mu$gamma)),
-                                beta$beta, glambda, gmu, 
-                                sigma = sigma,
-                                verbose)
-        if(verbose) {
-          msg <- sprintf("Completed Group %i E-Step (%d seconds). \n", i, floor((proc.time()-t1)[3]))
-          cat(msg)
-        }
-        t1 <- proc.time()
-
-        #if all slots are full.  Combine and run M-step
-        if(!any(unlist(lapply(suffstats, is.null)))) {
-          #Combine the sufficient statistics
-          #(note this is somewhat kludgier than I would prefer
-          # but it isn't very costly in terms of time so its fine)
-          sigma.ss <- suffstats[[1]]$sigma
-          lambda <- suffstats[[1]]$lambda
-          beta.ss <- suffstats[[1]]$beta
-          bound.ss <- suffstats[[1]]$bound
-          for(j in 2:ngroups) {
-            sigma.ss <- sigma.ss + suffstats[[j]]$sigma
-            lambda <- rbind(lambda, suffstats[[j]]$lambda)
-            for(a in 1:length(beta.ss)) {
-              beta.ss[[a]] <- beta.ss[[a]] + suffstats[[j]]$beta[[a]]
-            }
-            bound.ss <- c(bound.ss, suffstats[[j]]$bound)
-          }
-          # Now do the updates themselves
-          # source("R/STMmu.R")
-          
-          mu <- opt.mu(lambda=lambda, mode=settings$gamma$mode, pi = pi,
-                       nsamples = nsamples, covar=settings$covariates$X, 
-                       enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
-                       maxits=settings$gamma$maxits)
-          # source("R/STMsigma.R")
-          sigma <- opt.sigma(nu=sigma.ss, omega = omega, lambda=lambda, pi = pi,
-                             mu=mu$mu, sigprior=settings$sigma$prior,
-                             samples = samples)
-          beta <- opt.beta(beta.ss, beta$kappa, settings)
-
-          if(verbose) {
-           #M-step message
-            timer <- floor((proc.time()-t1)[3])
-            msg <- ifelse(timer>1,
-                          sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3])),
-                          "Completed M-Step. \n")
-            cat(msg)
-          }
-        }
-      }
-    } else {
-      #####
-      # Non-Blocked Updates
-      #####
       t1 <- proc.time()
       #run the model
       # source("R/STMestep.R")
@@ -177,11 +100,9 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                    nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
-     
       sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
                          pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)
-      
       beta <- opt.beta(beta.ss, beta$kappa, settings)
       sigs <- opt.sigs(pi, omega, samples)
 
@@ -189,7 +110,6 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
      
       if(verbose) cat(msg)
-    }
     #Convergence
     # cat("Bound is ", bound.ss, "\n")
     # cat("Convergence is ", convergence, "\n")

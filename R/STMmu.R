@@ -65,14 +65,13 @@ vb.variational.reg <- function(Y,X, b0=1, d0=1, Xcorr=NULL, maxits=1000) {
 
 #main method up top, regression-implementations below.
 opt.mu <- function(lambda, pi, nsamples,
-                   mode=c("CTM","Pooled", "L1"), covar=NULL, enet=NULL, ic.k=2,
+                   mode=c("Pooled", "L1"), covar=NULL, enet=NULL, ic.k=2,
                    maxits=1000) {
-  #When there are no covariates we use the CTM method
-  if(mode=="CTM") {
-    mu <- matrix(colMeans(lambda), ncol=1)
-    return(list(mu=mu, gamma=NULL))
-  }
-  
+  # #When there are no covariates we use the CTM method
+  # if(mode=="CTM") {
+  #   mu <- matrix(rowMeans(lambda), ncol=1)
+  #   return(list(mu=mu, gamma=NULL))
+  # }
   #Variational Linear Regression with a Gamma hyperprior
   if(mode=="Pooled") {
     gamma <- vector(mode="list",length=ncol(lambda))
