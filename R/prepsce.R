@@ -29,7 +29,7 @@ convert_count_matrix <- function(count_matrix) {
 
 # require SingleCellExperiment, with meta data in ColData
 prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf, 
-                    verbose=TRUE){
+                    verbose=TRUE, filter = TRUE){
     #Functions:
     # 1) Detect and renumber zero-indexed data.
     # 2) Detect and renumber missing terms
@@ -57,7 +57,7 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     
     # extract documents (cell) and vocab (genes) 
     documents <- convert_count_matrix(t(assays(sce)$counts))
-    # browser()
+
     vocab <- rownames(sce)
     
     #error check for inputs
@@ -110,9 +110,16 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     }
     
     #Remove Words Appearing Only n Times
-    toremove <- which(wordcounts <= lower.thresh | wordcounts >= upper.thresh)
-    keepers <- which(wordcounts > lower.thresh & wordcounts < upper.thresh)
-    droppedwords <- c(miss.vocab,vocab[toremove])
+    if(filter){
+      toremove <- which(wordcounts <= lower.thresh | wordcounts >= upper.thresh)
+      keepers <- which(wordcounts > lower.thresh & wordcounts < upper.thresh)
+      droppedwords <- c(miss.vocab,vocab[toremove])
+    }else{
+      toremove <- as.integer()
+      keepers <- seq_along(wordcounts)
+      droppedwords <- c(miss.vocab,vocab[toremove])
+    }
+    
     if(length(toremove)) {
         if(verbose) cat(sprintf("Removing %i of %i genes (%i of %i tokens) due to frequency \n", 
                                 length(toremove), length(wordcounts), sum(wordcounts[toremove]), sum(wordcounts)))
@@ -139,7 +146,7 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     if(!is.null(docs.removed) & !is.null(meta)){
         meta <- meta[-docs.removed, , drop = FALSE]
     }
-    # browser()
+
     # re-organize sce to remove vocab and docs
     sce <- sce[vocab, rownames(meta)]
     #recast everything as an integer

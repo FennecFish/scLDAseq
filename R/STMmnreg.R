@@ -110,7 +110,7 @@ mnreg <- function(beta.ss,settings) {
                              maxit=maxit, thresh=thresh),
         warning=function(w) return(NULL),
         error=function(e) stop(e))
-      #if(is.null(mod) & ct > 10){browser()}
+      # if(is.null(mod) & ct > 10){browser()}
       # if(ct%%10==0){gc()}
       #if it didn't converge, increase nlambda paths by 20% 
       if(is.null(mod)) nlambda <- nlambda + floor(.2*nlambda)

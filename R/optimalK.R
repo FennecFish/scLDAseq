@@ -4,8 +4,6 @@ optimal_K <- function(sce, K, init.type = "Spectral", sample = NULL,
                     heldout.seed = NULL, M = 10, cores = 1, ...) {
 
   #Make a heldout dataset
-    args <- prepsce(sce)
-    sce <- args$sce
   heldout <- make.heldout.sce(sce, N=N, proportion=proportion, 
                           seed=heldout.seed)
   cat("Heldout Set Created \n")
@@ -53,12 +51,12 @@ get_statistics <- function(k, heldout, init.type, M, ...) { # k = one particular
   out[['K']] <- k
   #run scstm
   sub_sce <- heldout$training.sce
-  args <- prepsce(sub_sce)
-  documents <- args$documents
-  vocab <- args$vocab
-  data <- args$meta
-  sub_sce <- args$sce
-  model <- multi_stm(sce = sub_sce, documents = documents, vocab = vocab, data = data,
+  # args <- prepsce(sub_sce)
+  # documents <- args$documents
+  # vocab <- args$vocab
+  # data <- args$meta
+  # sub_sce <- args$sce
+  model <- multi_stm(sce = sub_sce, # documents = documents, vocab = vocab, data = data,
                K=k, init.type=init.type, heldout = TRUE, ...)
   # #calculate values to return
   # if( !"content" %in% names(list(...)) ) {  # only calculate exclusivity for models without content covariates

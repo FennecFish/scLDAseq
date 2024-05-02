@@ -420,13 +420,15 @@ multi_stm <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
   init.type <- match.arg(init.type)
   Call <- match.call()
   if(missing(sce)) stop("Must include sce object")
+  if(heldout){filter = FALSE} else{filter = TRUE}
   if(is.null(documents)|is.null(vocab)|is.null(data)){
     # Convert the corpus to the internal STM format
-    args <- prepsce(sce)
+    args <- prepsce(sce, filter = filter)
     # cat("Preparing data...\n")
     documents <- args$documents
     vocab <- args$vocab
     data <- args$meta
+    sce <- args$sce
   }
   sce <- sce[vocab,names(documents)]
   
