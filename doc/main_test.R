@@ -33,7 +33,7 @@ sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
 res <- multi_stm(sce = sims,
-                 K = K, prevalence = ~time, content = NULL,
+                 K = ngroup, prevalence = ~time, content = NULL,
                  sample = "Batch",
                  init.type= "Random",
                  gamma.prior= "Pooled",
@@ -92,20 +92,41 @@ sims <- quickPerCellQC(sims)
 # combine dataset to gene by sample
 # batch_info <- data.frame(batch = sims$Batch,
                          # cell_name = sims$Cell)
+library(sva)
 adjusted <- ComBat_seq(counts(sims), batch=sims$Batch, group=NULL)
-
-library(topicmodels)
+adj_sims <- sims
+counts(adj_sims) <- adjusted
+# library(topicmodels)
 
 # test <- batchCorrect(sims, batch = sims$Batch, assay.type = "counts", PARAM=NoCorrectParam())
-# sims <- scuttle::logNormCounts(sims)
+adj_sims <- scuttle::logNormCounts(adj_sims)
 library(scran)
-dec.p2 <- modelGeneVar(sims)
+dec.p2 <- modelGeneVar(adj_sims)
 # feature selection
 p2.chosen <- getTopHVGs(dec.p2, n=1000)
-sims <- sims[p2.chosen,]
+adj_sims <- adj_sims[p2.chosen,]
 
-nsample <- length(unique(sims$Batch))
-ngroup <- length(unique(sims$Group))
+nsample <- length(unique(adj_sims$Batch))
+ngroup <- length(unique(adj_sims$Group))
+
+r.file <- paste0("R/",list.files("R/"))
+sapply(r.file, source)
+sourceCpp("src/STMCfuns.cpp")
+
+res <- selectModel(sce = adj_sims,
+                   K = ngroup, prevalence = ~time, content = NULL,
+                   sample = "Batch", N = 2, ts_runs = 10, random_run = 10)
+
+K <- length(unique(sims$Group))
+res <- multi_stm(sce = sims,
+                 K = K, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "Random",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-5)
+
 
 ################### difficult simluation ###################
 nsample <- 8
@@ -184,7 +205,7 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
-test <- optimal_K(sims, K = c(3,5,10,15,20,25), prevalence = ~time, content = NULL,
+test <- optimal_K(sims, K = c(3,5,10,15,20,25), prevalence = ~time, content = ~Batch,
                   sample = "Batch")
 
 combined_df <- do.call(cbind, lapply(test$results, function(x) do.call(rbind, x))) %>%

@@ -72,7 +72,7 @@ get_statistics <- function(k, heldout, init.type, M, ...) { # k = one particular
   out[['bound']] <- max(model$convergence$bound)
   out[['lbound']] <- max(model$convergence$bound) + lfactorial(model$settings$dim$K)
   out[['em.its']] <- length(model$convergence$bound)
-  cat("Complete Topic k \n")
+  cat("Complete Topic", k, "\n")
   return(out)
 }
 
