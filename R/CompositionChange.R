@@ -1,5 +1,3 @@
-library(compositions)
-library(Compositional)
 composition_change <- function(stmobj){
     time <- stmobj$settings$covariates$X[,-1]
     dat <- stmobj$theta
