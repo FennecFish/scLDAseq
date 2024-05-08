@@ -113,7 +113,7 @@ selectModel <- function(sce , K, sample = NULL,
     documents <- args$documents
     vocab <- args$vocab
     data <- args$meta
-    
+    sce <- args$sce
     # divide runs between using Poisson NMF (Random), TopicScore and Spectral
     # if (runs >=3 ) {
     #     random_run <- ceiling(runs/2)-1

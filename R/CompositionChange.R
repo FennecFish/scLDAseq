@@ -19,8 +19,8 @@ composition_change <- function(stmobj){
         d <- dim(y1)[2]
         n1 <- dim(y1)[1] 
         n2 <- dim(y2)[1]
-        s1 <- cov(y1)
-        s2 <- cov(y2)
+        s1 <- (crossprod(y1) - n1 * tcrossprod(m1) ) / n1
+        s2 <- (crossprod(y2) - n2 * tcrossprod(m2) ) / n2
         
         i <- 1
         s1h <- s1
@@ -68,3 +68,38 @@ plot_dist <- function(stmobj, sample){
     
     return(boxplot(d1,d2))
 }
+
+process_scSTM <- function(scSTMobj, theta = NULL) {
+  if(is.null(theta)){theta = scSTMobj$theta} else{theta = theta}
+  max_indices <- apply(theta, 1, which.max)
+  colnames(theta) <- paste0("topic_", 1:ncol(theta))
+  rownames(theta) <- colnames(scSTMobj$mu$mu)
+  res_cluster <- colnames(theta)[max_indices]
+  names(res_cluster) <- rownames(theta)
+  return(res_cluster)
+}
+
+propeller_change <- function(stmobj, sample, nsims){
+  cluster <- vector(mode = "list", length = nsims)
+  thetasims <- thetaPosterior(stmobj, nsims=nsims, type="Global")
+  new_lists <- vector("list", nsims)
+  for (i in 1:nsims) {
+    new_lists[[i]] <- lapply(thetasims, function(x) x[i, ])
+  }
+  new_matrices <- lapply(new_lists, function(lst) {
+    do.call(rbind, lst)
+  })
+  
+  thetasims <- new_matrices
+  cluster <- lapply(thetasims, function(mat) {
+    process_scSTM(stmobj, theta = mat)
+  })
+
+  vec.cluster <- unlist(cluster)
+  grp <- rep(stmobj$settings$covariates$X[,2], nsims)
+  samp <- rep(1:nsims, each = length(stmobj$DocName))
+  p <- propeller(clusters = vec.cluster, group = grp, sample = samp, trend = FALSE, robust = TRUE)
+  return(p)
+}
+
+
