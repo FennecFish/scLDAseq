@@ -5,7 +5,7 @@
 #SBATCH --error=seurat_%A_%a.err
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=5:00:00
+#SBATCH --time=8:00:00
 #SBATCH --mem-per-cpu=15G
 #SBATCH --array=1-90
 #SBATCH --mail-type=all

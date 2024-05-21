@@ -1,13 +1,12 @@
 setwd("/proj/milovelab/wu/scLDAseq")
-library(splatter)
+library(Matrix)
+# library(splatter)
 library(scran)
 library(Rcpp)
 library(slam)
 library(SingleCellExperiment)
-library(Matrix)
-library(ggplot2)
 library(dplyr)
-library(mclust)
+# library(mclust)
 library(cluster)
 library(scater)
 library(scran)
@@ -16,6 +15,8 @@ args <- commandArgs(trailingOnly = TRUE)
 file_name <- args[1]
 file_name <- basename(file_name)
 cat(file_name, "\n")
+
+# file_name <- "sims_1712873833_L7.rds"
 
 set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
 
@@ -53,5 +54,5 @@ max_value <- max(all_values)
 max_position_in_vector <- which(all_values == max_value)
 res <- scSTM.mod$runout[[max_position_in_vector]]
 msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
-saveRDS(res, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", 
+saveRDS(res, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_c/", 
                            "scSTM_filterGenes_Content_", set_level, ".rds"))

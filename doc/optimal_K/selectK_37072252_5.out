@@ -1,0 +1,1256 @@
+sims_12_1714110790.rds 
+Found 5 batches
+Using null model in ComBat-seq.
+Adjusting for 0 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data
+Batch Effect Removed 
+        R/alignCorpus.R R/asSTMCorpus.R R/checkBeta.R R/cloud.R
+value   ?               ?               ?             ?        
+visible FALSE           FALSE           FALSE         FALSE    
+        R/convertCorpus.R R/estimateEffect.R R/estimateMixedEffect.R
+value   ?                 ?                  ?                      
+visible FALSE             FALSE              FALSE                  
+        R/exclusivity.R R/findThoughts.R R/findTopic.R R/fitNewDocuments.R
+value   ?               ?                ?             ?                  
+visible FALSE           FALSE            FALSE         FALSE              
+        R/heldout.R R/jeffreyskappa.R R/labelTopics.R R/makeDesignMatrix.R
+value   ?           ?                 ?               ?                   
+visible FALSE       FALSE             FALSE           FALSE               
+        R/manyTopics.R R/multiSTM.R R/optimalK.R R/permute.R
+value   ?              ?            ?            ?          
+visible FALSE          FALSE        FALSE        FALSE      
+        R/plot.estimateEffect.R R/plot.fixedEffect.R R/plot.searchK.R
+value   ?                       ?                    ?               
+visible FALSE                   FALSE                FALSE           
+        R/plot.STM.R R/plotModels.R R/plotQuote.R R/plotRemoved.R
+value   ?            ?              ?             ?              
+visible FALSE        FALSE          FALSE         FALSE          
+        R/plottingutilfns.R R/plotTopicLoess.R R/prepDocuments.R R/prepsce.R
+value   ?                   ?                  ?                 ?          
+visible FALSE               FALSE              FALSE             FALSE      
+        R/produce_cmatrix.R R/RcppExports.R R/readCorpus.R R/residuals.R R/s.R
+value   ?                   ?               ?              ?             ?    
+visible FALSE               FALSE           FALSE          FALSE         FALSE
+        R/sageLabels.R R/scSTM.R R/selectModel.R R/semanticCoherence.R
+value   ?              ?         ?               ?                    
+visible FALSE          FALSE     FALSE           FALSE                
+        R/simBetas.R R/spectral.R R/stm-package.R R/stm.control.R R/STMbound.R
+value   ?            ?            NULL            ?               ?           
+visible FALSE        FALSE        TRUE            FALSE           FALSE       
+        R/STMconvergence.R R/STMestep.R R/STMfunctions.R R/STMinit.R
+value   ?                  ?            ?                ?          
+visible FALSE              FALSE        FALSE            FALSE      
+        R/STMinitLikelihood.R R/STMlncpp.R R/STMmnreg.R R/STMmu.R
+value   ?                     ?            ?            ?        
+visible FALSE                 FALSE        FALSE        FALSE    
+        R/STMoptbeta.R R/STMreport.R R/STMsigma.R R/STMsigs.R R/STMsubset.R
+value   ?              ?             ?            ?           ?            
+visible FALSE          FALSE         FALSE        FALSE       FALSE        
+        R/summary.STM.R R/tau.R R/textProcessor.R R/thetaPosterior.R
+value   ?               ?       ?                 ?                 
+visible FALSE           FALSE   FALSE             FALSE             
+        R/toLDAvis.R R/topicCorr.R R/topicLasso.R R/topicQuality.R
+value   ?            ?             ?              ?               
+visible FALSE        FALSE         FALSE          FALSE           
+        R/writeLdac.R R/zzz.R
+value   ?             ?      
+visible FALSE         FALSE  
+Heldout Set Created 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	...
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.079) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003416341 
+Completing Iteration 2 (approx. per word bound = -17.073, relative change = 3.416e-04) 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002529134 
+Completing Iteration 3 (approx. per word bound = -17.069, relative change = 2.529e-04) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001142844 
+Completing Iteration 4 (approx. per word bound = -17.067, relative change = 1.143e-04) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.862249e-05 
+Completing Iteration 5 (approx. per word bound = -17.066, relative change = 4.862e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene846, Gene1262, Gene2209, Gene164 
+ Topic 3: Gene153, Gene846, Gene1399, Gene706, Gene1262 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.286076e-05 
+Completing Iteration 6 (approx. per word bound = -17.066, relative change = 2.286e-05) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.172693e-05 
+Completing Iteration 7 (approx. per word bound = -17.066, relative change = 1.173e-05) 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.082337e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	........
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.069) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0009919403 
+Completing Iteration 2 (approx. per word bound = -17.053, relative change = 9.919e-04) 
+.......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002578571 
+Completing Iteration 3 (approx. per word bound = -17.048, relative change = 2.579e-04) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.282669e-05 
+Completing Iteration 4 (approx. per word bound = -17.047, relative change = 7.283e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.036961e-05 
+Completing Iteration 5 (approx. per word bound = -17.046, relative change = 4.037e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene846, Gene1399, Gene234, Gene1262 
+ Topic 3: Gene153, Gene846, Gene1262, Gene2209, Gene1023 
+ Topic 4: Gene153, Gene706, Gene846, Gene2209, Gene1262 
+ Topic 5: Gene153, Gene164, Gene846, Gene1262, Gene2209 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 8: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.225409e-05 
+Completing Iteration 6 (approx. per word bound = -17.046, relative change = 3.225e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.269815e-05 
+Completing Iteration 7 (approx. per word bound = -17.045, relative change = 2.270e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.427738e-05 
+Completing Iteration 8 (approx. per word bound = -17.045, relative change = 1.428e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.886566e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.............
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.057) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0009106012 
+Completing Iteration 2 (approx. per word bound = -17.042, relative change = 9.106e-04) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000158436 
+Completing Iteration 3 (approx. per word bound = -17.039, relative change = 1.584e-04) 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.010145e-05 
+Completing Iteration 4 (approx. per word bound = -17.038, relative change = 6.010e-05) 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.570472e-05 
+Completing Iteration 5 (approx. per word bound = -17.038, relative change = 2.570e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 3: Gene153, Gene846, Gene2209, Gene1262, Gene1023 
+ Topic 4: Gene706, Gene153, Gene846, Gene1262, Gene2209 
+ Topic 5: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 8: Gene153, Gene164, Gene846, Gene2209, Gene1262 
+ Topic 9: Gene153, Gene1262, Gene846, Gene2209, Gene706 
+ Topic 10: Gene153, Gene875, Gene846, Gene2209, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene153, Gene846, Gene2882, Gene706, Gene2209 
+ Topic 13: Gene153, Gene846, Gene1399, Gene234, Gene1262 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.367987e-05 
+Completing Iteration 6 (approx. per word bound = -17.037, relative change = 1.368e-05) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.216154e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	..................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.058) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0009547812 
+Completing Iteration 2 (approx. per word bound = -17.042, relative change = 9.548e-04) 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002162573 
+Completing Iteration 3 (approx. per word bound = -17.038, relative change = 2.163e-04) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.034179e-05 
+Completing Iteration 4 (approx. per word bound = -17.037, relative change = 7.034e-05) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.645593e-05 
+Completing Iteration 5 (approx. per word bound = -17.036, relative change = 3.646e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene704, Gene1262, Gene1243, Gene2556 
+ Topic 3: Gene153, Gene846, Gene2209, Gene1262, Gene1023 
+ Topic 4: Gene706, Gene153, Gene846, Gene2209, Gene1262 
+ Topic 5: Gene153, Gene164, Gene846, Gene2556, Gene2209 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene846, Gene2209, Gene164, Gene2556 
+ Topic 9: Gene153, Gene1262, Gene846, Gene706, Gene2209 
+ Topic 10: Gene153, Gene875, Gene846, Gene2209, Gene706 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene153, Gene706, Gene846, Gene2437, Gene164 
+ Topic 13: Gene153, Gene846, Gene1399, Gene234, Gene1262 
+ Topic 14: Gene153, Gene164, Gene846, Gene706, Gene1262 
+ Topic 15: Gene153, Gene1262, Gene846, Gene2209, Gene113 
+ Topic 16: Gene153, Gene1262, Gene1023, Gene846, Gene706 
+ Topic 17: Gene153, Gene846, Gene1399, Gene234, Gene1262 
+ Topic 18: Gene153, Gene846, Gene1023, Gene706, Gene2209 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.03908e-05 
+Completing Iteration 6 (approx. per word bound = -17.036, relative change = 2.039e-05) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.521046e-05 
+Completing Iteration 7 (approx. per word bound = -17.035, relative change = 1.521e-05) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.073697e-05 
+Completing Iteration 8 (approx. per word bound = -17.035, relative change = 1.074e-05) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.920418e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.......................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (40 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.057) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001023767 
+Completing Iteration 2 (approx. per word bound = -17.039, relative change = 1.024e-03) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001972629 
+Completing Iteration 3 (approx. per word bound = -17.036, relative change = 1.973e-04) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.117394e-05 
+Completing Iteration 4 (approx. per word bound = -17.035, relative change = 6.117e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.144535e-05 
+Completing Iteration 5 (approx. per word bound = -17.034, relative change = 4.145e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene704, Gene153, Gene2556, Gene999, Gene846 
+ Topic 3: Gene153, Gene846, Gene2209, Gene1262, Gene2556 
+ Topic 4: Gene706, Gene153, Gene846, Gene2209, Gene1262 
+ Topic 5: Gene153, Gene164, Gene846, Gene2556, Gene2209 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene846, Gene2556, Gene2209, Gene164 
+ Topic 9: Gene153, Gene1262, Gene846, Gene706, Gene113 
+ Topic 10: Gene153, Gene846, Gene2209, Gene706, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene153, Gene706, Gene846, Gene1262, Gene2437 
+ Topic 13: Gene153, Gene846, Gene1399, Gene706, Gene234 
+ Topic 14: Gene153, Gene164, Gene846, Gene706, Gene2209 
+ Topic 15: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 16: Gene153, Gene1023, Gene1262, Gene846, Gene706 
+ Topic 17: Gene153, Gene846, Gene1399, Gene234, Gene1262 
+ Topic 18: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 19: Gene153, Gene875, Gene846, Gene706, Gene1262 
+ Topic 20: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 21: Gene153, Gene1262, Gene1023, Gene2209, Gene846 
+ Topic 22: Gene153, Gene846, Gene164, Gene1262, Gene1023 
+ Topic 23: Gene153, Gene846, Gene2209, Gene2882, Gene1023 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.719063e-05 
+Completing Iteration 6 (approx. per word bound = -17.034, relative change = 2.719e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.713548e-05 
+Completing Iteration 7 (approx. per word bound = -17.034, relative change = 1.714e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.292607e-05 
+Completing Iteration 8 (approx. per word bound = -17.033, relative change = 1.293e-05) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.058751e-05 
+Completing Iteration 9 (approx. per word bound = -17.033, relative change = 1.059e-05) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.033255e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	............................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (39 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.060) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001065299 
+Completing Iteration 2 (approx. per word bound = -17.042, relative change = 1.065e-03) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000398672 
+Completing Iteration 3 (approx. per word bound = -17.035, relative change = 3.987e-04) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.409916e-05 
+Completing Iteration 4 (approx. per word bound = -17.034, relative change = 9.410e-05) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.687874e-05 
+Completing Iteration 5 (approx. per word bound = -17.033, relative change = 4.688e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene846, Gene1262, Gene234, Gene704 
+ Topic 3: Gene153, Gene846, Gene1262, Gene234, Gene1284 
+ Topic 4: Gene706, Gene153, Gene846, Gene2209, Gene1262 
+ Topic 5: Gene164, Gene1262, Gene153, Gene846, Gene2556 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene164, Gene846, Gene1262, Gene677 
+ Topic 9: Gene153, Gene1262, Gene846, Gene113, Gene706 
+ Topic 10: Gene153, Gene846, Gene2209, Gene706, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene706 
+ Topic 12: Gene153, Gene706, Gene846, Gene1243, Gene2437 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene706 
+ Topic 14: Gene153, Gene164, Gene846, Gene706, Gene2209 
+ Topic 15: Gene153, Gene846, Gene1262, Gene113, Gene706 
+ Topic 16: Gene153, Gene1023, Gene846, Gene1262, Gene706 
+ Topic 17: Gene153, Gene846, Gene2209, Gene2882, Gene706 
+ Topic 18: Gene153, Gene846, Gene706, Gene1023, Gene2209 
+ Topic 19: Gene153, Gene875, Gene846, Gene2209, Gene706 
+ Topic 20: Gene153, Gene706, Gene846, Gene1262, Gene2209 
+ Topic 21: Gene153, Gene1262, Gene2209, Gene1023, Gene846 
+ Topic 22: Gene153, Gene846, Gene164, Gene1262, Gene1399 
+ Topic 23: Gene153, Gene846, Gene1262, Gene2209, Gene1023 
+ Topic 24: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 25: Gene153, Gene846, Gene2882, Gene1023, Gene164 
+ Topic 26: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 27: Gene153, Gene1023, Gene706, Gene2209, Gene1262 
+ Topic 28: Gene153, Gene846, Gene706, Gene1023, Gene164 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.596904e-05 
+Completing Iteration 6 (approx. per word bound = -17.033, relative change = 2.597e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.906219e-05 
+Completing Iteration 7 (approx. per word bound = -17.032, relative change = 1.906e-05) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.651381e-05 
+Completing Iteration 8 (approx. per word bound = -17.032, relative change = 1.651e-05) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.779171e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.................................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (53 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.059) 
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001103067 
+Completing Iteration 2 (approx. per word bound = -17.041, relative change = 1.103e-03) 
+.......................................................................................................
+Completed E-Step (38 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0004164238 
+Completing Iteration 3 (approx. per word bound = -17.034, relative change = 4.164e-04) 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.804807e-05 
+Completing Iteration 4 (approx. per word bound = -17.032, relative change = 8.805e-05) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.991238e-05 
+Completing Iteration 5 (approx. per word bound = -17.031, relative change = 3.991e-05) 
+Topic 1: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene846, Gene1262, Gene234, Gene704 
+ Topic 3: Gene153, Gene846, Gene1262, Gene234, Gene1284 
+ Topic 4: Gene706, Gene153, Gene846, Gene2209, Gene1262 
+ Topic 5: Gene164, Gene1262, Gene153, Gene846, Gene2556 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene704, Gene153, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene164, Gene1262, Gene846, Gene677 
+ Topic 9: Gene153, Gene1262, Gene846, Gene706, Gene113 
+ Topic 10: Gene153, Gene846, Gene2209, Gene706, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene153, Gene706, Gene846, Gene2437, Gene1262 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene706 
+ Topic 14: Gene153, Gene164, Gene846, Gene706, Gene1262 
+ Topic 15: Gene153, Gene1262, Gene846, Gene113, Gene706 
+ Topic 16: Gene153, Gene1023, Gene846, Gene706, Gene1262 
+ Topic 17: Gene153, Gene846, Gene747, Gene1399, Gene164 
+ Topic 18: Gene153, Gene846, Gene2209, Gene706, Gene1262 
+ Topic 19: Gene153, Gene875, Gene846, Gene2209, Gene706 
+ Topic 20: Gene153, Gene706, Gene846, Gene2209, Gene1262 
+ Topic 21: Gene153, Gene1262, Gene2209, Gene846, Gene1023 
+ Topic 22: Gene153, Gene846, Gene164, Gene1399, Gene1262 
+ Topic 23: Gene153, Gene846, Gene1262, Gene2209, Gene1023 
+ Topic 24: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 25: Gene153, Gene846, Gene2882, Gene164, Gene706 
+ Topic 26: Gene153, Gene846, Gene164, Gene2209, Gene1023 
+ Topic 27: Gene153, Gene1023, Gene706, Gene2209, Gene846 
+ Topic 28: Gene153, Gene1023, Gene1262, Gene706, Gene846 
+ Topic 29: Gene153, Gene706, Gene1023, Gene846, Gene2209 
+ Topic 30: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+ Topic 31: Gene153, Gene1023, Gene846, Gene706, Gene1262 
+ Topic 32: Gene153, Gene2209, Gene846, Gene706, Gene1023 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2209 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.942182e-05 
+Completing Iteration 6 (approx. per word bound = -17.031, relative change = 2.942e-05) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.098141e-05 
+Completing Iteration 7 (approx. per word bound = -17.031, relative change = 2.098e-05) 
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.889786e-05 
+Completing Iteration 8 (approx. per word bound = -17.030, relative change = 1.890e-05) 
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.461476e-05 
+Completing Iteration 9 (approx. per word bound = -17.030, relative change = 1.461e-05) 
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.32683e-05 
+Completing Iteration 10 (approx. per word bound = -17.030, relative change = 1.327e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene846, Gene153, Gene1262, Gene234, Gene1284 
+ Topic 3: Gene153, Gene846, Gene1262, Gene234, Gene913 
+ Topic 4: Gene706, Gene846, Gene2209, Gene153, Gene2437 
+ Topic 5: Gene164, Gene1262, Gene2556, Gene113, Gene846 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene704, Gene153, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene164, Gene677, Gene1262, Gene846 
+ Topic 9: Gene153, Gene1262, Gene846, Gene113, Gene706 
+ Topic 10: Gene153, Gene846, Gene2209, Gene1262, Gene747 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene706, Gene153, Gene846, Gene2437, Gene1243 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene706 
+ Topic 14: Gene153, Gene164, Gene846, Gene706, Gene2209 
+ Topic 15: Gene153, Gene1262, Gene846, Gene113, Gene706 
+ Topic 16: Gene153, Gene1023, Gene846, Gene1262, Gene706 
+ Topic 17: Gene153, Gene846, Gene747, Gene2231, Gene1399 
+ Topic 18: Gene153, Gene846, Gene2209, Gene706, Gene1023 
+ Topic 19: Gene153, Gene875, Gene846, Gene1284, Gene2011 
+ Topic 20: Gene153, Gene706, Gene2209, Gene846, Gene1262 
+ Topic 21: Gene153, Gene2209, Gene1262, Gene1023, Gene846 
+ Topic 22: Gene153, Gene846, Gene164, Gene1399, Gene1262 
+ Topic 23: Gene153, Gene846, Gene1262, Gene2209, Gene1023 
+ Topic 24: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 25: Gene153, Gene2882, Gene846, Gene164, Gene706 
+ Topic 26: Gene153, Gene846, Gene164, Gene2209, Gene1023 
+ Topic 27: Gene153, Gene1023, Gene2209, Gene706, Gene846 
+ Topic 28: Gene153, Gene1023, Gene1262, Gene706, Gene846 
+ Topic 29: Gene153, Gene706, Gene2209, Gene1023, Gene704 
+ Topic 30: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 31: Gene153, Gene1023, Gene1262, Gene706, Gene1627 
+ Topic 32: Gene153, Gene2209, Gene846, Gene2882, Gene706 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene164 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.205512e-05 
+Completing Iteration 11 (approx. per word bound = -17.030, relative change = 1.206e-05) 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.167984e-05 
+Completing Iteration 12 (approx. per word bound = -17.029, relative change = 1.168e-05) 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.70146e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	......................................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.059) 
+.......................................................................................................
+Completed E-Step (48 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001139631 
+Completing Iteration 2 (approx. per word bound = -17.039, relative change = 1.140e-03) 
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0004008578 
+Completing Iteration 3 (approx. per word bound = -17.033, relative change = 4.009e-04) 
+.......................................................................................................
+Completed E-Step (38 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001115006 
+Completing Iteration 4 (approx. per word bound = -17.031, relative change = 1.115e-04) 
+.......................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.700212e-05 
+Completing Iteration 5 (approx. per word bound = -17.030, relative change = 4.700e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene704, Gene153, Gene999, Gene1262, Gene846 
+ Topic 3: Gene153, Gene846, Gene1262, Gene2556, Gene747 
+ Topic 4: Gene706, Gene846, Gene153, Gene2209, Gene1262 
+ Topic 5: Gene164, Gene846, Gene153, Gene1262, Gene2556 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene846, Gene1262, Gene234, Gene164 
+ Topic 9: Gene153, Gene1262, Gene846, Gene2209, Gene706 
+ Topic 10: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene153, Gene706, Gene846, Gene1243, Gene2209 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene706 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 15: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 16: Gene153, Gene1023, Gene846, Gene706, Gene1262 
+ Topic 17: Gene153, Gene846, Gene1399, Gene234, Gene1262 
+ Topic 18: Gene153, Gene846, Gene2209, Gene706, Gene1023 
+ Topic 19: Gene153, Gene875, Gene846, Gene2209, Gene706 
+ Topic 20: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 21: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 22: Gene153, Gene846, Gene164, Gene1399, Gene706 
+ Topic 23: Gene153, Gene846, Gene1262, Gene2209, Gene706 
+ Topic 24: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 25: Gene153, Gene846, Gene1262, Gene2209, Gene164 
+ Topic 26: Gene153, Gene846, Gene164, Gene2209, Gene706 
+ Topic 27: Gene153, Gene1023, Gene706, Gene2209, Gene846 
+ Topic 28: Gene153, Gene1262, Gene1023, Gene706, Gene704 
+ Topic 29: Gene153, Gene706, Gene1023, Gene2209, Gene846 
+ Topic 30: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 31: Gene153, Gene1023, Gene1262, Gene846, Gene706 
+ Topic 32: Gene153, Gene846, Gene2882, Gene706, Gene2209 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2209 
+ Topic 34: Gene153, Gene706, Gene846, Gene1262, Gene113 
+ Topic 35: Gene153, Gene1023, Gene2209, Gene706, Gene1262 
+ Topic 36: Gene153, Gene706, Gene846, Gene1262, Gene164 
+ Topic 37: Gene153, Gene846, Gene2209, Gene706, Gene1262 
+ Topic 38: Gene153, Gene1023, Gene846, Gene706, Gene1262 
+.......................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.934534e-05 
+Completing Iteration 6 (approx. per word bound = -17.029, relative change = 2.935e-05) 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.801668e-05 
+Completing Iteration 7 (approx. per word bound = -17.029, relative change = 1.802e-05) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.668734e-05 
+Completing Iteration 8 (approx. per word bound = -17.029, relative change = 1.669e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.506218e-05 
+Completing Iteration 9 (approx. per word bound = -17.029, relative change = 1.506e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.137784e-05 
+Completing Iteration 10 (approx. per word bound = -17.028, relative change = 1.138e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene704, Gene153, Gene999, Gene1262, Gene846 
+ Topic 3: Gene153, Gene846, Gene1262, Gene1284, Gene2556 
+ Topic 4: Gene706, Gene846, Gene2437, Gene153, Gene2209 
+ Topic 5: Gene164, Gene846, Gene1262, Gene2556, Gene747 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene704, Gene153, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene846, Gene234, Gene1262, Gene913 
+ Topic 9: Gene153, Gene1262, Gene846, Gene2209, Gene706 
+ Topic 10: Gene153, Gene846, Gene2209, Gene1262, Gene2556 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene706, Gene153, Gene846, Gene1243, Gene2437 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene913 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 15: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 16: Gene153, Gene1023, Gene846, Gene1262, Gene706 
+ Topic 17: Gene153, Gene1399, Gene846, Gene234, Gene1262 
+ Topic 18: Gene153, Gene846, Gene2209, Gene706, Gene1284 
+ Topic 19: Gene153, Gene875, Gene846, Gene1284, Gene2011 
+ Topic 20: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 21: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 22: Gene153, Gene846, Gene164, Gene1399, Gene2231 
+ Topic 23: Gene153, Gene846, Gene1262, Gene1243, Gene2209 
+ Topic 24: Gene153, Gene846, Gene2209, Gene1262, Gene2556 
+ Topic 25: Gene153, Gene846, Gene1262, Gene2209, Gene164 
+ Topic 26: Gene153, Gene846, Gene164, Gene2723, Gene2209 
+ Topic 27: Gene153, Gene1023, Gene2209, Gene706, Gene846 
+ Topic 28: Gene153, Gene1023, Gene1262, Gene706, Gene704 
+ Topic 29: Gene153, Gene706, Gene2209, Gene1023, Gene846 
+ Topic 30: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+ Topic 31: Gene153, Gene1023, Gene1262, Gene846, Gene706 
+ Topic 32: Gene153, Gene2882, Gene846, Gene2209, Gene706 
+ Topic 33: Gene153, Gene846, Gene706, Gene1262, Gene2231 
+ Topic 34: Gene153, Gene706, Gene1262, Gene846, Gene2209 
+ Topic 35: Gene153, Gene1023, Gene2209, Gene706, Gene1262 
+ Topic 36: Gene153, Gene706, Gene1262, Gene846, Gene164 
+ Topic 37: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 38: Gene153, Gene1262, Gene1023, Gene846, Gene2209 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.310045e-05 
+Completing Iteration 11 (approx. per word bound = -17.028, relative change = 1.310e-05) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.087049e-05 
+Completing Iteration 12 (approx. per word bound = -17.028, relative change = 1.087e-05) 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.060579e-05 
+Completing Iteration 13 (approx. per word bound = -17.028, relative change = 1.061e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.823065e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	...........................................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (66 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.056) 
+.......................................................................................................
+Completed E-Step (52 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001150649 
+Completing Iteration 2 (approx. per word bound = -17.036, relative change = 1.151e-03) 
+.......................................................................................................
+Completed E-Step (47 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003388123 
+Completing Iteration 3 (approx. per word bound = -17.030, relative change = 3.388e-04) 
+.......................................................................................................
+Completed E-Step (44 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.988789e-05 
+Completing Iteration 4 (approx. per word bound = -17.029, relative change = 8.989e-05) 
+.......................................................................................................
+Completed E-Step (40 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.685347e-05 
+Completing Iteration 5 (approx. per word bound = -17.028, relative change = 4.685e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene846, Gene2209 
+ Topic 2: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 3: Gene153, Gene846, Gene1262, Gene1284, Gene234 
+ Topic 4: Gene706, Gene846, Gene153, Gene2209, Gene1262 
+ Topic 5: Gene164, Gene1262, Gene153, Gene846, Gene113 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 8: Gene153, Gene846, Gene234, Gene1262, Gene913 
+ Topic 9: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 10: Gene153, Gene846, Gene2209, Gene2556, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene153, Gene706, Gene846, Gene1243, Gene2437 
+ Topic 13: Gene153, Gene1399, Gene846, Gene706, Gene234 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 15: Gene153, Gene846, Gene1262, Gene113, Gene706 
+ Topic 16: Gene153, Gene846, Gene1023, Gene706, Gene1262 
+ Topic 17: Gene153, Gene846, Gene1399, Gene1262, Gene164 
+ Topic 18: Gene153, Gene846, Gene1023, Gene1262, Gene706 
+ Topic 19: Gene153, Gene875, Gene846, Gene2209, Gene706 
+ Topic 20: Gene153, Gene846, Gene113, Gene706, Gene2209 
+ Topic 21: Gene153, Gene2209, Gene1262, Gene846, Gene1023 
+ Topic 22: Gene153, Gene846, Gene164, Gene2556, Gene1262 
+ Topic 23: Gene153, Gene846, Gene2556, Gene2209, Gene1262 
+ Topic 24: Gene153, Gene846, Gene2209, Gene1262, Gene706 
+ Topic 25: Gene153, Gene846, Gene2882, Gene706, Gene2209 
+ Topic 26: Gene153, Gene846, Gene164, Gene2209, Gene1262 
+ Topic 27: Gene153, Gene1023, Gene706, Gene846, Gene2209 
+ Topic 28: Gene153, Gene1262, Gene1023, Gene706, Gene846 
+ Topic 29: Gene153, Gene846, Gene706, Gene2209, Gene1023 
+ Topic 30: Gene153, Gene846, Gene2209, Gene706, Gene2556 
+ Topic 31: Gene153, Gene846, Gene1262, Gene706, Gene1023 
+ Topic 32: Gene153, Gene846, Gene706, Gene2209, Gene1023 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2209 
+ Topic 34: Gene153, Gene706, Gene2556, Gene1262, Gene113 
+ Topic 35: Gene153, Gene706, Gene1023, Gene1262, Gene2209 
+ Topic 36: Gene153, Gene846, Gene706, Gene164, Gene2209 
+ Topic 37: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+ Topic 38: Gene153, Gene2209, Gene706, Gene1023, Gene846 
+ Topic 39: Gene153, Gene846, Gene2882, Gene706, Gene164 
+ Topic 40: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 41: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 42: Gene153, Gene846, Gene1023, Gene706, Gene2209 
+ Topic 43: Gene153, Gene846, Gene706, Gene1023, Gene1262 
+.......................................................................................................
+Completed E-Step (39 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.622738e-05 
+Completing Iteration 6 (approx. per word bound = -17.028, relative change = 2.623e-05) 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.792144e-05 
+Completing Iteration 7 (approx. per word bound = -17.027, relative change = 1.792e-05) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.617868e-05 
+Completing Iteration 8 (approx. per word bound = -17.027, relative change = 1.618e-05) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.235142e-05 
+Completing Iteration 9 (approx. per word bound = -17.027, relative change = 1.235e-05) 
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.175835e-05 
+Completing Iteration 10 (approx. per word bound = -17.027, relative change = 1.176e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene2209, Gene846 
+ Topic 2: Gene704, Gene153, Gene1262, Gene999, Gene846 
+ Topic 3: Gene153, Gene846, Gene1262, Gene1284, Gene234 
+ Topic 4: Gene706, Gene846, Gene2209, Gene2437, Gene153 
+ Topic 5: Gene164, Gene1262, Gene113, Gene846, Gene2728 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene234, Gene846, Gene913, Gene1262 
+ Topic 9: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 10: Gene153, Gene846, Gene2209, Gene1262, Gene2556 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene706, Gene153, Gene846, Gene1243, Gene2437 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene706 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 15: Gene153, Gene846, Gene1262, Gene113, Gene706 
+ Topic 16: Gene153, Gene846, Gene1023, Gene1262, Gene706 
+ Topic 17: Gene153, Gene846, Gene1399, Gene164, Gene1262 
+ Topic 18: Gene153, Gene846, Gene1262, Gene1023, Gene875 
+ Topic 19: Gene153, Gene875, Gene846, Gene1284, Gene2011 
+ Topic 20: Gene153, Gene846, Gene113, Gene706, Gene164 
+ Topic 21: Gene153, Gene2209, Gene1262, Gene846, Gene1023 
+ Topic 22: Gene153, Gene846, Gene164, Gene2556, Gene747 
+ Topic 23: Gene153, Gene2556, Gene846, Gene2209, Gene1262 
+ Topic 24: Gene153, Gene2209, Gene846, Gene1262, Gene706 
+ Topic 25: Gene153, Gene846, Gene2882, Gene706, Gene164 
+ Topic 26: Gene153, Gene164, Gene846, Gene2209, Gene747 
+ Topic 27: Gene153, Gene1023, Gene706, Gene2209, Gene846 
+ Topic 28: Gene153, Gene1023, Gene1262, Gene706, Gene846 
+ Topic 29: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+ Topic 30: Gene153, Gene846, Gene2209, Gene706, Gene2556 
+ Topic 31: Gene153, Gene846, Gene1262, Gene1023, Gene706 
+ Topic 32: Gene153, Gene846, Gene2209, Gene706, Gene1023 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2231 
+ Topic 34: Gene153, Gene706, Gene2556, Gene113, Gene1262 
+ Topic 35: Gene153, Gene706, Gene1262, Gene1023, Gene2209 
+ Topic 36: Gene153, Gene846, Gene706, Gene164, Gene2209 
+ Topic 37: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+ Topic 38: Gene153, Gene2209, Gene1023, Gene706, Gene1262 
+ Topic 39: Gene153, Gene2882, Gene846, Gene2209, Gene164 
+ Topic 40: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 41: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 42: Gene153, Gene846, Gene1023, Gene2209, Gene706 
+ Topic 43: Gene153, Gene846, Gene1023, Gene706, Gene1262 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.814032e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	................................................
+	 Recovering initialization...
+ 	.............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (64 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -17.054) 
+.......................................................................................................
+Completed E-Step (51 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001160077 
+Completing Iteration 2 (approx. per word bound = -17.034, relative change = 1.160e-03) 
+.......................................................................................................
+Completed E-Step (47 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002399958 
+Completing Iteration 3 (approx. per word bound = -17.030, relative change = 2.400e-04) 
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.278721e-05 
+Completing Iteration 4 (approx. per word bound = -17.029, relative change = 6.279e-05) 
+.......................................................................................................
+Completed E-Step (42 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.623135e-05 
+Completing Iteration 5 (approx. per word bound = -17.028, relative change = 3.623e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene2209, Gene846 
+ Topic 2: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 3: Gene153, Gene846, Gene1262, Gene1284, Gene234 
+ Topic 4: Gene706, Gene846, Gene153, Gene2209, Gene2437 
+ Topic 5: Gene164, Gene1262, Gene153, Gene846, Gene113 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene1262, Gene999, Gene846 
+ Topic 8: Gene153, Gene846, Gene234, Gene1262, Gene913 
+ Topic 9: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 10: Gene153, Gene846, Gene2209, Gene2556, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene706, Gene153, Gene846, Gene1262, Gene1243 
+ Topic 13: Gene153, Gene1399, Gene846, Gene706, Gene234 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene2209 
+ Topic 15: Gene153, Gene846, Gene1262, Gene113, Gene706 
+ Topic 16: Gene153, Gene846, Gene1023, Gene706, Gene1262 
+ Topic 17: Gene153, Gene846, Gene1399, Gene164, Gene234 
+ Topic 18: Gene153, Gene846, Gene875, Gene1262, Gene1023 
+ Topic 19: Gene153, Gene875, Gene846, Gene2209, Gene1284 
+ Topic 20: Gene153, Gene846, Gene113, Gene706, Gene2209 
+ Topic 21: Gene153, Gene2209, Gene1262, Gene846, Gene1023 
+ Topic 22: Gene153, Gene846, Gene164, Gene2556, Gene1262 
+ Topic 23: Gene153, Gene846, Gene2556, Gene2209, Gene706 
+ Topic 24: Gene153, Gene846, Gene1262, Gene2209, Gene706 
+ Topic 25: Gene153, Gene846, Gene2209, Gene164, Gene706 
+ Topic 26: Gene153, Gene164, Gene846, Gene2209, Gene1262 
+ Topic 27: Gene153, Gene1023, Gene706, Gene2209, Gene846 
+ Topic 28: Gene153, Gene1023, Gene706, Gene1262, Gene846 
+ Topic 29: Gene153, Gene846, Gene706, Gene2209, Gene1023 
+ Topic 30: Gene153, Gene846, Gene2209, Gene706, Gene2556 
+ Topic 31: Gene153, Gene846, Gene1262, Gene706, Gene1023 
+ Topic 32: Gene153, Gene706, Gene846, Gene2209, Gene1262 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2209 
+ Topic 34: Gene153, Gene706, Gene1262, Gene2556, Gene113 
+ Topic 35: Gene153, Gene706, Gene2209, Gene1262, Gene1023 
+ Topic 36: Gene153, Gene846, Gene164, Gene706, Gene2209 
+ Topic 37: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+ Topic 38: Gene153, Gene1023, Gene706, Gene2209, Gene1262 
+ Topic 39: Gene153, Gene846, Gene2882, Gene706, Gene164 
+ Topic 40: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 41: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 42: Gene153, Gene846, Gene2882, Gene1023, Gene2209 
+ Topic 43: Gene153, Gene846, Gene706, Gene1262, Gene1023 
+ Topic 44: Gene153, Gene846, Gene2209, Gene706, Gene1023 
+ Topic 45: Gene153, Gene706, Gene846, Gene1262, Gene2209 
+ Topic 46: Gene153, Gene846, Gene706, Gene2209, Gene1023 
+ Topic 47: Gene153, Gene846, Gene1023, Gene1262, Gene2209 
+ Topic 48: Gene153, Gene846, Gene706, Gene2209, Gene1262 
+.......................................................................................................
+Completed E-Step (38 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.338601e-05 
+Completing Iteration 6 (approx. per word bound = -17.028, relative change = 2.339e-05) 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.867721e-05 
+Completing Iteration 7 (approx. per word bound = -17.028, relative change = 1.868e-05) 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.038655e-05 
+Completing Iteration 8 (approx. per word bound = -17.027, relative change = 2.039e-05) 
+.......................................................................................................
+Completed E-Step (36 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.620954e-05 
+Completing Iteration 9 (approx. per word bound = -17.027, relative change = 1.621e-05) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.661634e-05 
+Completing Iteration 10 (approx. per word bound = -17.027, relative change = 1.662e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene2209, Gene846 
+ Topic 2: Gene704, Gene153, Gene1262, Gene999, Gene846 
+ Topic 3: Gene153, Gene846, Gene1262, Gene1284, Gene234 
+ Topic 4: Gene706, Gene846, Gene2437, Gene2209, Gene153 
+ Topic 5: Gene164, Gene1262, Gene113, Gene846, Gene2728 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene234, Gene846, Gene913, Gene1262 
+ Topic 9: Gene153, Gene1262, Gene846, Gene113, Gene2209 
+ Topic 10: Gene846, Gene153, Gene2209, Gene2556, Gene1262 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene706, Gene153, Gene846, Gene1243, Gene2437 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene706 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 15: Gene153, Gene846, Gene1262, Gene113, Gene706 
+ Topic 16: Gene153, Gene846, Gene1023, Gene1262, Gene706 
+ Topic 17: Gene153, Gene846, Gene1399, Gene234, Gene164 
+ Topic 18: Gene153, Gene846, Gene875, Gene1262, Gene1023 
+ Topic 19: Gene153, Gene875, Gene846, Gene1284, Gene2011 
+ Topic 20: Gene153, Gene846, Gene113, Gene706, Gene164 
+ Topic 21: Gene153, Gene2209, Gene1262, Gene846, Gene1023 
+ Topic 22: Gene153, Gene846, Gene164, Gene2556, Gene747 
+ Topic 23: Gene153, Gene2556, Gene846, Gene2209, Gene2231 
+ Topic 24: Gene153, Gene1262, Gene846, Gene2209, Gene706 
+ Topic 25: Gene153, Gene846, Gene164, Gene2209, Gene706 
+ Topic 26: Gene153, Gene164, Gene846, Gene2209, Gene747 
+ Topic 27: Gene153, Gene1023, Gene706, Gene2209, Gene846 
+ Topic 28: Gene153, Gene1023, Gene1262, Gene706, Gene846 
+ Topic 29: Gene153, Gene846, Gene706, Gene1023, Gene2209 
+ Topic 30: Gene153, Gene846, Gene2209, Gene706, Gene2556 
+ Topic 31: Gene153, Gene846, Gene1262, Gene706, Gene1023 
+ Topic 32: Gene153, Gene706, Gene2209, Gene846, Gene1023 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2231 
+ Topic 34: Gene153, Gene706, Gene2556, Gene1262, Gene164 
+ Topic 35: Gene153, Gene706, Gene1262, Gene2209, Gene1023 
+ Topic 36: Gene153, Gene846, Gene164, Gene706, Gene2209 
+ Topic 37: Gene153, Gene846, Gene2209, Gene706, Gene1262 
+ Topic 38: Gene153, Gene1023, Gene2209, Gene706, Gene1262 
+ Topic 39: Gene153, Gene2882, Gene846, Gene164, Gene706 
+ Topic 40: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 41: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+ Topic 42: Gene153, Gene846, Gene2882, Gene1023, Gene2209 
+ Topic 43: Gene153, Gene846, Gene706, Gene1262, Gene1023 
+ Topic 44: Gene153, Gene846, Gene2209, Gene747, Gene1023 
+ Topic 45: Gene153, Gene1262, Gene706, Gene2209, Gene846 
+ Topic 46: Gene153, Gene846, Gene1262, Gene2209, Gene1023 
+ Topic 47: Gene153, Gene1023, Gene846, Gene1262, Gene2209 
+ Topic 48: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.672868e-05 
+Completing Iteration 11 (approx. per word bound = -17.026, relative change = 1.673e-05) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.715815e-05 
+Completing Iteration 12 (approx. per word bound = -17.026, relative change = 1.716e-05) 
+.......................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.811615e-05 
+Completing Iteration 13 (approx. per word bound = -17.026, relative change = 1.812e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.272871e-05 
+Completing Iteration 14 (approx. per word bound = -17.026, relative change = 1.273e-05) 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.63491e-05 
+Completing Iteration 15 (approx. per word bound = -17.025, relative change = 1.635e-05) 
+Topic 1: Gene706, Gene153, Gene1023, Gene2209, Gene846 
+ Topic 2: Gene704, Gene153, Gene1262, Gene999, Gene846 
+ Topic 3: Gene153, Gene1262, Gene846, Gene1284, Gene234 
+ Topic 4: Gene706, Gene846, Gene2437, Gene2209, Gene1262 
+ Topic 5: Gene164, Gene1262, Gene113, Gene846, Gene1627 
+ Topic 6: Gene153, Gene113, Gene846, Gene706, Gene2209 
+ Topic 7: Gene153, Gene704, Gene999, Gene1262, Gene846 
+ Topic 8: Gene153, Gene234, Gene846, Gene913, Gene1262 
+ Topic 9: Gene153, Gene1262, Gene113, Gene846, Gene2209 
+ Topic 10: Gene846, Gene2209, Gene153, Gene1262, Gene2556 
+ Topic 11: Gene153, Gene677, Gene846, Gene2209, Gene1262 
+ Topic 12: Gene706, Gene846, Gene1243, Gene153, Gene2437 
+ Topic 13: Gene153, Gene1399, Gene846, Gene234, Gene913 
+ Topic 14: Gene153, Gene164, Gene846, Gene1262, Gene706 
+ Topic 15: Gene153, Gene846, Gene1262, Gene113, Gene706 
+ Topic 16: Gene153, Gene846, Gene1023, Gene1262, Gene706 
+ Topic 17: Gene153, Gene846, Gene1399, Gene234, Gene164 
+ Topic 18: Gene153, Gene846, Gene875, Gene1262, Gene1284 
+ Topic 19: Gene153, Gene875, Gene1284, Gene2011, Gene846 
+ Topic 20: Gene153, Gene113, Gene846, Gene706, Gene164 
+ Topic 21: Gene153, Gene2209, Gene1262, Gene1023, Gene846 
+ Topic 22: Gene153, Gene846, Gene164, Gene2556, Gene747 
+ Topic 23: Gene153, Gene2556, Gene846, Gene2209, Gene2231 
+ Topic 24: Gene153, Gene1262, Gene2209, Gene846, Gene706 
+ Topic 25: Gene153, Gene846, Gene164, Gene2209, Gene706 
+ Topic 26: Gene153, Gene164, Gene846, Gene2209, Gene2877 
+ Topic 27: Gene153, Gene1023, Gene2209, Gene706, Gene846 
+ Topic 28: Gene153, Gene1023, Gene1262, Gene706, Gene2231 
+ Topic 29: Gene153, Gene846, Gene706, Gene1023, Gene2209 
+ Topic 30: Gene153, Gene846, Gene2209, Gene706, Gene2556 
+ Topic 31: Gene153, Gene846, Gene1262, Gene706, Gene1023 
+ Topic 32: Gene153, Gene706, Gene2209, Gene846, Gene1023 
+ Topic 33: Gene153, Gene846, Gene1262, Gene706, Gene2231 
+ Topic 34: Gene153, Gene706, Gene2556, Gene1262, Gene164 
+ Topic 35: Gene153, Gene706, Gene1262, Gene2209, Gene262 
+ Topic 36: Gene153, Gene164, Gene846, Gene706, Gene747 
+ Topic 37: Gene153, Gene846, Gene2209, Gene706, Gene747 
+ Topic 38: Gene153, Gene1023, Gene2209, Gene706, Gene1262 
+ Topic 39: Gene153, Gene2882, Gene846, Gene164, Gene706 
+ Topic 40: Gene153, Gene846, Gene2209, Gene1023, Gene1262 
+ Topic 41: Gene153, Gene706, Gene846, Gene1262, Gene2209 
+ Topic 42: Gene153, Gene846, Gene2882, Gene1023, Gene2209 
+ Topic 43: Gene153, Gene846, Gene706, Gene1262, Gene1023 
+ Topic 44: Gene153, Gene846, Gene2209, Gene747, Gene1023 
+ Topic 45: Gene153, Gene1262, Gene706, Gene2209, Gene846 
+ Topic 46: Gene153, Gene846, Gene1262, Gene470, Gene2209 
+ Topic 47: Gene153, Gene1023, Gene846, Gene1262, Gene2231 
+ Topic 48: Gene153, Gene846, Gene706, Gene1262, Gene2209 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.162104e-05 
+Completing Iteration 16 (approx. per word bound = -17.025, relative change = 1.162e-05) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.015603e-05 
+Completing Iteration 17 (approx. per word bound = -17.025, relative change = 1.016e-05) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.11184e-05 
+Completing Iteration 18 (approx. per word bound = -17.025, relative change = 1.112e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.052605e-05 
+Completing Iteration 19 (approx. per word bound = -17.025, relative change = 1.053e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.820721e-06 
+Model Converged 
+Complete Topic k 

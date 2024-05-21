@@ -17,5 +17,5 @@ sims <- sims[rowSums(counts(sims)) != 0,]
 counts <- t(counts(sims))
 ngroup <- length(unique(sims$Group))
 fit <- fit_topic_model(counts,k = ngroup)
-saveRDS(fit, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", 
+saveRDS(fit, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/fastTopics/", 
                                    "fastTopics_", set_level, ".rds"))

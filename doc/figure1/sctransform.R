@@ -25,7 +25,7 @@ seurat.sims <- SCTransform(seurat.sims, verbose = TRUE)
 
 seurat.sims <- RunPCA(seurat.sims, verbose = TRUE)
 seurat.sims <- FindNeighbors(seurat.sims, dims = 1:30, verbose = TRUE)
-seurat.sims <- FindClusters(seurat.sims, verbose = TRUE, resolution = 0.8)
+seurat.sims <- FindClusters(seurat.sims, verbose = TRUE, resolution = seq(0.5,2,0.5))
 
-saveRDS(seurat.sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", 
+saveRDS(seurat.sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/sctransform_multi/", 
                                    "sctransform_", set_level, ".rds"))

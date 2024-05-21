@@ -16,7 +16,7 @@
 module load r/4.3.1
 
 DIR="/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1"
-FILES=($(find "$DIR" -maxdepth 1 -type f -name "sims*L9.rds"))
+FILES=($(find "$DIR" -maxdepth 1 -type f -name "sims*.rds"))
 
 INDEX=$(($SLURM_ARRAY_TASK_ID - 1)) # Calculate array index
 

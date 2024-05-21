@@ -52,5 +52,5 @@ max_value <- max(all_values)
 max_position_in_vector <- which(all_values == max_value)
 res <- scSTM.mod$runout[[max_position_in_vector]]
 msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
-saveRDS(res, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", 
+saveRDS(res, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_nc/", 
                            "scSTM_filtergenes_noContent_", set_level, ".rds"))

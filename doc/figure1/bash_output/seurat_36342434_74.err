@@ -1,0 +1,260 @@
+Loading required package: SingleCellExperiment
+Loading required package: SummarizedExperiment
+Loading required package: methods
+Loading required package: MatrixGenerics
+Loading required package: matrixStats
+
+Attaching package: ‘MatrixGenerics’
+
+The following objects are masked from ‘package:matrixStats’:
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars
+
+Loading required package: GenomicRanges
+Loading required package: stats4
+Loading required package: BiocGenerics
+Loading required package: utils
+Loading required package: graphics
+
+Attaching package: ‘graphics’
+
+The following object is masked from ‘package:stats4’:
+
+    plot
+
+Loading required package: stats
+
+Attaching package: ‘stats’
+
+The following objects are masked from ‘package:stats4’:
+
+    AIC, BIC, coef, confint, logLik, nobs, profile, update, vcov
+
+
+Attaching package: ‘BiocGenerics’
+
+The following objects are masked from ‘package:stats’:
+
+    IQR, mad, sd, var, xtabs
+
+The following objects are masked from ‘package:base’:
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which.max, which.min
+
+Loading required package: S4Vectors
+
+Attaching package: ‘S4Vectors’
+
+The following object is masked from ‘package:utils’:
+
+    findMatches
+
+The following objects are masked from ‘package:base’:
+
+    expand.grid, I, unname
+
+Loading required package: IRanges
+Loading required package: GenomeInfoDb
+Loading required package: Biobase
+Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.
+
+
+Attaching package: ‘Biobase’
+
+The following object is masked from ‘package:MatrixGenerics’:
+
+    rowMedians
+
+The following objects are masked from ‘package:matrixStats’:
+
+    anyMissing, rowMedians
+
+Loading required package: scuttle
+
+Attaching package: ‘Matrix’
+
+The following object is masked from ‘package:S4Vectors’:
+
+    expand
+
+
+Attaching package: ‘dplyr’
+
+The following object is masked from ‘package:Biobase’:
+
+    combine
+
+The following objects are masked from ‘package:GenomicRanges’:
+
+    intersect, setdiff, union
+
+The following object is masked from ‘package:GenomeInfoDb’:
+
+    intersect
+
+The following objects are masked from ‘package:IRanges’:
+
+    collapse, desc, intersect, setdiff, slice, union
+
+The following objects are masked from ‘package:S4Vectors’:
+
+    first, intersect, rename, setdiff, setequal, union
+
+The following objects are masked from ‘package:BiocGenerics’:
+
+    combine, intersect, setdiff, union
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following object is masked from ‘package:matrixStats’:
+
+    count
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+Package 'mclust' version 6.0.1
+Type 'citation("mclust")' for citing this R package in publications.
+Loading required package: SeuratObject
+Loading required package: sp
+
+Attaching package: ‘sp’
+
+The following object is masked from ‘package:IRanges’:
+
+    %over%
+
+‘SeuratObject’ was built with package ‘Matrix’ 1.6.3 but the current
+version is 1.6.5; it is recomended that you reinstall ‘SeuratObject’ as
+the ABI for ‘Matrix’ may have changed
+
+Attaching package: ‘SeuratObject’
+
+The following object is masked from ‘package:SummarizedExperiment’:
+
+    Assays
+
+The following object is masked from ‘package:GenomicRanges’:
+
+    intersect
+
+The following object is masked from ‘package:GenomeInfoDb’:
+
+    intersect
+
+The following object is masked from ‘package:IRanges’:
+
+    intersect
+
+The following object is masked from ‘package:S4Vectors’:
+
+    intersect
+
+The following object is masked from ‘package:BiocGenerics’:
+
+    intersect
+
+The following object is masked from ‘package:base’:
+
+    intersect
+
+
+Attaching package: ‘Seurat’
+
+The following object is masked from ‘package:SummarizedExperiment’:
+
+    Assays
+
+Warning: Data is of class matrix. Coercing to dgCMatrix.
+Normalizing layer: counts
+Performing log-normalization
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Finding variable features for layer counts
+Calculating gene variances
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Calculating feature variances of standardized and clipped values
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+Centering and scaling data matrix
+  |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+Warning: The following 9 features requested have zero variance; running reduction without them: Gene1059, Gene478, Gene880, Gene210, Gene1545, Gene980, Gene355, Gene857, Gene746
+PC_ 1 
+Positive:  Gene1554, Gene3, Gene682, Gene1447, Gene648, Gene1640, Gene1023, Gene360, Gene664, Gene451 
+	   Gene961, Gene435, Gene651, Gene1117, Gene1303, Gene383, Gene765, Gene503, Gene158, Gene957 
+	   Gene947, Gene574, Gene673, Gene388, Gene109, Gene428, Gene1662, Gene1655, Gene1219, Gene1289 
+Negative:  Gene1674, Gene1856, Gene834, Gene1485, Gene1196, Gene1954, Gene424, Gene73, Gene1052, Gene104 
+	   Gene324, Gene790, Gene841, Gene1314, Gene506, Gene1896, Gene34, Gene1959, Gene1149, Gene1076 
+	   Gene122, Gene1685, Gene154, Gene488, Gene341, Gene1698, Gene300, Gene310, Gene778, Gene735 
+PC_ 2 
+Positive:  Gene1363, Gene1208, Gene791, Gene1357, Gene1066, Gene924, Gene1827, Gene1392, Gene1498, Gene1958 
+	   Gene710, Gene1789, Gene338, Gene321, Gene1165, Gene643, Gene350, Gene1995, Gene53, Gene1654 
+	   Gene1976, Gene1217, Gene657, Gene883, Gene1002, Gene699, Gene551, Gene1374, Gene1700, Gene14 
+Negative:  Gene1985, Gene477, Gene207, Gene455, Gene1930, Gene1043, Gene1987, Gene1397, Gene423, Gene1147 
+	   Gene829, Gene1415, Gene615, Gene597, Gene1970, Gene937, Gene1440, Gene155, Gene1671, Gene879 
+	   Gene1851, Gene1003, Gene938, Gene1419, Gene1100, Gene1314, Gene858, Gene1074, Gene1198, Gene507 
+PC_ 3 
+Positive:  Gene6, Gene765, Gene1225, Gene1370, Gene1561, Gene79, Gene288, Gene128, Gene448, Gene498 
+	   Gene502, Gene4, Gene771, Gene2000, Gene144, Gene612, Gene800, Gene995, Gene1871, Gene961 
+	   Gene791, Gene453, Gene1227, Gene1084, Gene537, Gene1361, Gene470, Gene890, Gene1732, Gene1289 
+Negative:  Gene178, Gene1131, Gene1993, Gene447, Gene567, Gene22, Gene679, Gene972, Gene754, Gene1112 
+	   Gene514, Gene637, Gene1028, Gene1324, Gene1234, Gene737, Gene1158, Gene1955, Gene989, Gene479 
+	   Gene1515, Gene1190, Gene1036, Gene1550, Gene35, Gene246, Gene418, Gene119, Gene545, Gene1850 
+PC_ 4 
+Positive:  Gene631, Gene1128, Gene1349, Gene542, Gene536, Gene295, Gene61, Gene429, Gene211, Gene146 
+	   Gene546, Gene1230, Gene598, Gene376, Gene1586, Gene487, Gene875, Gene1010, Gene1693, Gene899 
+	   Gene971, Gene1344, Gene559, Gene1332, Gene1850, Gene1410, Gene1955, Gene734, Gene800, Gene697 
+Negative:  Gene1962, Gene331, Gene2000, Gene235, Gene37, Gene1351, Gene942, Gene958, Gene1787, Gene1373 
+	   Gene526, Gene1509, Gene1394, Gene1328, Gene1768, Gene1833, Gene1151, Gene157, Gene1271, Gene385 
+	   Gene1408, Gene255, Gene1948, Gene868, Gene1506, Gene1248, Gene199, Gene1971, Gene965, Gene855 
+PC_ 5 
+Positive:  Gene725, Gene674, Gene306, Gene1332, Gene1337, Gene1014, Gene1553, Gene283, Gene794, Gene11 
+	   Gene108, Gene1766, Gene1862, Gene1534, Gene204, Gene1629, Gene298, Gene1055, Gene422, Gene1525 
+	   Gene1129, Gene578, Gene1905, Gene801, Gene1904, Gene418, Gene535, Gene607, Gene1437, Gene1911 
+Negative:  Gene1452, Gene471, Gene1692, Gene197, Gene436, Gene57, Gene1826, Gene1667, Gene1412, Gene559 
+	   Gene933, Gene1181, Gene640, Gene1038, Gene1677, Gene730, Gene1353, Gene1965, Gene1399, Gene935 
+	   Gene1073, Gene166, Gene1955, Gene1527, Gene1172, Gene810, Gene653, Gene1010, Gene141, Gene1195 
+Computing nearest neighbor graph
+Computing SNN
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|
+0%   10   20   30   40   50   60   70   80   90   100%
+[----|----|----|----|----|----|----|----|----|----|
+**************************************************|

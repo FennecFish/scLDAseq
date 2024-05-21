@@ -1,0 +1,1435 @@
+sims_18_1714110803.rds 
+Found 5 batches
+Using null model in ComBat-seq.
+Adjusting for 0 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data
+Batch Effect Removed 
+        R/alignCorpus.R R/asSTMCorpus.R R/checkBeta.R R/cloud.R
+value   ?               ?               ?             ?        
+visible FALSE           FALSE           FALSE         FALSE    
+        R/convertCorpus.R R/estimateEffect.R R/estimateMixedEffect.R
+value   ?                 ?                  ?                      
+visible FALSE             FALSE              FALSE                  
+        R/exclusivity.R R/findThoughts.R R/findTopic.R R/fitNewDocuments.R
+value   ?               ?                ?             ?                  
+visible FALSE           FALSE            FALSE         FALSE              
+        R/heldout.R R/jeffreyskappa.R R/labelTopics.R R/makeDesignMatrix.R
+value   ?           ?                 ?               ?                   
+visible FALSE       FALSE             FALSE           FALSE               
+        R/manyTopics.R R/multiSTM.R R/optimalK.R R/permute.R
+value   ?              ?            ?            ?          
+visible FALSE          FALSE        FALSE        FALSE      
+        R/plot.estimateEffect.R R/plot.fixedEffect.R R/plot.searchK.R
+value   ?                       ?                    ?               
+visible FALSE                   FALSE                FALSE           
+        R/plot.STM.R R/plotModels.R R/plotQuote.R R/plotRemoved.R
+value   ?            ?              ?             ?              
+visible FALSE        FALSE          FALSE         FALSE          
+        R/plottingutilfns.R R/plotTopicLoess.R R/prepDocuments.R R/prepsce.R
+value   ?                   ?                  ?                 ?          
+visible FALSE               FALSE              FALSE             FALSE      
+        R/produce_cmatrix.R R/RcppExports.R R/readCorpus.R R/residuals.R R/s.R
+value   ?                   ?               ?              ?             ?    
+visible FALSE               FALSE           FALSE          FALSE         FALSE
+        R/sageLabels.R R/scSTM.R R/selectModel.R R/semanticCoherence.R
+value   ?              ?         ?               ?                    
+visible FALSE          FALSE     FALSE           FALSE                
+        R/simBetas.R R/spectral.R R/stm-package.R R/stm.control.R R/STMbound.R
+value   ?            ?            NULL            ?               ?           
+visible FALSE        FALSE        TRUE            FALSE           FALSE       
+        R/STMconvergence.R R/STMestep.R R/STMfunctions.R R/STMinit.R
+value   ?                  ?            ?                ?          
+visible FALSE              FALSE        FALSE            FALSE      
+        R/STMinitLikelihood.R R/STMlncpp.R R/STMmnreg.R R/STMmu.R
+value   ?                     ?            ?            ?        
+visible FALSE                 FALSE        FALSE        FALSE    
+        R/STMoptbeta.R R/STMreport.R R/STMsigma.R R/STMsigs.R R/STMsubset.R
+value   ?              ?             ?            ?           ?            
+visible FALSE          FALSE         FALSE        FALSE       FALSE        
+        R/summary.STM.R R/tau.R R/textProcessor.R R/thetaPosterior.R
+value   ?               ?       ?                 ?                 
+visible FALSE           FALSE   FALSE             FALSE             
+        R/toLDAvis.R R/topicCorr.R R/topicLasso.R R/topicQuality.R
+value   ?            ?             ?              ?               
+visible FALSE        FALSE         FALSE          FALSE           
+        R/writeLdac.R R/zzz.R
+value   ?             ?      
+visible FALSE         FALSE  
+Heldout Set Created 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	...
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (4 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.675) 
+.......................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000197158 
+Completing Iteration 2 (approx. per word bound = -19.671, relative change = 1.972e-04) 
+.......................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001404703 
+Completing Iteration 3 (approx. per word bound = -19.669, relative change = 1.405e-04) 
+.......................................................................................................
+Completed E-Step (4 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.084067e-05 
+Completing Iteration 4 (approx. per word bound = -19.667, relative change = 7.084e-05) 
+.......................................................................................................
+Completed E-Step (4 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.058168e-05 
+Completing Iteration 5 (approx. per word bound = -19.666, relative change = 4.058e-05) 
+Topic 1: Gene1461, Gene1000, Gene1048, Gene239, Gene629 
+ Topic 2: Gene239, Gene1000, Gene1048, Gene1461, Gene877 
+ Topic 3: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.943715e-05 
+Completing Iteration 6 (approx. per word bound = -19.666, relative change = 2.944e-05) 
+.......................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.061301e-05 
+Completing Iteration 7 (approx. per word bound = -19.666, relative change = 2.061e-05) 
+.......................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.460512e-05 
+Completing Iteration 8 (approx. per word bound = -19.665, relative change = 1.461e-05) 
+.......................................................................................................
+Completed E-Step (4 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.109441e-05 
+Completing Iteration 9 (approx. per word bound = -19.665, relative change = 1.109e-05) 
+.......................................................................................................
+Completed E-Step (5 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.720827e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	........
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.671) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005117376 
+Completing Iteration 2 (approx. per word bound = -19.661, relative change = 5.117e-04) 
+.......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002846545 
+Completing Iteration 3 (approx. per word bound = -19.655, relative change = 2.847e-04) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001610968 
+Completing Iteration 4 (approx. per word bound = -19.652, relative change = 1.611e-04) 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.028249e-05 
+Completing Iteration 5 (approx. per word bound = -19.650, relative change = 7.028e-05) 
+Topic 1: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 2: Gene1000, Gene239, Gene93, Gene1461, Gene1048 
+ Topic 3: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 6: Gene239, Gene1048, Gene877, Gene762, Gene1000 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 8: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+.......................................................................................................
+Completed E-Step (7 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.153333e-05 
+Completing Iteration 6 (approx. per word bound = -19.650, relative change = 3.153e-05) 
+.......................................................................................................
+Completed E-Step (7 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.573723e-05 
+Completing Iteration 7 (approx. per word bound = -19.649, relative change = 1.574e-05) 
+.......................................................................................................
+Completed E-Step (7 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.897261e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.............
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.671) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0007006602 
+Completing Iteration 2 (approx. per word bound = -19.658, relative change = 7.007e-04) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005136762 
+Completing Iteration 3 (approx. per word bound = -19.647, relative change = 5.137e-04) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001845972 
+Completing Iteration 4 (approx. per word bound = -19.644, relative change = 1.846e-04) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.186617e-05 
+Completing Iteration 5 (approx. per word bound = -19.643, relative change = 5.187e-05) 
+Topic 1: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 3: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 6: Gene239, Gene1048, Gene877, Gene762, Gene2975 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 8: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 13: Gene1000, Gene1461, Gene239, Gene1048, Gene410 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.133042e-05 
+Completing Iteration 6 (approx. per word bound = -19.642, relative change = 2.133e-05) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.386696e-05 
+Completing Iteration 7 (approx. per word bound = -19.642, relative change = 1.387e-05) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.361341e-05 
+Completing Iteration 8 (approx. per word bound = -19.642, relative change = 1.361e-05) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.259745e-05 
+Completing Iteration 9 (approx. per word bound = -19.642, relative change = 1.260e-05) 
+.......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.012785e-05 
+Completing Iteration 10 (approx. per word bound = -19.641, relative change = 1.013e-05) 
+Topic 1: Gene1000, Gene239, Gene1461, Gene1048, Gene410 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 3: Gene1461, Gene629, Gene1000, Gene239, Gene1048 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 6: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 8: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 13: Gene1000, Gene659, Gene1461, Gene1048, Gene410 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.457231e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	..................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.670) 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006881639 
+Completing Iteration 2 (approx. per word bound = -19.657, relative change = 6.882e-04) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005506397 
+Completing Iteration 3 (approx. per word bound = -19.646, relative change = 5.506e-04) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000231844 
+Completing Iteration 4 (approx. per word bound = -19.641, relative change = 2.318e-04) 
+.......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.224174e-05 
+Completing Iteration 5 (approx. per word bound = -19.640, relative change = 7.224e-05) 
+Topic 1: Gene1000, Gene1461, Gene659, Gene1048, Gene239 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 3: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene1461 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 17: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 18: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.647589e-05 
+Completing Iteration 6 (approx. per word bound = -19.640, relative change = 2.648e-05) 
+.......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.665501e-05 
+Completing Iteration 7 (approx. per word bound = -19.639, relative change = 1.666e-05) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.417441e-05 
+Completing Iteration 8 (approx. per word bound = -19.639, relative change = 1.417e-05) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.375123e-05 
+Completing Iteration 9 (approx. per word bound = -19.639, relative change = 1.375e-05) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.244324e-05 
+Completing Iteration 10 (approx. per word bound = -19.638, relative change = 1.244e-05) 
+Topic 1: Gene1000, Gene659, Gene1461, Gene1048, Gene410 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 3: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 6: Gene1000, Gene877, Gene239, Gene1461, Gene1048 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene239, Gene771 
+ Topic 8: Gene239, Gene1000, Gene1048, Gene2975, Gene762 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene239, Gene1461, Gene1048, Gene2924 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene2975, Gene1048 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene1464 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 17: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 18: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.136317e-05 
+Completing Iteration 11 (approx. per word bound = -19.638, relative change = 1.136e-05) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.073135e-05 
+Completing Iteration 12 (approx. per word bound = -19.638, relative change = 1.073e-05) 
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.633481e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.......................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.669) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006805326 
+Completing Iteration 2 (approx. per word bound = -19.655, relative change = 6.805e-04) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005272629 
+Completing Iteration 3 (approx. per word bound = -19.645, relative change = 5.273e-04) 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002284232 
+Completing Iteration 4 (approx. per word bound = -19.641, relative change = 2.284e-04) 
+.......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.306479e-05 
+Completing Iteration 5 (approx. per word bound = -19.639, relative change = 9.306e-05) 
+Topic 1: Gene1048, Gene1000, Gene1461, Gene239, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 3: Gene1000, Gene1461, Gene659, Gene1048, Gene239 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 7: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene2975 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 17: Gene239, Gene1000, Gene1461, Gene1048, Gene762 
+ Topic 18: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene877, Gene1048 
+ Topic 22: Gene1000, Gene1461, Gene239, Gene877, Gene1048 
+ Topic 23: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.40931e-05 
+Completing Iteration 6 (approx. per word bound = -19.638, relative change = 4.409e-05) 
+.......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.935683e-05 
+Completing Iteration 7 (approx. per word bound = -19.637, relative change = 3.936e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.194249e-05 
+Completing Iteration 8 (approx. per word bound = -19.637, relative change = 2.194e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.58861e-05 
+Completing Iteration 9 (approx. per word bound = -19.636, relative change = 1.589e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.254898e-05 
+Completing Iteration 10 (approx. per word bound = -19.636, relative change = 1.255e-05) 
+Topic 1: Gene1048, Gene1000, Gene1461, Gene239, Gene2368 
+ Topic 2: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 3: Gene1000, Gene659, Gene1461, Gene1048, Gene410 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 7: Gene1000, Gene1461, Gene1048, Gene877, Gene239 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene2975, Gene877 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene2924 
+ Topic 15: Gene239, Gene1048, Gene877, Gene1464, Gene762 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 17: Gene239, Gene1461, Gene1000, Gene1048, Gene762 
+ Topic 18: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1461, Gene1000, Gene877, Gene2975 
+ Topic 22: Gene1000, Gene877, Gene1461, Gene239, Gene1048 
+ Topic 23: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.046967e-05 
+Completing Iteration 11 (approx. per word bound = -19.636, relative change = 1.047e-05) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.100148e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	............................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.667) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006964605 
+Completing Iteration 2 (approx. per word bound = -19.653, relative change = 6.965e-04) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000563375 
+Completing Iteration 3 (approx. per word bound = -19.642, relative change = 5.634e-04) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000226873 
+Completing Iteration 4 (approx. per word bound = -19.638, relative change = 2.269e-04) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.386332e-05 
+Completing Iteration 5 (approx. per word bound = -19.636, relative change = 8.386e-05) 
+Topic 1: Gene1048, Gene1000, Gene1461, Gene239, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 3: Gene1000, Gene239, Gene1048, Gene877, Gene1461 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene877, Gene1461, Gene762 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene2975 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene1461, Gene1048, Gene239, Gene410 
+ Topic 17: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 18: Gene1000, Gene1461, Gene239, Gene1048, Gene202 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene877, Gene1048 
+ Topic 22: Gene1000, Gene1461, Gene239, Gene877, Gene1048 
+ Topic 23: Gene1000, Gene659, Gene1461, Gene1048, Gene239 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 28: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.122655e-05 
+Completing Iteration 6 (approx. per word bound = -19.635, relative change = 5.123e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.685649e-05 
+Completing Iteration 7 (approx. per word bound = -19.635, relative change = 2.686e-05) 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.10354e-05 
+Completing Iteration 8 (approx. per word bound = -19.634, relative change = 2.104e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.804145e-05 
+Completing Iteration 9 (approx. per word bound = -19.634, relative change = 1.804e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.713351e-05 
+Completing Iteration 10 (approx. per word bound = -19.634, relative change = 1.713e-05) 
+Topic 1: Gene1048, Gene1000, Gene1461, Gene239, Gene410 
+ Topic 2: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 3: Gene1000, Gene1048, Gene877, Gene239, Gene410 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene877, Gene762, Gene1461 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene877, Gene202 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene2975, Gene410 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene239, Gene1461, Gene1048, Gene2924 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene1978 
+ Topic 15: Gene239, Gene1048, Gene877, Gene1464, Gene762 
+ Topic 16: Gene1000, Gene1461, Gene1048, Gene410, Gene239 
+ Topic 17: Gene239, Gene1000, Gene1461, Gene1048, Gene2975 
+ Topic 18: Gene1000, Gene1461, Gene239, Gene1048, Gene202 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 20: Gene239, Gene1000, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene877, Gene1048 
+ Topic 22: Gene1000, Gene1461, Gene239, Gene877, Gene1048 
+ Topic 23: Gene659, Gene1000, Gene1461, Gene410, Gene1048 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 25: Gene1000, Gene877, Gene239, Gene1461, Gene1048 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene239, Gene1000, Gene1461, Gene1048, Gene762 
+ Topic 28: Gene1000, Gene1461, Gene239, Gene1048, Gene2975 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.231459e-05 
+Completing Iteration 11 (approx. per word bound = -19.633, relative change = 1.231e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.105309e-05 
+Completing Iteration 12 (approx. per word bound = -19.633, relative change = 1.105e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.019094e-05 
+Completing Iteration 13 (approx. per word bound = -19.633, relative change = 1.019e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.171573e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.663) 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0004903835 
+Completing Iteration 2 (approx. per word bound = -19.653, relative change = 4.904e-04) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006592863 
+Completing Iteration 3 (approx. per word bound = -19.641, relative change = 6.593e-04) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002176422 
+Completing Iteration 4 (approx. per word bound = -19.636, relative change = 2.176e-04) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.02201e-05 
+Completing Iteration 5 (approx. per word bound = -19.635, relative change = 7.022e-05) 
+Topic 1: Gene1461, Gene1000, Gene1048, Gene239, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 3: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene1048, Gene877, Gene2677 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene239, Gene1048 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene2975 
+ Topic 9: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene1461, Gene1048, Gene659, Gene239 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene239, Gene1048, Gene1461, Gene2975 
+ Topic 17: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene202 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene1000, Gene659, Gene1461, Gene1048, Gene239 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene202 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 28: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 32: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 33: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.240286e-05 
+Completing Iteration 6 (approx. per word bound = -19.634, relative change = 4.240e-05) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.023807e-05 
+Completing Iteration 7 (approx. per word bound = -19.633, relative change = 3.024e-05) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.63355e-05 
+Completing Iteration 8 (approx. per word bound = -19.633, relative change = 2.634e-05) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.316148e-05 
+Completing Iteration 9 (approx. per word bound = -19.632, relative change = 2.316e-05) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.637086e-05 
+Completing Iteration 10 (approx. per word bound = -19.632, relative change = 1.637e-05) 
+Topic 1: Gene1461, Gene1048, Gene1000, Gene239, Gene877 
+ Topic 2: Gene1000, Gene239, Gene877, Gene1461, Gene2975 
+ Topic 3: Gene1000, Gene239, Gene1461, Gene1048, Gene2924 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene2368 
+ Topic 5: Gene1000, Gene239, Gene2677, Gene877, Gene1048 
+ Topic 6: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene1219, Gene2324 
+ Topic 8: Gene239, Gene1000, Gene1048, Gene2975, Gene410 
+ Topic 9: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene1461, Gene659, Gene1048, Gene410 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene1978 
+ Topic 15: Gene239, Gene1048, Gene877, Gene1464, Gene762 
+ Topic 16: Gene1000, Gene239, Gene1048, Gene1461, Gene2975 
+ Topic 17: Gene239, Gene1000, Gene1461, Gene1048, Gene2840 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene202 
+ Topic 19: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 20: Gene239, Gene1000, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1461, Gene1000, Gene877, Gene1048 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene659, Gene1000, Gene410, Gene1048, Gene1461 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene202, Gene1048 
+ Topic 25: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 26: Gene1461, Gene1000, Gene239, Gene1048, Gene771 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene1219 
+ Topic 28: Gene1000, Gene877, Gene239, Gene1461, Gene1048 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 32: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 33: Gene1000, Gene1461, Gene239, Gene762, Gene2975 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.286244e-05 
+Completing Iteration 11 (approx. per word bound = -19.632, relative change = 2.286e-05) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.590178e-05 
+Completing Iteration 12 (approx. per word bound = -19.631, relative change = 1.590e-05) 
+.......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.005339e-05 
+Completing Iteration 13 (approx. per word bound = -19.631, relative change = 1.005e-05) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.114557e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	......................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.662) 
+.......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0004915899 
+Completing Iteration 2 (approx. per word bound = -19.652, relative change = 4.916e-04) 
+.......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006654125 
+Completing Iteration 3 (approx. per word bound = -19.639, relative change = 6.654e-04) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002278656 
+Completing Iteration 4 (approx. per word bound = -19.634, relative change = 2.279e-04) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.234907e-05 
+Completing Iteration 5 (approx. per word bound = -19.633, relative change = 7.235e-05) 
+Topic 1: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 3: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene2975 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 17: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 18: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene1000, Gene659, Gene1461, Gene1048, Gene239 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene1219 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 28: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 32: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 33: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 34: Gene1000, Gene1461, Gene1048, Gene239, Gene410 
+ Topic 35: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 37: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 38: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.134478e-05 
+Completing Iteration 6 (approx. per word bound = -19.632, relative change = 4.134e-05) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.859626e-05 
+Completing Iteration 7 (approx. per word bound = -19.632, relative change = 2.860e-05) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.322805e-05 
+Completing Iteration 8 (approx. per word bound = -19.631, relative change = 2.323e-05) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.24521e-05 
+Completing Iteration 9 (approx. per word bound = -19.631, relative change = 2.245e-05) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.658549e-05 
+Completing Iteration 10 (approx. per word bound = -19.630, relative change = 1.659e-05) 
+Topic 1: Gene1461, Gene1000, Gene1048, Gene239, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene877, Gene2975 
+ Topic 3: Gene1000, Gene239, Gene1048, Gene1461, Gene2924 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene2368 
+ Topic 5: Gene1000, Gene239, Gene877, Gene202, Gene2324 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene239, Gene1048 
+ Topic 8: Gene239, Gene1000, Gene1048, Gene2975, Gene202 
+ Topic 9: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene1048, Gene239, Gene1461, Gene771 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene2975, Gene1978 
+ Topic 15: Gene239, Gene1048, Gene877, Gene1464, Gene762 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 17: Gene239, Gene1000, Gene1048, Gene1461, Gene410 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene877, Gene1461, Gene239, Gene1048 
+ Topic 20: Gene239, Gene1000, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1461, Gene1000, Gene877, Gene1048 
+ Topic 22: Gene239, Gene1000, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene659, Gene1000, Gene1461, Gene410, Gene1048 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1219, Gene202 
+ Topic 25: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene1219 
+ Topic 28: Gene1000, Gene239, Gene1461, Gene877, Gene2975 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene410 
+ Topic 32: Gene1000, Gene1461, Gene1048, Gene239, Gene2840 
+ Topic 33: Gene1000, Gene239, Gene1048, Gene1461, Gene2975 
+ Topic 34: Gene1000, Gene1461, Gene1048, Gene410, Gene239 
+ Topic 35: Gene1461, Gene239, Gene1000, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene1461, Gene239, Gene1048, Gene2840 
+ Topic 37: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 38: Gene239, Gene1461, Gene1000, Gene1048, Gene877 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.612767e-05 
+Completing Iteration 11 (approx. per word bound = -19.630, relative change = 1.613e-05) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.441535e-05 
+Completing Iteration 12 (approx. per word bound = -19.630, relative change = 1.442e-05) 
+.......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.689602e-05 
+Completing Iteration 13 (approx. per word bound = -19.629, relative change = 1.690e-05) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.177097e-05 
+Completing Iteration 14 (approx. per word bound = -19.629, relative change = 1.177e-05) 
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.701068e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	...........................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.661) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005602639 
+Completing Iteration 2 (approx. per word bound = -19.650, relative change = 5.603e-04) 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006365888 
+Completing Iteration 3 (approx. per word bound = -19.637, relative change = 6.366e-04) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002382218 
+Completing Iteration 4 (approx. per word bound = -19.633, relative change = 2.382e-04) 
+.......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.473251e-05 
+Completing Iteration 5 (approx. per word bound = -19.631, relative change = 7.473e-05) 
+Topic 1: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 3: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene239, Gene1000, Gene877, Gene1048, Gene2975 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene239, Gene1048 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene2975 
+ Topic 9: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 17: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 23: Gene1000, Gene659, Gene1461, Gene1048, Gene239 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene202 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 28: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 32: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 33: Gene1000, Gene239, Gene1048, Gene1461, Gene762 
+ Topic 34: Gene1000, Gene1461, Gene1048, Gene239, Gene410 
+ Topic 35: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene1461, Gene239, Gene1048, Gene410 
+ Topic 37: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 38: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 39: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 40: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 41: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 42: Gene1000, Gene1461, Gene659, Gene1048, Gene239 
+ Topic 43: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.242509e-05 
+Completing Iteration 6 (approx. per word bound = -19.630, relative change = 4.243e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.350677e-05 
+Completing Iteration 7 (approx. per word bound = -19.630, relative change = 2.351e-05) 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.250477e-05 
+Completing Iteration 8 (approx. per word bound = -19.629, relative change = 2.250e-05) 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.823092e-05 
+Completing Iteration 9 (approx. per word bound = -19.629, relative change = 1.823e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.937348e-05 
+Completing Iteration 10 (approx. per word bound = -19.629, relative change = 1.937e-05) 
+Topic 1: Gene1461, Gene239, Gene1000, Gene1048, Gene877 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene2924, Gene1048 
+ Topic 3: Gene1000, Gene239, Gene1048, Gene877, Gene1461 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene2368 
+ Topic 5: Gene239, Gene877, Gene1000, Gene2324, Gene2975 
+ Topic 6: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene1048, Gene1219 
+ Topic 8: Gene239, Gene1000, Gene1048, Gene2975, Gene202 
+ Topic 9: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene1048, Gene2677 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene1048, Gene239, Gene1461, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene2975, Gene1978 
+ Topic 15: Gene239, Gene1048, Gene877, Gene1464, Gene762 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 17: Gene239, Gene1000, Gene1048, Gene1461, Gene877 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene1461, Gene239, Gene877, Gene1048 
+ Topic 20: Gene239, Gene1000, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1461, Gene1000, Gene1048, Gene877 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene659, Gene1000, Gene410, Gene1048, Gene1461 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene202, Gene1048 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene762 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene1219 
+ Topic 28: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 32: Gene1000, Gene1461, Gene239, Gene1048, Gene2840 
+ Topic 33: Gene1000, Gene239, Gene1048, Gene1461, Gene762 
+ Topic 34: Gene1000, Gene1048, Gene1461, Gene239, Gene410 
+ Topic 35: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene1461, Gene239, Gene1048, Gene2840 
+ Topic 37: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 38: Gene1000, Gene1461, Gene239, Gene1048, Gene2975 
+ Topic 39: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 40: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 41: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 42: Gene1000, Gene659, Gene1461, Gene1048, Gene410 
+ Topic 43: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.642627e-05 
+Completing Iteration 11 (approx. per word bound = -19.628, relative change = 1.643e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.556472e-05 
+Completing Iteration 12 (approx. per word bound = -19.628, relative change = 1.556e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.098612e-05 
+Completing Iteration 13 (approx. per word bound = -19.628, relative change = 1.099e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.405358e-05 
+Completing Iteration 14 (approx. per word bound = -19.627, relative change = 1.405e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.085104e-05 
+Completing Iteration 15 (approx. per word bound = -19.627, relative change = 1.085e-05) 
+Topic 1: Gene1461, Gene239, Gene1048, Gene1000, Gene202 
+ Topic 2: Gene239, Gene1000, Gene2924, Gene1461, Gene1048 
+ Topic 3: Gene1000, Gene1048, Gene877, Gene239, Gene1461 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene2368 
+ Topic 5: Gene239, Gene877, Gene1000, Gene2324, Gene771 
+ Topic 6: Gene239, Gene1000, Gene1461, Gene877, Gene1048 
+ Topic 7: Gene1000, Gene877, Gene1461, Gene1048, Gene1219 
+ Topic 8: Gene239, Gene1000, Gene1048, Gene2975, Gene202 
+ Topic 9: Gene1000, Gene239, Gene771, Gene877, Gene1048 
+ Topic 10: Gene1000, Gene239, Gene1461, Gene2677, Gene1048 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1048, Gene1461 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene1048, Gene239, Gene1461, Gene771 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene2975, Gene2246 
+ Topic 15: Gene239, Gene1048, Gene1464, Gene877, Gene762 
+ Topic 16: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 17: Gene239, Gene1000, Gene1048, Gene1461, Gene877 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene1652 
+ Topic 19: Gene1000, Gene1461, Gene877, Gene239, Gene2840 
+ Topic 20: Gene239, Gene1000, Gene1461, Gene506, Gene1048 
+ Topic 21: Gene239, Gene1461, Gene1000, Gene877, Gene1048 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene659, Gene1000, Gene410, Gene1048, Gene1461 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene202, Gene1219 
+ Topic 25: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene2305 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene196, Gene1219 
+ Topic 28: Gene877, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 32: Gene1000, Gene1461, Gene239, Gene2840, Gene1048 
+ Topic 33: Gene1000, Gene1048, Gene239, Gene1461, Gene762 
+ Topic 34: Gene1000, Gene1048, Gene1461, Gene410, Gene239 
+ Topic 35: Gene1461, Gene239, Gene1000, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene1461, Gene239, Gene2840, Gene1048 
+ Topic 37: Gene1000, Gene1461, Gene1048, Gene239, Gene877 
+ Topic 38: Gene1048, Gene1461, Gene1000, Gene239, Gene2975 
+ Topic 39: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 40: Gene1461, Gene1000, Gene239, Gene1048, Gene771 
+ Topic 41: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 42: Gene659, Gene1000, Gene1461, Gene410, Gene1048 
+ Topic 43: Gene1000, Gene239, Gene1461, Gene877, Gene1219 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.318672e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	................................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.659) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005649886 
+Completing Iteration 2 (approx. per word bound = -19.648, relative change = 5.650e-04) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006641537 
+Completing Iteration 3 (approx. per word bound = -19.635, relative change = 6.642e-04) 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002130181 
+Completing Iteration 4 (approx. per word bound = -19.631, relative change = 2.130e-04) 
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.92894e-05 
+Completing Iteration 5 (approx. per word bound = -19.629, relative change = 8.929e-05) 
+Topic 1: Gene1461, Gene1000, Gene239, Gene1048, Gene629 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 3: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene877 
+ Topic 5: Gene1000, Gene239, Gene1048, Gene2677, Gene1461 
+ Topic 6: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene239, Gene877, Gene1461, Gene762 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene877, Gene2975 
+ Topic 9: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 10: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 11: Gene1000, Gene93, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 13: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 15: Gene239, Gene1048, Gene877, Gene762, Gene771 
+ Topic 16: Gene1000, Gene1048, Gene1461, Gene659, Gene239 
+ Topic 17: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 18: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 20: Gene1000, Gene239, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 22: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene1000, Gene659, Gene1461, Gene239, Gene1048 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene202 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 28: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 32: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 33: Gene1000, Gene239, Gene1048, Gene1461, Gene762 
+ Topic 34: Gene1000, Gene1461, Gene1048, Gene239, Gene410 
+ Topic 35: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene1461, Gene239, Gene1048, Gene410 
+ Topic 37: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 38: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 39: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 40: Gene1000, Gene1461, Gene239, Gene1048, Gene771 
+ Topic 41: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 42: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 43: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 44: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 45: Gene1000, Gene239, Gene1461, Gene1048, Gene2975 
+ Topic 46: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 47: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 48: Gene1000, Gene239, Gene1461, Gene1048, Gene202 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.482487e-05 
+Completing Iteration 6 (approx. per word bound = -19.628, relative change = 4.482e-05) 
+.......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.605253e-05 
+Completing Iteration 7 (approx. per word bound = -19.628, relative change = 2.605e-05) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.910121e-05 
+Completing Iteration 8 (approx. per word bound = -19.628, relative change = 1.910e-05) 
+.......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.388088e-05 
+Completing Iteration 9 (approx. per word bound = -19.627, relative change = 2.388e-05) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.698604e-05 
+Completing Iteration 10 (approx. per word bound = -19.627, relative change = 1.699e-05) 
+Topic 1: Gene1461, Gene1000, Gene629, Gene239, Gene1048 
+ Topic 2: Gene1000, Gene239, Gene1461, Gene2924, Gene877 
+ Topic 3: Gene239, Gene1000, Gene1461, Gene1048, Gene762 
+ Topic 4: Gene1048, Gene1000, Gene239, Gene1461, Gene2368 
+ Topic 5: Gene239, Gene1000, Gene2677, Gene1048, Gene1461 
+ Topic 6: Gene239, Gene1000, Gene1461, Gene1048, Gene877 
+ Topic 7: Gene1000, Gene877, Gene2324, Gene1461, Gene762 
+ Topic 8: Gene1000, Gene239, Gene1048, Gene2975, Gene202 
+ Topic 9: Gene1000, Gene239, Gene877, Gene1048, Gene1461 
+ Topic 10: Gene1461, Gene1000, Gene239, Gene1048, Gene202 
+ Topic 11: Gene93, Gene1000, Gene239, Gene1461, Gene1048 
+ Topic 12: Gene1461, Gene629, Gene1000, Gene239, Gene549 
+ Topic 13: Gene1000, Gene239, Gene1048, Gene1461, Gene877 
+ Topic 14: Gene1000, Gene239, Gene1461, Gene2975, Gene2246 
+ Topic 15: Gene239, Gene1048, Gene877, Gene1464, Gene762 
+ Topic 16: Gene1000, Gene1048, Gene659, Gene1461, Gene410 
+ Topic 17: Gene239, Gene1000, Gene1048, Gene1461, Gene2840 
+ Topic 18: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 19: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 20: Gene239, Gene1000, Gene1461, Gene1048, Gene506 
+ Topic 21: Gene239, Gene1461, Gene1000, Gene1048, Gene877 
+ Topic 22: Gene239, Gene1000, Gene1461, Gene877, Gene1048 
+ Topic 23: Gene659, Gene1000, Gene410, Gene1461, Gene1048 
+ Topic 24: Gene1000, Gene239, Gene1461, Gene1048, Gene202 
+ Topic 25: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 26: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 27: Gene1000, Gene239, Gene1461, Gene1048, Gene1219 
+ Topic 28: Gene1000, Gene239, Gene877, Gene1461, Gene1048 
+ Topic 29: Gene1000, Gene239, Gene1461, Gene1048, Gene1005 
+ Topic 30: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 31: Gene1000, Gene239, Gene1461, Gene1048, Gene762 
+ Topic 32: Gene1000, Gene1461, Gene239, Gene1048, Gene2840 
+ Topic 33: Gene1000, Gene239, Gene1048, Gene1461, Gene762 
+ Topic 34: Gene1000, Gene1461, Gene1048, Gene410, Gene877 
+ Topic 35: Gene1461, Gene1000, Gene239, Gene1048, Gene877 
+ Topic 36: Gene1000, Gene1461, Gene239, Gene1048, Gene410 
+ Topic 37: Gene1000, Gene1461, Gene1048, Gene239, Gene877 
+ Topic 38: Gene1461, Gene1000, Gene1048, Gene239, Gene771 
+ Topic 39: Gene1000, Gene239, Gene1461, Gene877, Gene1048 
+ Topic 40: Gene1000, Gene1461, Gene239, Gene1048, Gene771 
+ Topic 41: Gene239, Gene1000, Gene1048, Gene1461, Gene877 
+ Topic 42: Gene1000, Gene1461, Gene239, Gene1048, Gene877 
+ Topic 43: Gene1000, Gene239, Gene877, Gene1461, Gene410 
+ Topic 44: Gene1000, Gene239, Gene1048, Gene877, Gene1461 
+ Topic 45: Gene1000, Gene1461, Gene239, Gene1048, Gene2975 
+ Topic 46: Gene1000, Gene877, Gene239, Gene1461, Gene1048 
+ Topic 47: Gene1000, Gene239, Gene1461, Gene1048, Gene877 
+ Topic 48: Gene1000, Gene239, Gene1461, Gene1048, Gene202 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.549448e-05 
+Completing Iteration 11 (approx. per word bound = -19.626, relative change = 1.549e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.637212e-05 
+Completing Iteration 12 (approx. per word bound = -19.626, relative change = 1.637e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.285616e-05 
+Completing Iteration 13 (approx. per word bound = -19.626, relative change = 1.286e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.70882e-06 
+Model Converged 
+Complete Topic k 

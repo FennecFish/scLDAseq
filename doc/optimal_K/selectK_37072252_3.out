@@ -1,0 +1,932 @@
+sims_12_1714110779.rds 
+Found 5 batches
+Using null model in ComBat-seq.
+Adjusting for 0 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data
+Batch Effect Removed 
+        R/alignCorpus.R R/asSTMCorpus.R R/checkBeta.R R/cloud.R
+value   ?               ?               ?             ?        
+visible FALSE           FALSE           FALSE         FALSE    
+        R/convertCorpus.R R/estimateEffect.R R/estimateMixedEffect.R
+value   ?                 ?                  ?                      
+visible FALSE             FALSE              FALSE                  
+        R/exclusivity.R R/findThoughts.R R/findTopic.R R/fitNewDocuments.R
+value   ?               ?                ?             ?                  
+visible FALSE           FALSE            FALSE         FALSE              
+        R/heldout.R R/jeffreyskappa.R R/labelTopics.R R/makeDesignMatrix.R
+value   ?           ?                 ?               ?                   
+visible FALSE       FALSE             FALSE           FALSE               
+        R/manyTopics.R R/multiSTM.R R/optimalK.R R/permute.R
+value   ?              ?            ?            ?          
+visible FALSE          FALSE        FALSE        FALSE      
+        R/plot.estimateEffect.R R/plot.fixedEffect.R R/plot.searchK.R
+value   ?                       ?                    ?               
+visible FALSE                   FALSE                FALSE           
+        R/plot.STM.R R/plotModels.R R/plotQuote.R R/plotRemoved.R
+value   ?            ?              ?             ?              
+visible FALSE        FALSE          FALSE         FALSE          
+        R/plottingutilfns.R R/plotTopicLoess.R R/prepDocuments.R R/prepsce.R
+value   ?                   ?                  ?                 ?          
+visible FALSE               FALSE              FALSE             FALSE      
+        R/produce_cmatrix.R R/RcppExports.R R/readCorpus.R R/residuals.R R/s.R
+value   ?                   ?               ?              ?             ?    
+visible FALSE               FALSE           FALSE          FALSE         FALSE
+        R/sageLabels.R R/scSTM.R R/selectModel.R R/semanticCoherence.R
+value   ?              ?         ?               ?                    
+visible FALSE          FALSE     FALSE           FALSE                
+        R/simBetas.R R/spectral.R R/stm-package.R R/stm.control.R R/STMbound.R
+value   ?            ?            NULL            ?               ?           
+visible FALSE        FALSE        TRUE            FALSE           FALSE       
+        R/STMconvergence.R R/STMestep.R R/STMfunctions.R R/STMinit.R
+value   ?                  ?            ?                ?          
+visible FALSE              FALSE        FALSE            FALSE      
+        R/STMinitLikelihood.R R/STMlncpp.R R/STMmnreg.R R/STMmu.R
+value   ?                     ?            ?            ?        
+visible FALSE                 FALSE        FALSE        FALSE    
+        R/STMoptbeta.R R/STMreport.R R/STMsigma.R R/STMsigs.R R/STMsubset.R
+value   ?              ?             ?            ?           ?            
+visible FALSE          FALSE         FALSE        FALSE       FALSE        
+        R/summary.STM.R R/tau.R R/textProcessor.R R/thetaPosterior.R
+value   ?               ?       ?                 ?                 
+visible FALSE           FALSE   FALSE             FALSE             
+        R/toLDAvis.R R/topicCorr.R R/topicLasso.R R/topicQuality.R
+value   ?            ?             ?              ?               
+visible FALSE        FALSE         FALSE          FALSE           
+        R/writeLdac.R R/zzz.R
+value   ?             ?      
+visible FALSE         FALSE  
+Heldout Set Created 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	...
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.298) 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003372521 
+Completing Iteration 2 (approx. per word bound = -19.292, relative change = 3.373e-04) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.169647e-05 
+Completing Iteration 3 (approx. per word bound = -19.290, relative change = 8.170e-05) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.611023e-05 
+Completing Iteration 4 (approx. per word bound = -19.290, relative change = 2.611e-05) 
+.......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.193484e-05 
+Completing Iteration 5 (approx. per word bound = -19.290, relative change = 1.193e-05) 
+Topic 1: Gene2808, Gene1912, Gene2920, Gene1847, Gene144 
+ Topic 2: Gene2808, Gene2920, Gene1847, Gene144, Gene1912 
+ Topic 3: Gene2808, Gene2920, Gene1157, Gene1847, Gene144 
+.......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.040725e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	........
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.288) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000686838 
+Completing Iteration 2 (approx. per word bound = -19.275, relative change = 6.868e-04) 
+.......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002711927 
+Completing Iteration 3 (approx. per word bound = -19.270, relative change = 2.712e-04) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001181558 
+Completing Iteration 4 (approx. per word bound = -19.268, relative change = 1.182e-04) 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.156461e-05 
+Completing Iteration 5 (approx. per word bound = -19.267, relative change = 4.156e-05) 
+Topic 1: Gene2808, Gene1912, Gene1966, Gene2920, Gene1847 
+ Topic 2: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene1912, Gene2652, Gene2920, Gene1847 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1912, Gene1847 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2808, Gene2920, Gene1847, Gene1912, Gene1280 
+ Topic 8: Gene2920, Gene2808, Gene1847, Gene144, Gene627 
+.......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.570836e-05 
+Completing Iteration 6 (approx. per word bound = -19.267, relative change = 1.571e-05) 
+.......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.014343e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.............
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.289) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0009905981 
+Completing Iteration 2 (approx. per word bound = -19.270, relative change = 9.906e-04) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003212544 
+Completing Iteration 3 (approx. per word bound = -19.264, relative change = 3.213e-04) 
+.......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001077168 
+Completing Iteration 4 (approx. per word bound = -19.262, relative change = 1.077e-04) 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.541387e-05 
+Completing Iteration 5 (approx. per word bound = -19.261, relative change = 4.541e-05) 
+Topic 1: Gene2808, Gene1966, Gene1912, Gene2920, Gene1847 
+ Topic 2: Gene2920, Gene1426, Gene1847, Gene1912, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1912, Gene144 
+ Topic 6: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene2285, Gene1073, Gene144 
+ Topic 8: Gene2920, Gene2808, Gene1847, Gene144, Gene1073 
+ Topic 9: Gene2808, Gene627, Gene2920, Gene144, Gene1280 
+ Topic 10: Gene2808, Gene1847, Gene2920, Gene144, Gene1912 
+ Topic 11: Gene2808, Gene2920, Gene1847, Gene1912, Gene1073 
+ Topic 12: Gene1912, Gene2920, Gene1966, Gene1847, Gene2808 
+ Topic 13: Gene2808, Gene1912, Gene1426, Gene1847, Gene2920 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.101126e-05 
+Completing Iteration 6 (approx. per word bound = -19.260, relative change = 3.101e-05) 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.244824e-05 
+Completing Iteration 7 (approx. per word bound = -19.260, relative change = 2.245e-05) 
+.......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.43744e-05 
+Completing Iteration 8 (approx. per word bound = -19.260, relative change = 1.437e-05) 
+.......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.83922e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	..................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.290) 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001277518 
+Completing Iteration 2 (approx. per word bound = -19.266, relative change = 1.278e-03) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002794831 
+Completing Iteration 3 (approx. per word bound = -19.260, relative change = 2.795e-04) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.422812e-05 
+Completing Iteration 4 (approx. per word bound = -19.259, relative change = 8.423e-05) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.190648e-05 
+Completing Iteration 5 (approx. per word bound = -19.258, relative change = 3.191e-05) 
+Topic 1: Gene2808, Gene627, Gene2920, Gene1912, Gene1847 
+ Topic 2: Gene2920, Gene1426, Gene144, Gene2808, Gene1912 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 5: Gene2808, Gene2920, Gene1912, Gene144, Gene2977 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene144, Gene1551 
+ Topic 7: Gene2920, Gene2808, Gene2285, Gene144, Gene1073 
+ Topic 8: Gene2920, Gene2808, Gene1847, Gene144, Gene1426 
+ Topic 9: Gene627, Gene2808, Gene2920, Gene144, Gene1912 
+ Topic 10: Gene2808, Gene1847, Gene2920, Gene627, Gene1912 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene1912, Gene2808, Gene1966, Gene2920, Gene1847 
+ Topic 13: Gene2808, Gene2920, Gene2977, Gene1847, Gene144 
+ Topic 14: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 15: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 16: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 17: Gene2808, Gene2920, Gene1847, Gene144, Gene1280 
+ Topic 18: Gene2808, Gene1912, Gene2920, Gene144, Gene1847 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.433404e-05 
+Completing Iteration 6 (approx. per word bound = -19.258, relative change = 1.433e-05) 
+.......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.13377e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.......................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.290) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001428468 
+Completing Iteration 2 (approx. per word bound = -19.263, relative change = 1.428e-03) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000240432 
+Completing Iteration 3 (approx. per word bound = -19.258, relative change = 2.404e-04) 
+.......................................................................................................
+Completed E-Step (24 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.315758e-05 
+Completing Iteration 4 (approx. per word bound = -19.257, relative change = 7.316e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.172661e-05 
+Completing Iteration 5 (approx. per word bound = -19.256, relative change = 3.173e-05) 
+Topic 1: Gene2808, Gene2920, Gene627, Gene1551, Gene1966 
+ Topic 2: Gene2920, Gene144, Gene2808, Gene1426, Gene1912 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 5: Gene2808, Gene2920, Gene1912, Gene2977, Gene144 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1551, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene2534, Gene2285, Gene1073 
+ Topic 8: Gene2920, Gene2808, Gene1847, Gene144, Gene1073 
+ Topic 9: Gene2808, Gene627, Gene2920, Gene144, Gene1073 
+ Topic 10: Gene2808, Gene1847, Gene627, Gene2920, Gene1073 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene2808, Gene1912, Gene2920, Gene1426, Gene144 
+ Topic 13: Gene2808, Gene2920, Gene2977, Gene1316, Gene144 
+ Topic 14: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 15: Gene2808, Gene1847, Gene2920, Gene1912, Gene1280 
+ Topic 16: Gene2808, Gene627, Gene1912, Gene1426, Gene1847 
+ Topic 17: Gene2808, Gene2920, Gene1847, Gene144, Gene1280 
+ Topic 18: Gene2808, Gene1912, Gene2920, Gene144, Gene1073 
+ Topic 19: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 20: Gene1847, Gene2808, Gene2920, Gene1912, Gene1426 
+ Topic 21: Gene1912, Gene2808, Gene1966, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 23: Gene2808, Gene1847, Gene2920, Gene144, Gene1912 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.836054e-05 
+Completing Iteration 6 (approx. per word bound = -19.256, relative change = 1.836e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.091564e-05 
+Completing Iteration 7 (approx. per word bound = -19.256, relative change = 1.092e-05) 
+.......................................................................................................
+Completed E-Step (23 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.17197e-05 
+Completing Iteration 8 (approx. per word bound = -19.255, relative change = 1.172e-05) 
+.......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.114818e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	............................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.293) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001392824 
+Completing Iteration 2 (approx. per word bound = -19.266, relative change = 1.393e-03) 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003920919 
+Completing Iteration 3 (approx. per word bound = -19.258, relative change = 3.921e-04) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001207551 
+Completing Iteration 4 (approx. per word bound = -19.256, relative change = 1.208e-04) 
+.......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.678011e-05 
+Completing Iteration 5 (approx. per word bound = -19.255, relative change = 5.678e-05) 
+Topic 1: Gene2808, Gene627, Gene2920, Gene1912, Gene1847 
+ Topic 2: Gene2920, Gene1426, Gene144, Gene1912, Gene2808 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1912, Gene1847 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene144, Gene1847, Gene1551 
+ Topic 8: Gene2920, Gene2808, Gene1847, Gene144, Gene1426 
+ Topic 9: Gene2808, Gene627, Gene2920, Gene1073, Gene144 
+ Topic 10: Gene2808, Gene2920, Gene1847, Gene144, Gene1551 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene1912, Gene2808, Gene2920, Gene1966, Gene1847 
+ Topic 13: Gene2808, Gene2920, Gene2977, Gene144, Gene1316 
+ Topic 14: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 15: Gene2808, Gene2920, Gene1280, Gene1847, Gene1912 
+ Topic 16: Gene2808, Gene627, Gene2920, Gene1912, Gene1847 
+ Topic 17: Gene2808, Gene2920, Gene1551, Gene627, Gene1847 
+ Topic 18: Gene2808, Gene144, Gene1847, Gene2920, Gene1912 
+ Topic 19: Gene2920, Gene1426, Gene1847, Gene1912, Gene144 
+ Topic 20: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 21: Gene2808, Gene1912, Gene1966, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 23: Gene2808, Gene1847, Gene144, Gene2920, Gene1551 
+ Topic 24: Gene2808, Gene2920, Gene1912, Gene144, Gene2977 
+ Topic 25: Gene2808, Gene2920, Gene627, Gene1912, Gene594 
+ Topic 26: Gene627, Gene2808, Gene144, Gene2920, Gene1847 
+ Topic 27: Gene2920, Gene2808, Gene1912, Gene1847, Gene144 
+ Topic 28: Gene2808, Gene2920, Gene1847, Gene1073, Gene1912 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.440721e-05 
+Completing Iteration 6 (approx. per word bound = -19.254, relative change = 2.441e-05) 
+.......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.507548e-05 
+Completing Iteration 7 (approx. per word bound = -19.254, relative change = 1.508e-05) 
+.......................................................................................................
+Completed E-Step (25 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.644825e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.293) 
+.......................................................................................................
+Completed E-Step (38 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001234778 
+Completing Iteration 2 (approx. per word bound = -19.269, relative change = 1.235e-03) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0006212926 
+Completing Iteration 3 (approx. per word bound = -19.257, relative change = 6.213e-04) 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001855366 
+Completing Iteration 4 (approx. per word bound = -19.253, relative change = 1.855e-04) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.496667e-05 
+Completing Iteration 5 (approx. per word bound = -19.252, relative change = 5.497e-05) 
+Topic 1: Gene2808, Gene1912, Gene2652, Gene2920, Gene1847 
+ Topic 2: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1847, Gene1912 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene1847, Gene144, Gene1073 
+ Topic 8: Gene2920, Gene2808, Gene144, Gene1551, Gene1280 
+ Topic 9: Gene2808, Gene2920, Gene1912, Gene2534, Gene144 
+ Topic 10: Gene2808, Gene2920, Gene1847, Gene627, Gene144 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene2808, Gene1912, Gene1966, Gene2920, Gene1847 
+ Topic 13: Gene2808, Gene2920, Gene144, Gene1551, Gene2977 
+ Topic 14: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 15: Gene2808, Gene1280, Gene2920, Gene1847, Gene594 
+ Topic 16: Gene2808, Gene627, Gene2920, Gene1847, Gene1912 
+ Topic 17: Gene2808, Gene2920, Gene1912, Gene1847, Gene2652 
+ Topic 18: Gene2808, Gene144, Gene1847, Gene1912, Gene2920 
+ Topic 19: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 20: Gene2808, Gene2920, Gene627, Gene1847, Gene1280 
+ Topic 21: Gene2808, Gene1912, Gene1966, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1280, Gene1847, Gene144 
+ Topic 23: Gene2808, Gene1847, Gene2920, Gene1912, Gene627 
+ Topic 24: Gene2808, Gene2920, Gene1912, Gene144, Gene1847 
+ Topic 25: Gene2808, Gene1912, Gene2920, Gene627, Gene594 
+ Topic 26: Gene2808, Gene627, Gene144, Gene2920, Gene1847 
+ Topic 27: Gene2808, Gene2920, Gene144, Gene1847, Gene1073 
+ Topic 28: Gene2808, Gene2920, Gene1847, Gene1912, Gene1426 
+ Topic 29: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 30: Gene2808, Gene627, Gene2920, Gene1912, Gene144 
+ Topic 31: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 32: Gene2808, Gene627, Gene2920, Gene1847, Gene1912 
+ Topic 33: Gene2808, Gene2920, Gene1912, Gene144, Gene1847 
+.......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.019475e-05 
+Completing Iteration 6 (approx. per word bound = -19.252, relative change = 2.019e-05) 
+.......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.307604e-05 
+Completing Iteration 7 (approx. per word bound = -19.252, relative change = 1.308e-05) 
+.......................................................................................................
+Completed E-Step (28 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.535809e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	......................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (35 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.291) 
+.......................................................................................................
+Completed E-Step (38 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001073445 
+Completing Iteration 2 (approx. per word bound = -19.270, relative change = 1.073e-03) 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0008155693 
+Completing Iteration 3 (approx. per word bound = -19.254, relative change = 8.156e-04) 
+.......................................................................................................
+Completed E-Step (38 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001495999 
+Completing Iteration 4 (approx. per word bound = -19.252, relative change = 1.496e-04) 
+.......................................................................................................
+Completed E-Step (34 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.386481e-05 
+Completing Iteration 5 (approx. per word bound = -19.251, relative change = 4.386e-05) 
+Topic 1: Gene2808, Gene2920, Gene1847, Gene144, Gene1912 
+ Topic 2: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1912, Gene1847 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene1847, Gene144, Gene1073 
+ Topic 8: Gene2920, Gene2808, Gene144, Gene1551, Gene1426 
+ Topic 9: Gene2808, Gene2920, Gene1912, Gene627, Gene144 
+ Topic 10: Gene2808, Gene2920, Gene1847, Gene627, Gene1157 
+ Topic 11: Gene2808, Gene2920, Gene1847, Gene1912, Gene1073 
+ Topic 12: Gene2808, Gene1912, Gene2920, Gene1966, Gene1847 
+ Topic 13: Gene2808, Gene2920, Gene2977, Gene144, Gene1912 
+ Topic 14: Gene2808, Gene2652, Gene1912, Gene2920, Gene144 
+ Topic 15: Gene2808, Gene2920, Gene627, Gene144, Gene1280 
+ Topic 16: Gene2808, Gene627, Gene1912, Gene2920, Gene1847 
+ Topic 17: Gene2808, Gene2920, Gene1847, Gene1157, Gene2534 
+ Topic 18: Gene2808, Gene1912, Gene144, Gene1551, Gene2920 
+ Topic 19: Gene2808, Gene144, Gene1847, Gene2920, Gene1912 
+ Topic 20: Gene2808, Gene627, Gene2920, Gene1847, Gene1280 
+ Topic 21: Gene1912, Gene2808, Gene1966, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1551, Gene1912, Gene1280 
+ Topic 23: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 24: Gene2808, Gene2920, Gene1912, Gene144, Gene1073 
+ Topic 25: Gene2808, Gene627, Gene2920, Gene1912, Gene1847 
+ Topic 26: Gene627, Gene2808, Gene2920, Gene144, Gene1847 
+ Topic 27: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 28: Gene2920, Gene2808, Gene1847, Gene1426, Gene1551 
+ Topic 29: Gene2920, Gene2808, Gene1847, Gene1912, Gene627 
+ Topic 30: Gene2808, Gene2920, Gene627, Gene1912, Gene1073 
+ Topic 31: Gene2808, Gene2652, Gene2920, Gene1912, Gene1847 
+ Topic 32: Gene2808, Gene627, Gene1847, Gene2920, Gene1912 
+ Topic 33: Gene2808, Gene2920, Gene1847, Gene144, Gene594 
+ Topic 34: Gene2808, Gene2920, Gene1912, Gene1280, Gene1847 
+ Topic 35: Gene2808, Gene2920, Gene1073, Gene1912, Gene594 
+ Topic 36: Gene2808, Gene627, Gene2920, Gene1847, Gene1426 
+ Topic 37: Gene2808, Gene1912, Gene2920, Gene1426, Gene1966 
+ Topic 38: Gene2920, Gene2808, Gene1847, Gene1073, Gene1426 
+.......................................................................................................
+Completed E-Step (33 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.369248e-05 
+Completing Iteration 6 (approx. per word bound = -19.250, relative change = 2.369e-05) 
+.......................................................................................................
+Completed E-Step (32 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.078772e-05 
+Completing Iteration 7 (approx. per word bound = -19.250, relative change = 1.079e-05) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.11172e-05 
+Completing Iteration 8 (approx. per word bound = -19.250, relative change = 1.112e-05) 
+.......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.507832e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	...........................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (40 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.290) 
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.001019774 
+Completing Iteration 2 (approx. per word bound = -19.270, relative change = 1.020e-03) 
+.......................................................................................................
+Completed E-Step (40 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000892846 
+Completing Iteration 3 (approx. per word bound = -19.253, relative change = 8.928e-04) 
+.......................................................................................................
+Completed E-Step (44 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001547795 
+Completing Iteration 4 (approx. per word bound = -19.250, relative change = 1.548e-04) 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.280235e-05 
+Completing Iteration 5 (approx. per word bound = -19.249, relative change = 4.280e-05) 
+Topic 1: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 2: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene1847, Gene2920, Gene144, Gene1912 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1912, Gene1847 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene1847, Gene144, Gene1073 
+ Topic 8: Gene2920, Gene2808, Gene144, Gene1551, Gene2534 
+ Topic 9: Gene2808, Gene2920, Gene1912, Gene144, Gene415 
+ Topic 10: Gene2808, Gene2920, Gene1847, Gene627, Gene2925 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene2808, Gene1912, Gene2920, Gene1966, Gene1551 
+ Topic 13: Gene2808, Gene2920, Gene1912, Gene1551, Gene144 
+ Topic 14: Gene2808, Gene2652, Gene1912, Gene2920, Gene144 
+ Topic 15: Gene2808, Gene627, Gene2920, Gene144, Gene1912 
+ Topic 16: Gene2808, Gene627, Gene2920, Gene1912, Gene1847 
+ Topic 17: Gene2808, Gene2920, Gene1157, Gene2534, Gene144 
+ Topic 18: Gene2808, Gene1912, Gene144, Gene2920, Gene1551 
+ Topic 19: Gene2808, Gene2920, Gene144, Gene1912, Gene2977 
+ Topic 20: Gene2808, Gene627, Gene2920, Gene1847, Gene1912 
+ Topic 21: Gene2808, Gene1912, Gene1966, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1912, Gene1073, Gene1551 
+ Topic 23: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 24: Gene2808, Gene1912, Gene2920, Gene144, Gene1847 
+ Topic 25: Gene2808, Gene627, Gene2920, Gene1912, Gene1073 
+ Topic 26: Gene627, Gene2808, Gene2920, Gene1847, Gene144 
+ Topic 27: Gene2808, Gene1847, Gene2920, Gene1912, Gene144 
+ Topic 28: Gene2808, Gene2920, Gene1847, Gene1426, Gene1551 
+ Topic 29: Gene2920, Gene2808, Gene1847, Gene1912, Gene627 
+ Topic 30: Gene2808, Gene2920, Gene627, Gene144, Gene1847 
+ Topic 31: Gene2808, Gene2652, Gene1912, Gene1847, Gene2920 
+ Topic 32: Gene2808, Gene627, Gene2920, Gene1847, Gene1912 
+ Topic 33: Gene2808, Gene2920, Gene1847, Gene1280, Gene144 
+ Topic 34: Gene2808, Gene2920, Gene1912, Gene1847, Gene1426 
+ Topic 35: Gene2808, Gene2920, Gene1912, Gene1073, Gene1551 
+ Topic 36: Gene2808, Gene2920, Gene627, Gene1847, Gene1426 
+ Topic 37: Gene2808, Gene2920, Gene1912, Gene1426, Gene1847 
+ Topic 38: Gene2808, Gene2920, Gene1847, Gene1426, Gene2925 
+ Topic 39: Gene2808, Gene2920, Gene627, Gene144, Gene1847 
+ Topic 40: Gene2808, Gene2920, Gene1912, Gene1847, Gene1280 
+ Topic 41: Gene2808, Gene2920, Gene144, Gene1847, Gene2534 
+ Topic 42: Gene2808, Gene2920, Gene1912, Gene1847, Gene594 
+ Topic 43: Gene627, Gene2808, Gene144, Gene2920, Gene594 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.085068e-05 
+Completing Iteration 6 (approx. per word bound = -19.249, relative change = 2.085e-05) 
+.......................................................................................................
+Completed E-Step (37 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.933621e-05 
+Completing Iteration 7 (approx. per word bound = -19.248, relative change = 1.934e-05) 
+.......................................................................................................
+Completed E-Step (41 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.676537e-05 
+Completing Iteration 8 (approx. per word bound = -19.248, relative change = 1.677e-05) 
+.......................................................................................................
+Completed E-Step (36 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.245183e-06 
+Model Converged 
+Complete Topic k 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	................................................
+	 Recovering initialization...
+ 	..............
+Initialization complete.
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -19.289) 
+.......................................................................................................
+Completed E-Step (46 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0009764994 
+Completing Iteration 2 (approx. per word bound = -19.270, relative change = 9.765e-04) 
+.......................................................................................................
+Completed E-Step (44 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0008910569 
+Completing Iteration 3 (approx. per word bound = -19.253, relative change = 8.911e-04) 
+.......................................................................................................
+Completed E-Step (44 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002014608 
+Completing Iteration 4 (approx. per word bound = -19.249, relative change = 2.015e-04) 
+.......................................................................................................
+Completed E-Step (43 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.462048e-05 
+Completing Iteration 5 (approx. per word bound = -19.248, relative change = 5.462e-05) 
+Topic 1: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 2: Gene2920, Gene1426, Gene1912, Gene1847, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene1847, Gene2920, Gene144, Gene1912 
+ Topic 5: Gene2808, Gene2920, Gene2977, Gene1912, Gene1847 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene1847, Gene144, Gene1551 
+ Topic 8: Gene2920, Gene2808, Gene1073, Gene1847, Gene144 
+ Topic 9: Gene2808, Gene2920, Gene1912, Gene144, Gene2534 
+ Topic 10: Gene2808, Gene2920, Gene1847, Gene2652, Gene2925 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene2808, Gene1912, Gene2920, Gene1966, Gene1551 
+ Topic 13: Gene2808, Gene2920, Gene144, Gene1551, Gene1912 
+ Topic 14: Gene2808, Gene2920, Gene1912, Gene2652, Gene144 
+ Topic 15: Gene2808, Gene2920, Gene1280, Gene144, Gene627 
+ Topic 16: Gene2808, Gene627, Gene2920, Gene1912, Gene144 
+ Topic 17: Gene2808, Gene1157, Gene2920, Gene144, Gene2534 
+ Topic 18: Gene2808, Gene144, Gene1912, Gene1551, Gene2920 
+ Topic 19: Gene2808, Gene2920, Gene144, Gene1912, Gene1551 
+ Topic 20: Gene2808, Gene627, Gene2920, Gene1847, Gene1073 
+ Topic 21: Gene1912, Gene2808, Gene1966, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 23: Gene2808, Gene2920, Gene1912, Gene1551, Gene2652 
+ Topic 24: Gene2808, Gene1847, Gene1912, Gene2920, Gene144 
+ Topic 25: Gene2808, Gene627, Gene2920, Gene1912, Gene594 
+ Topic 26: Gene627, Gene2808, Gene2920, Gene1847, Gene144 
+ Topic 27: Gene2808, Gene2920, Gene1847, Gene1912, Gene1280 
+ Topic 28: Gene2808, Gene2920, Gene1847, Gene1426, Gene1073 
+ Topic 29: Gene2920, Gene2808, Gene1847, Gene1912, Gene2534 
+ Topic 30: Gene2808, Gene627, Gene1847, Gene2920, Gene144 
+ Topic 31: Gene2808, Gene2652, Gene1912, Gene2920, Gene1847 
+ Topic 32: Gene2808, Gene627, Gene2920, Gene1847, Gene1912 
+ Topic 33: Gene2808, Gene2920, Gene1847, Gene1280, Gene144 
+ Topic 34: Gene2808, Gene2920, Gene1847, Gene1912, Gene2925 
+ Topic 35: Gene2808, Gene2920, Gene1912, Gene1073, Gene627 
+ Topic 36: Gene2808, Gene2920, Gene627, Gene1426, Gene1847 
+ Topic 37: Gene2808, Gene2920, Gene1551, Gene1847, Gene144 
+ Topic 38: Gene2808, Gene2920, Gene1426, Gene1847, Gene2925 
+ Topic 39: Gene2808, Gene2920, Gene627, Gene144, Gene1847 
+ Topic 40: Gene2808, Gene2920, Gene144, Gene1912, Gene2534 
+ Topic 41: Gene2808, Gene2920, Gene144, Gene2534, Gene1847 
+ Topic 42: Gene2808, Gene2920, Gene1912, Gene1280, Gene1847 
+ Topic 43: Gene2808, Gene2920, Gene1912, Gene1073, Gene144 
+ Topic 44: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 45: Gene2808, Gene627, Gene2920, Gene1280, Gene1551 
+ Topic 46: Gene2808, Gene2920, Gene1847, Gene144, Gene1280 
+ Topic 47: Gene2808, Gene2920, Gene1912, Gene627, Gene144 
+ Topic 48: Gene2808, Gene627, Gene2920, Gene144, Gene1912 
+.......................................................................................................
+Completed E-Step (40 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.313483e-05 
+Completing Iteration 6 (approx. per word bound = -19.247, relative change = 2.313e-05) 
+.......................................................................................................
+Completed E-Step (41 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.652042e-05 
+Completing Iteration 7 (approx. per word bound = -19.247, relative change = 1.652e-05) 
+.......................................................................................................
+Completed E-Step (39 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.680012e-05 
+Completing Iteration 8 (approx. per word bound = -19.247, relative change = 1.680e-05) 
+.......................................................................................................
+Completed E-Step (39 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.298242e-05 
+Completing Iteration 9 (approx. per word bound = -19.246, relative change = 1.298e-05) 
+.......................................................................................................
+Completed E-Step (39 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.1675e-05 
+Completing Iteration 10 (approx. per word bound = -19.246, relative change = 1.168e-05) 
+Topic 1: Gene2808, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 2: Gene1426, Gene2920, Gene1912, Gene1847, Gene144 
+ Topic 3: Gene2808, Gene1157, Gene2920, Gene2917, Gene1847 
+ Topic 4: Gene2808, Gene1847, Gene2920, Gene144, Gene1912 
+ Topic 5: Gene2808, Gene2977, Gene2920, Gene1316, Gene1847 
+ Topic 6: Gene2808, Gene2920, Gene1847, Gene1912, Gene144 
+ Topic 7: Gene2920, Gene2808, Gene144, Gene1847, Gene1280 
+ Topic 8: Gene2920, Gene2808, Gene1073, Gene2534, Gene1426 
+ Topic 9: Gene2808, Gene2920, Gene1912, Gene144, Gene2534 
+ Topic 10: Gene2808, Gene2920, Gene1847, Gene2925, Gene2652 
+ Topic 11: Gene2808, Gene2920, Gene1912, Gene1847, Gene1073 
+ Topic 12: Gene2808, Gene1912, Gene2920, Gene1966, Gene1551 
+ Topic 13: Gene1551, Gene2920, Gene2534, Gene2808, Gene1912 
+ Topic 14: Gene2808, Gene2652, Gene1912, Gene2920, Gene144 
+ Topic 15: Gene1280, Gene144, Gene2808, Gene2920, Gene2534 
+ Topic 16: Gene2808, Gene627, Gene1912, Gene2920, Gene144 
+ Topic 17: Gene2808, Gene1157, Gene144, Gene2920, Gene2534 
+ Topic 18: Gene2808, Gene144, Gene1551, Gene1912, Gene2652 
+ Topic 19: Gene2808, Gene2920, Gene144, Gene1551, Gene1912 
+ Topic 20: Gene2808, Gene627, Gene2920, Gene1073, Gene1280 
+ Topic 21: Gene1912, Gene1966, Gene2808, Gene2920, Gene1847 
+ Topic 22: Gene2808, Gene2920, Gene1912, Gene1847, Gene575 
+ Topic 23: Gene2808, Gene1551, Gene1912, Gene2920, Gene2652 
+ Topic 24: Gene2808, Gene1847, Gene1912, Gene144, Gene2920 
+ Topic 25: Gene2808, Gene627, Gene1912, Gene594, Gene2920 
+ Topic 26: Gene627, Gene2808, Gene2920, Gene1847, Gene144 
+ Topic 27: Gene2808, Gene1847, Gene2920, Gene1280, Gene1912 
+ Topic 28: Gene2808, Gene2920, Gene1847, Gene1426, Gene1073 
+ Topic 29: Gene2920, Gene1847, Gene2808, Gene2534, Gene1912 
+ Topic 30: Gene2808, Gene627, Gene1847, Gene144, Gene1912 
+ Topic 31: Gene2652, Gene2808, Gene1912, Gene2920, Gene1847 
+ Topic 32: Gene2808, Gene627, Gene1847, Gene1912, Gene2920 
+ Topic 33: Gene2808, Gene2920, Gene1847, Gene1073, Gene1280 
+ Topic 34: Gene2808, Gene1847, Gene1912, Gene2920, Gene2925 
+ Topic 35: Gene2808, Gene2920, Gene1912, Gene1073, Gene627 
+ Topic 36: Gene2808, Gene627, Gene2920, Gene1426, Gene1912 
+ Topic 37: Gene2920, Gene2808, Gene1551, Gene594, Gene144 
+ Topic 38: Gene2808, Gene2920, Gene1426, Gene1847, Gene2925 
+ Topic 39: Gene2808, Gene2920, Gene144, Gene627, Gene1847 
+ Topic 40: Gene2808, Gene2920, Gene144, Gene1912, Gene2534 
+ Topic 41: Gene2808, Gene2534, Gene144, Gene2920, Gene1847 
+ Topic 42: Gene2808, Gene2920, Gene1912, Gene594, Gene1280 
+ Topic 43: Gene2808, Gene2920, Gene1912, Gene1073, Gene2534 
+ Topic 44: Gene2808, Gene2920, Gene1847, Gene1912, Gene594 
+ Topic 45: Gene627, Gene2808, Gene2920, Gene1551, Gene1280 
+ Topic 46: Gene2808, Gene144, Gene1847, Gene1280, Gene2920 
+ Topic 47: Gene2808, Gene2920, Gene627, Gene1912, Gene1426 
+ Topic 48: Gene2808, Gene627, Gene2920, Gene144, Gene1426 
+.......................................................................................................
+Completed E-Step (36 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.315285e-06 
+Model Converged 
+Complete Topic k 

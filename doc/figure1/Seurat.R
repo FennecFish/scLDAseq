@@ -35,7 +35,7 @@ seurat.sims <- ScaleData(seurat.sims, features = all.genes)
 seurat.sims <- RunPCA(seurat.sims, , features = VariableFeatures(object = seurat.sims))
 
 seurat.sims <- FindNeighbors(seurat.sims, dims = 1:10)
-seurat.sims <- FindClusters(seurat.sims, resolution = 0.8)
+seurat.sims <- FindClusters(seurat.sims, resolution = seq(0.5,2,0.5))
 
-saveRDS(seurat.sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", 
+saveRDS(seurat.sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/seurat/", 
                            "seurat_", set_level, ".rds"))

@@ -9,9 +9,9 @@ library(ggplot2)
 library(dplyr)
 library(mclust)
 library(Seurat)
-library(RaceID)
-library(cidr)
 library(cluster)
+library(monocle3)
+library(sctransform)
 
 process_scSTM <- function(scSTMobj) {
   max_indices <- apply(scSTMobj$theta, 1, which.max)
@@ -22,8 +22,8 @@ process_scSTM <- function(scSTMobj) {
   return(res_cluster)
 }
 
-# files <- list.files(path = "/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", pattern = "sims*")
-files <- list.files(path = "/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", pattern = "scSTM*")
+files <- list.files(path = "/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", pattern = "sims*")
+# files <- list.files(path = "/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", pattern = "scSTM*")
 dat <- data.frame()
 level <- paste0("L", 1:9)
 res.adj <- data.frame()
@@ -40,44 +40,131 @@ for(l in level){
     dat <- colData(sims) %>% data.frame() %>% select(Cell:Group,time)
     
     # scSTM
-    scSTM_path <- grep(file, scSTM_file_name, value = TRUE)
-    for(path in scSTM_path){
-      scSTM <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", path))
-      scSTM_cluster <- process_scSTM(scSTM)
-      pattern <- "(_[0-9]+_L[0-9]+\\.rds)$"
-      scSTM_setup <- sub(pattern, "", path)
-
-      dat[,scSTM_setup] <- scSTM_cluster[match(dat$Cell, names(scSTM_cluster))]
-      rm(scSTM)
-    }
+    # scSTM_path <- grep(file, scSTM_file_name, value = TRUE)
+    # for(path in scSTM_path){
+    #   scSTM <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", path))
+    #   scSTM_cluster <- process_scSTM(scSTM)
+    #   pattern <- "(_[0-9]+_L[0-9]+\\.rds)$"
+    #   scSTM_setup <- sub(pattern, "", path)
+    # 
+    #   dat[,scSTM_setup] <- scSTM_cluster[match(dat$Cell, names(scSTM_cluster))]
+    #   rm(scSTM)
+    # }
     
-    # scSTM_a_nc <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_allGenes_noContent_", set_level, ".rds"))
-    # scSTM_f_nc <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_filterGenes_noContent_", set_level, ".rds"))
-    # scSTM_f_c <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_filterGenes_Content_", set_level, ".rds"))
-    # 
-    # scSTM_a_nc_cluster <- process_scSTM(scSTM_a_nc)
-    # dat$scSTM_a_nc_cluster <- scSTM_a_nc_cluster[match(names(scSTM_a_nc_cluster), dat$Cell)]
-    # 
+    # fileter gene with no content model
+    f_nc_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_nc/scSTM_filtergenes_noContent_",set_level,".rds")
+    # scSTM_f_nc <- readRDS(f_nc_name)
     # scSTM_f_nc_cluster <- process_scSTM(scSTM_f_nc)
-    # dat$scSTM_f_nc_cluster <- scSTM_f_nc_cluster[match(names(scSTM_f_nc_cluster), dat$Cell)]
-    # 
-    # scSTM_f_c_cluster <- process_scSTM(scSTM_f_c)
-    # dat$scSTM_f_c_cluster <- scSTM_f_c_cluster[match(names(scSTM_f_c_cluster), dat$Cell)]
+    # dat$scSTM_f_nc_cluster <- scSTM_f_nc_cluster[match(dat$Cell, names(scSTM_f_nc_cluster))]
+    if(file.exists(f_nc_name)){
+      scSTM_f_nc <- readRDS(f_nc_name)
+      scSTM_f_nc_cluster <- process_scSTM(scSTM_f_nc)
+      dat$scSTM_f_nc_cluster <- scSTM_f_nc_cluster[match(dat$Cell, names(scSTM_f_nc_cluster))]
+    } else {dat$scSTM_f_nc_cluster = NA}
+
     
+    # all gene with no content model
+    a_nc_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_a_nc/scSTM_allGenes_noContent_",set_level,".rds")
+    if(file.exists(a_nc_name)){
+      scSTM_a_nc <- readRDS(a_nc_name)
+      scSTM_a_nc_cluster <- process_scSTM(scSTM_a_nc)
+      dat$scSTM_a_nc_cluster <- scSTM_a_nc_cluster[match(dat$Cell, names(scSTM_a_nc_cluster))]
+    }else {dat$scSTM_a_nc_cluster = NA}
+    
+    # filter genes with content model
+    f_c_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_c/scSTM_filterGenes_Content_",set_level,".rds")
+    if(file.exists(f_c_name)){
+      scSTM_f_c <- readRDS(f_c_name)
+      scSTM_f_c_cluster <- process_scSTM(scSTM_f_c)
+      dat$scSTM_f_c_cluster <- scSTM_f_c_cluster[match(dat$Cell, names(scSTM_f_c_cluster))]
+    } else {dat$scSTM_f_c_cluster = NA}
+    
+    # all genes wtih content model
+    a_c_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_a_c/scSTM_allGenes_Content_",set_level,".rds")
+    if(file.exists(a_c_name)){
+      scSTM_a_c <- readRDS(a_c_name)
+      scSTM_a_c_cluster <- process_scSTM(scSTM_a_c)
+      dat$scSTM_a_c_cluster <- scSTM_a_c_cluster[match(dat$Cell, names(scSTM_a_c_cluster))]
+    } else {dat$scSTM_a_c_cluster = NA}
+    
+    # filter gene with combat no content 
+    if (l %in% c("L1","L2","L3")){
+      combat_f_nc_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_nc/scSTM_filtergenes_noContent_",set_level,".rds")
+    } else{
+      combat_f_nc_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_combat_f_nc/scSTM_combat_filtergenes_noContent_",set_level,".rds")
+    }
+    if(file.exists(combat_f_nc_name)){
+      scSTM_combat_f_nc <- readRDS(combat_f_nc_name)
+      scSTM_combat_f_nc_cluster <- process_scSTM(scSTM_combat_f_nc)
+      dat$scSTM_combat_f_nc_cluster <- scSTM_combat_f_nc_cluster[match(dat$Cell, names(scSTM_combat_f_nc_cluster))]
+    } else {dat$scSTM_combat_f_nc_cluster = NA}
+    
+    # filter gene with content with combat
+    if (l %in% c("L1","L2","L3")){
+      combat_f_c_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_c/scSTM_filterGenes_Content_",set_level,".rds")
+    } else{
+      combat_f_c_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_combat_f_c/scSTM_combat_filterGenes_Content_",set_level,".rds")
+    }
+    if(file.exists(combat_f_c_name)){
+      scSTM_combat_f_c <- readRDS(combat_f_c_name)
+      scSTM_combat_f_c_cluster <- process_scSTM(scSTM_combat_f_c)
+      dat$scSTM_combat_f_c_cluster <- scSTM_combat_f_c_cluster[match(dat$Cell, names(scSTM_combat_f_c_cluster))]
+    } else {dat$scSTM_combat_f_c_cluster = NA}
+
     # Seurat
-    seurat.sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/seurat_", set_level, ".rds"))
-    dat$seurat_cluster <- Idents(seurat.sims)[match(names(Idents(seurat.sims)), dat$Cell)]
+    seurat.sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/seurat/seurat_", set_level, ".rds"))
+    smeta <- seurat.sims@meta.data %>% as.data.frame()
+    sub_sims <- sims[,rownames(smeta)] # filter by the rows
+    seurat.adj <- sapply(smeta[,4:7], function(x) {
+      adjustedRandIndex(x, sub_sims$Group)
+    })
+    # select the resolution that has the highest ARI. When there are multiple, select the first one
+    best_res <- names(seurat.adj)[seurat.adj == max(seurat.adj)][1]
+    seurat_cluster <- seurat.sims@meta.data %>% as.data.frame() %>% select(all_of(best_res))
+    dat$seurat_cluster <- seurat_cluster[match(dat$Cell, rownames(seurat_cluster)),]
+    rm(sub_sims)
+
+    # sctransform
+    sctf <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/sctransform_multi/sctransform_", set_level, ".rds"))
+    sct_meta <- sctf@meta.data %>% as.data.frame()
+    sub_sims <- sims[,rownames(sct_meta)] # filter by the rows
+    sctf.adj <- sapply(sct_meta[,6:9], function(x) {
+      adjustedRandIndex(x, sub_sims$Group)
+    })
+    # select the resolution that has the highest ARI. When there are multiple, select the first one
+    best_res <- names(sctf.adj)[sctf.adj == max(sctf.adj)][1]
+    sctf_cluster <- sctf@meta.data %>% as.data.frame() %>% select(all_of(best_res))
+    dat$sctransform_cluster <- sctf_cluster[match(dat$Cell, rownames(sctf_cluster)),]
+    rm(sub_sims)
     
     # fastTopics
-    # nmf.sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/fastTopics_", set_level, ".rds"))
-    # max_indices <- apply(nmf.sims$L, 1, which.max)
-    # # colnames(nmf.sims$L) <- paste0("topic_", 1:ncol(nmf.sims$L))
-    # # rownames(nmf.sims$L) <- colnames(scSTMobj$mu$mu)
-    # fastTopics_cluster <- colnames(nmf.sims$L)[max_indices]
-    # names(fastTopics_cluster) <- rownames(nmf.sims$L)
-    # dat$fastTopics_cluster <- fastTopics_cluster[match(names(fastTopics_cluster), dat$Cell)]
-    # 
+    fasttopic_name <- paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/fastTopics/fastTopics_", set_level, ".rds")
+    nmf.sims <- readRDS(fasttopic_name)
+    max_indices <- apply(nmf.sims$L, 1, which.max)
+    # colnames(nmf.sims$L) <- paste0("topic_", 1:ncol(nmf.sims$L))
+    # rownames(nmf.sims$L) <- colnames(scSTMobj$mu$mu)
+    fastTopics_cluster <- colnames(nmf.sims$L)[max_indices]
+    names(fastTopics_cluster) <- rownames(nmf.sims$L)
+    dat$fastTopics_cluster <- fastTopics_cluster[match(dat$Cell, names(fastTopics_cluster))]
+    # if(file.exists(fasttopic_name)){
+    #   nmf.sims <- readRDS(fasttopic_name)
+    #   max_indices <- apply(nmf.sims$L, 1, which.max)
+    #   # colnames(nmf.sims$L) <- paste0("topic_", 1:ncol(nmf.sims$L))
+    #   # rownames(nmf.sims$L) <- colnames(scSTMobj$mu$mu)
+    #   fastTopics_cluster <- colnames(nmf.sims$L)[max_indices]
+    #   names(fastTopics_cluster) <- rownames(nmf.sims$L)
+    #   dat$fastTopics_cluster <- fastTopics_cluster[match(dat$Cell, names(fastTopics_cluster))]
+    # } else {dat$fastTopics_cluster = NA}
     
+    # monocle3
+    monocle3 <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/monocle3/monocle3_", set_level, ".rds"))
+    dat$monocle3_cluster <- partitions(monocle3)[match(dat$Cell, names(partitions(monocle3)))]
+    
+    # SC3
+    sc3 <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/sc3/sc3_", set_level, ".rds"))
+    sc3_cluster <- sc3@colData %>% as.data.frame() %>% select(ends_with("clusters"))
+    dat$sc3_cluster <- sc3_cluster[match(dat$Cell, rownames(sc3_cluster)),]
+      
     adjusted_rand_indices <- sapply(dat[, 5:ncol(dat)], function(x) {
       adjustedRandIndex(x, sims$Group)
     })

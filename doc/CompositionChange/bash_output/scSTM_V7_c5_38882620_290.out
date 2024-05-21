@@ -1,0 +1,1330 @@
+sims_1715932650_pos_L2_c5.rds 
+Found 6 batches
+Using null model in ComBat-seq.
+Adjusting for 0 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data
+Batch Effect Removed 
+        R/alignCorpus.R R/asSTMCorpus.R R/checkBeta.R R/cloud.R
+value   ?               ?               ?             ?        
+visible FALSE           FALSE           FALSE         FALSE    
+        R/CompositionChange.R R/convertCorpus.R R/estimateEffect.R
+value   ?                     ?                 ?                 
+visible FALSE                 FALSE             FALSE             
+        R/estimateMixedEffect.R R/exclusivity.R R/findThoughts.R R/findTopic.R
+value   ?                       ?               ?                ?            
+visible FALSE                   FALSE           FALSE            FALSE        
+        R/fitNewDocuments.R R/heldout.R R/jeffreyskappa.R R/labelTopics.R
+value   ?                   ?           ?                 ?              
+visible FALSE               FALSE       FALSE             FALSE          
+        R/makeDesignMatrix.R R/manyTopics.R R/multiSTM.R R/optimalK.R
+value   ?                    ?              ?            ?           
+visible FALSE                FALSE          FALSE        FALSE       
+        R/permute.R R/plot.estimateEffect.R R/plot.fixedEffect.R
+value   ?           ?                       ?                   
+visible FALSE       FALSE                   FALSE               
+        R/plot.searchK.R R/plot.STM.R R/plotModels.R R/plotQuote.R
+value   ?                ?            ?              ?            
+visible FALSE            FALSE        FALSE          FALSE        
+        R/plotRemoved.R R/plottingutilfns.R R/plotTopicLoess.R
+value   ?               ?                   ?                 
+visible FALSE           FALSE               FALSE             
+        R/prepDocuments.R R/prepsce.R R/produce_cmatrix.R R/RcppExports.R
+value   ?                 ?           ?                   ?              
+visible FALSE             FALSE       FALSE               FALSE          
+        R/readCorpus.R R/residuals.R R/s.R R/sageLabels.R R/scSTM.R
+value   ?              ?             ?     ?              ?        
+visible FALSE          FALSE         FALSE FALSE          FALSE    
+        R/selectModel.R R/semanticCoherence.R R/simBetas.R R/spectral.R
+value   ?               ?                     ?            ?           
+visible FALSE           FALSE                 FALSE        FALSE       
+        R/stm-package.R R/stm.control.R R/STMbound.R R/STMconvergence.R
+value   NULL            ?               ?            ?                 
+visible TRUE            FALSE           FALSE        FALSE             
+        R/STMestep.R R/STMfunctions.R R/STMinit.R R/STMinitLikelihood.R
+value   ?            ?                ?           ?                    
+visible FALSE        FALSE            FALSE       FALSE                
+        R/STMlncpp.R R/STMmnreg.R R/STMmu.R R/STMoptbeta.R R/STMreport.R
+value   ?            ?            ?         ?              ?            
+visible FALSE        FALSE        FALSE     FALSE          FALSE        
+        R/STMsigma.R R/STMsigs.R R/STMsubset.R R/summary.STM.R R/tau.R
+value   ?            ?           ?             ?               ?      
+visible FALSE        FALSE       FALSE         FALSE           FALSE  
+        R/textProcessor.R R/thetaPosterior.R R/toLDAvis.R R/topicCorr.R
+value   ?                 ?                  ?            ?            
+visible FALSE             FALSE              FALSE        FALSE        
+        R/topicLasso.R R/topicQuality.R R/writeLdac.R R/zzz.R
+value   ?              ?                ?             ?      
+visible FALSE          FALSE            FALSE         FALSE  
+Removing 1 of 718 genes (1 of 1871229 tokens) due to frequency 
+Your Dataset now has 3587 cells, 717 genes and 1871228 tokens. 
+Casting net 
+1 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.964) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001160005 
+Completing Iteration 2 (approx. per word bound = -41.960, relative change = 1.160e-04) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001260213 
+Model Terminated Before Convergence Reached 
+2 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.950) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.128352e-05 
+Completing Iteration 2 (approx. per word bound = -41.948, relative change = 5.128e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.113036e-05 
+Model Terminated Before Convergence Reached 
+3 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.951) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.452209e-05 
+Completing Iteration 2 (approx. per word bound = -41.948, relative change = 5.452e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.373528e-05 
+Model Terminated Before Convergence Reached 
+4 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.913) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.711489e-05 
+Completing Iteration 2 (approx. per word bound = -41.911, relative change = 5.711e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.903305e-05 
+Model Terminated Before Convergence Reached 
+5 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.918) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.483407e-05 
+Completing Iteration 2 (approx. per word bound = -41.916, relative change = 4.483e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.677763e-05 
+Model Terminated Before Convergence Reached 
+6 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.950) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.657815e-05 
+Completing Iteration 2 (approx. per word bound = -41.947, relative change = 6.658e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.005191e-05 
+Model Terminated Before Convergence Reached 
+7 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.947) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001122486 
+Completing Iteration 2 (approx. per word bound = -41.942, relative change = 1.122e-04) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.924702e-05 
+Model Terminated Before Convergence Reached 
+8 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.950) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.130245e-05 
+Completing Iteration 2 (approx. per word bound = -41.948, relative change = 5.130e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.11356e-05 
+Model Terminated Before Convergence Reached 
+9 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.998) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0002178365 
+Completing Iteration 2 (approx. per word bound = -41.989, relative change = 2.178e-04) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001845384 
+Model Terminated Before Convergence Reached 
+10 models in net 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (22 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.991) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001908298 
+Completing Iteration 2 (approx. per word bound = -41.983, relative change = 1.908e-04) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001809174 
+Model Terminated Before Convergence Reached 
+11 models in net 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.....
+	 Recovering initialization...
+ 	.......
+Initialization complete.
+......................................................................................................
+Completed E-Step (26 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.947) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0007882611 
+Completing Iteration 2 (approx. per word bound = -41.914, relative change = 7.883e-04) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001925728 
+Model Terminated Before Convergence Reached 
+12 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -55.321) 
+......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2396513 
+Completing Iteration 2 (approx. per word bound = -42.063, relative change = 2.397e-01) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0004362193 
+Model Terminated Before Convergence Reached 
+13 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.875) 
+......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2335456 
+Completing Iteration 2 (approx. per word bound = -42.059, relative change = 2.335e-01) 
+......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0004470994 
+Model Terminated Before Convergence Reached 
+14 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.426) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2272082 
+Completing Iteration 2 (approx. per word bound = -42.060, relative change = 2.272e-01) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005397867 
+Model Terminated Before Convergence Reached 
+15 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (31 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -55.302) 
+......................................................................................................
+Completed E-Step (21 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2391547 
+Completing Iteration 2 (approx. per word bound = -42.077, relative change = 2.392e-01) 
+......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001342192 
+Model Terminated Before Convergence Reached 
+16 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.916) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2338857 
+Completing Iteration 2 (approx. per word bound = -42.072, relative change = 2.339e-01) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000161977 
+Model Terminated Before Convergence Reached 
+17 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.325) 
+......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2254866 
+Completing Iteration 2 (approx. per word bound = -42.075, relative change = 2.255e-01) 
+......................................................................................................
+Completed E-Step (19 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.864136e-05 
+Model Terminated Before Convergence Reached 
+18 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (29 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.147) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2231917 
+Completing Iteration 2 (approx. per word bound = -42.061, relative change = 2.232e-01) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0005218884 
+Model Terminated Before Convergence Reached 
+19 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.851) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2330123 
+Completing Iteration 2 (approx. per word bound = -42.070, relative change = 2.330e-01) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003123107 
+Model Terminated Before Convergence Reached 
+20 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (27 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.460) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2275584 
+Completing Iteration 2 (approx. per word bound = -42.067, relative change = 2.276e-01) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.000273545 
+Model Terminated Before Convergence Reached 
+21 models in net 
+Beginning Random Initialization 
+Initialization with Poisson NMF 
+......................................................................................................
+Completed E-Step (30 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -54.719) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.2311766 
+Completing Iteration 2 (approx. per word bound = -42.069, relative change = 2.312e-01) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0003030653 
+Model Terminated Before Convergence Reached 
+Running select models 
+1 select model run 
+Beginning Spectral Initialization 
+	 Calculating the gram matrix...
+	 Finding anchor words...
+ 	.....
+	 Recovering initialization...
+ 	.......
+Initialization complete.
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.947) 
+......................................................................................................
+Completed E-Step (10 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0007882611 
+Completing Iteration 2 (approx. per word bound = -41.914, relative change = 7.883e-04) 
+......................................................................................................
+Completed E-Step (9 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 0.0001925728 
+Completing Iteration 3 (approx. per word bound = -41.906, relative change = 1.926e-04) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.8408e-05 
+Completing Iteration 4 (approx. per word bound = -41.903, relative change = 6.841e-05) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.361183e-05 
+Completing Iteration 5 (approx. per word bound = -41.901, relative change = 5.361e-05) 
+Topic 1: Gene853, Gene1195, Gene1058, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1044, Gene1198, Gene853, Gene1195 
+ Topic 3: Gene1357, Gene1044, Gene1448, Gene1100, Gene315 
+ Topic 4: Gene223, Gene1044, Gene853, Gene1195, Gene669 
+ Topic 5: Gene1195, Gene459, Gene853, Gene1044, Gene218 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.894163e-05 
+Completing Iteration 6 (approx. per word bound = -41.898, relative change = 5.894e-05) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.182411e-05 
+Completing Iteration 7 (approx. per word bound = -41.895, relative change = 6.182e-05) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.267204e-05 
+Completing Iteration 8 (approx. per word bound = -41.893, relative change = 5.267e-05) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.760343e-05 
+Completing Iteration 9 (approx. per word bound = -41.892, relative change = 3.760e-05) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.423545e-05 
+Completing Iteration 10 (approx. per word bound = -41.891, relative change = 2.424e-05) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1198, Gene1044, Gene853, Gene1195 
+ Topic 3: Gene1357, Gene1044, Gene1448, Gene1100, Gene315 
+ Topic 4: Gene223, Gene1044, Gene853, Gene1195, Gene669 
+ Topic 5: Gene1195, Gene853, Gene1044, Gene218, Gene1357 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.618799e-05 
+Completing Iteration 11 (approx. per word bound = -41.890, relative change = 1.619e-05) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.102487e-05 
+Completing Iteration 12 (approx. per word bound = -41.890, relative change = 1.102e-05) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.301979e-06 
+Completing Iteration 13 (approx. per word bound = -41.889, relative change = 7.302e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.889587e-06 
+Completing Iteration 14 (approx. per word bound = -41.889, relative change = 4.890e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.425997e-06 
+Completing Iteration 15 (approx. per word bound = -41.889, relative change = 3.426e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1198, Gene1044, Gene853, Gene1195 
+ Topic 3: Gene1357, Gene1044, Gene1448, Gene1100, Gene315 
+ Topic 4: Gene223, Gene1044, Gene853, Gene1195, Gene669 
+ Topic 5: Gene853, Gene1195, Gene1044, Gene218, Gene1357 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.737228e-06 
+Completing Iteration 16 (approx. per word bound = -41.889, relative change = 2.737e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.979388e-06 
+Completing Iteration 17 (approx. per word bound = -41.889, relative change = 1.979e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.630295e-06 
+Completing Iteration 18 (approx. per word bound = -41.889, relative change = 1.630e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.2397e-06 
+Completing Iteration 19 (approx. per word bound = -41.889, relative change = 1.240e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.04608e-06 
+Completing Iteration 20 (approx. per word bound = -41.888, relative change = 1.046e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1198, Gene1044, Gene853, Gene1195 
+ Topic 3: Gene1357, Gene1044, Gene1448, Gene1100, Gene315 
+ Topic 4: Gene223, Gene1044, Gene853, Gene1195, Gene669 
+ Topic 5: Gene853, Gene1195, Gene1044, Gene218, Gene1357 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.520763e-07 
+Model Converged 
+2 select model run 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.913) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.711489e-05 
+Completing Iteration 2 (approx. per word bound = -41.911, relative change = 5.711e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.903305e-05 
+Completing Iteration 3 (approx. per word bound = -41.909, relative change = 3.903e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.301958e-05 
+Completing Iteration 4 (approx. per word bound = -41.908, relative change = 3.302e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.819998e-05 
+Completing Iteration 5 (approx. per word bound = -41.907, relative change = 2.820e-05) 
+Topic 1: Gene1058, Gene853, Gene1044, Gene1195, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1198, Gene1044 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1448, Gene315, Gene1357, Gene1100, Gene669 
+ Topic 5: Gene223, Gene1195, Gene669, Gene853, Gene1044 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.435837e-05 
+Completing Iteration 6 (approx. per word bound = -41.906, relative change = 2.436e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.108032e-05 
+Completing Iteration 7 (approx. per word bound = -41.905, relative change = 2.108e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.832483e-05 
+Completing Iteration 8 (approx. per word bound = -41.904, relative change = 1.832e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.603905e-05 
+Completing Iteration 9 (approx. per word bound = -41.903, relative change = 1.604e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.377834e-05 
+Completing Iteration 10 (approx. per word bound = -41.903, relative change = 1.378e-05) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1198, Gene1044 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene669, Gene1044 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.219743e-05 
+Completing Iteration 11 (approx. per word bound = -41.902, relative change = 1.220e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.075168e-05 
+Completing Iteration 12 (approx. per word bound = -41.902, relative change = 1.075e-05) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.461502e-06 
+Completing Iteration 13 (approx. per word bound = -41.901, relative change = 9.462e-06) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.370222e-06 
+Completing Iteration 14 (approx. per word bound = -41.901, relative change = 8.370e-06) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.568245e-06 
+Completing Iteration 15 (approx. per word bound = -41.901, relative change = 7.568e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene669, Gene1044 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.855709e-06 
+Completing Iteration 16 (approx. per word bound = -41.900, relative change = 6.856e-06) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.042754e-06 
+Completing Iteration 17 (approx. per word bound = -41.900, relative change = 6.043e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.561803e-06 
+Completing Iteration 18 (approx. per word bound = -41.900, relative change = 5.562e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.043618e-06 
+Completing Iteration 19 (approx. per word bound = -41.900, relative change = 5.044e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.696598e-06 
+Completing Iteration 20 (approx. per word bound = -41.899, relative change = 4.697e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene669, Gene1044 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.281401e-06 
+Completing Iteration 21 (approx. per word bound = -41.899, relative change = 4.281e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.964373e-06 
+Completing Iteration 22 (approx. per word bound = -41.899, relative change = 3.964e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.627364e-06 
+Completing Iteration 23 (approx. per word bound = -41.899, relative change = 3.627e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.500399e-06 
+Completing Iteration 24 (approx. per word bound = -41.899, relative change = 3.500e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.109148e-06 
+Completing Iteration 25 (approx. per word bound = -41.899, relative change = 3.109e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (8 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.086976e-06 
+Completing Iteration 26 (approx. per word bound = -41.899, relative change = 3.087e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.870007e-06 
+Completing Iteration 27 (approx. per word bound = -41.898, relative change = 2.870e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.699167e-06 
+Completing Iteration 28 (approx. per word bound = -41.898, relative change = 2.699e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.584607e-06 
+Completing Iteration 29 (approx. per word bound = -41.898, relative change = 2.585e-06) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.48029e-06 
+Completing Iteration 30 (approx. per word bound = -41.898, relative change = 2.480e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1357, Gene1448, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.351352e-06 
+Completing Iteration 31 (approx. per word bound = -41.898, relative change = 2.351e-06) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.304857e-06 
+Completing Iteration 32 (approx. per word bound = -41.898, relative change = 2.305e-06) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.217959e-06 
+Completing Iteration 33 (approx. per word bound = -41.898, relative change = 2.218e-06) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.057667e-06 
+Completing Iteration 34 (approx. per word bound = -41.898, relative change = 2.058e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.093449e-06 
+Completing Iteration 35 (approx. per word bound = -41.898, relative change = 2.093e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1044 
+ Topic 4: Gene1357, Gene1448, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.013897e-06 
+Completing Iteration 36 (approx. per word bound = -41.898, relative change = 2.014e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.896184e-06 
+Completing Iteration 37 (approx. per word bound = -41.897, relative change = 1.896e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.952288e-06 
+Completing Iteration 38 (approx. per word bound = -41.897, relative change = 1.952e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.775824e-06 
+Completing Iteration 39 (approx. per word bound = -41.897, relative change = 1.776e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.768093e-06 
+Completing Iteration 40 (approx. per word bound = -41.897, relative change = 1.768e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene299, Gene1058 
+ Topic 4: Gene1357, Gene1448, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.713822e-06 
+Completing Iteration 41 (approx. per word bound = -41.897, relative change = 1.714e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.711453e-06 
+Completing Iteration 42 (approx. per word bound = -41.897, relative change = 1.711e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.646494e-06 
+Completing Iteration 43 (approx. per word bound = -41.897, relative change = 1.646e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.633048e-06 
+Completing Iteration 44 (approx. per word bound = -41.897, relative change = 1.633e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.483686e-06 
+Completing Iteration 45 (approx. per word bound = -41.897, relative change = 1.484e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene1195, Gene853, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene223, Gene1058 
+ Topic 4: Gene1357, Gene1448, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.539227e-06 
+Completing Iteration 46 (approx. per word bound = -41.897, relative change = 1.539e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.484743e-06 
+Completing Iteration 47 (approx. per word bound = -41.897, relative change = 1.485e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.427946e-06 
+Completing Iteration 48 (approx. per word bound = -41.897, relative change = 1.428e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.385405e-06 
+Completing Iteration 49 (approx. per word bound = -41.897, relative change = 1.385e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.342517e-06 
+Completing Iteration 50 (approx. per word bound = -41.897, relative change = 1.343e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene853, Gene1195, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene223, Gene1058 
+ Topic 4: Gene1357, Gene1448, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.343887e-06 
+Completing Iteration 51 (approx. per word bound = -41.897, relative change = 1.344e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.207538e-06 
+Completing Iteration 52 (approx. per word bound = -41.896, relative change = 1.208e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.215346e-06 
+Completing Iteration 53 (approx. per word bound = -41.896, relative change = 1.215e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.190546e-06 
+Completing Iteration 54 (approx. per word bound = -41.896, relative change = 1.191e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.099733e-06 
+Completing Iteration 55 (approx. per word bound = -41.896, relative change = 1.100e-06) 
+Topic 1: Gene1058, Gene853, Gene1195, Gene1044, Gene234 
+ Topic 2: Gene459, Gene853, Gene1195, Gene1044, Gene1198 
+ Topic 3: Gene459, Gene1198, Gene209, Gene223, Gene1044 
+ Topic 4: Gene1357, Gene1448, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene1195, Gene853, Gene1044, Gene669 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.057995e-06 
+Completing Iteration 56 (approx. per word bound = -41.896, relative change = 1.058e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.05641e-06 
+Completing Iteration 57 (approx. per word bound = -41.896, relative change = 1.056e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.998617e-07 
+Model Converged 
+3 select model run 
+Initialization with topicScore. 
+Initializing factors using Topic SCORE algorithm.
+Initializing loadings by running 10 SCD updates.
+......................................................................................................
+Completed E-Step (20 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+Completing Iteration 1 (approx. per word bound = -41.918) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.483407e-05 
+Completing Iteration 2 (approx. per word bound = -41.916, relative change = 4.483e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.677763e-05 
+Completing Iteration 3 (approx. per word bound = -41.915, relative change = 3.678e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.345374e-05 
+Completing Iteration 4 (approx. per word bound = -41.913, relative change = 3.345e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.049355e-05 
+Completing Iteration 5 (approx. per word bound = -41.912, relative change = 3.049e-05) 
+Topic 1: Gene1195, Gene1044, Gene853, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene669, Gene234, Gene530, Gene1044 
+ Topic 3: Gene459, Gene1198, Gene1044, Gene209, Gene853 
+ Topic 4: Gene1448, Gene315, Gene1357, Gene1100, Gene1099 
+ Topic 5: Gene223, Gene669, Gene1044, Gene853, Gene540 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.791164e-05 
+Completing Iteration 6 (approx. per word bound = -41.911, relative change = 2.791e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.56494e-05 
+Completing Iteration 7 (approx. per word bound = -41.910, relative change = 2.565e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.363487e-05 
+Completing Iteration 8 (approx. per word bound = -41.909, relative change = 2.363e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.180068e-05 
+Completing Iteration 9 (approx. per word bound = -41.908, relative change = 2.180e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.009977e-05 
+Completing Iteration 10 (approx. per word bound = -41.907, relative change = 2.010e-05) 
+Topic 1: Gene1195, Gene1044, Gene853, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene669, Gene234, Gene530, Gene1044 
+ Topic 3: Gene459, Gene1198, Gene209, Gene1044, Gene853 
+ Topic 4: Gene1448, Gene315, Gene1357, Gene1100, Gene1099 
+ Topic 5: Gene223, Gene669, Gene853, Gene1044, Gene1195 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.850137e-05 
+Completing Iteration 11 (approx. per word bound = -41.906, relative change = 1.850e-05) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.700173e-05 
+Completing Iteration 12 (approx. per word bound = -41.905, relative change = 1.700e-05) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.555491e-05 
+Completing Iteration 13 (approx. per word bound = -41.905, relative change = 1.555e-05) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.418899e-05 
+Completing Iteration 14 (approx. per word bound = -41.904, relative change = 1.419e-05) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.291554e-05 
+Completing Iteration 15 (approx. per word bound = -41.904, relative change = 1.292e-05) 
+Topic 1: Gene1195, Gene1044, Gene853, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene234, Gene669, Gene530, Gene1044 
+ Topic 3: Gene459, Gene1198, Gene209, Gene1044, Gene853 
+ Topic 4: Gene1448, Gene315, Gene1357, Gene1100, Gene1099 
+ Topic 5: Gene223, Gene669, Gene853, Gene1044, Gene1195 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.169332e-05 
+Completing Iteration 16 (approx. per word bound = -41.903, relative change = 1.169e-05) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.05688e-05 
+Completing Iteration 17 (approx. per word bound = -41.903, relative change = 1.057e-05) 
+......................................................................................................
+Completed E-Step (18 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.513977e-06 
+Completing Iteration 18 (approx. per word bound = -41.902, relative change = 9.514e-06) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 8.546722e-06 
+Completing Iteration 19 (approx. per word bound = -41.902, relative change = 8.547e-06) 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 7.648579e-06 
+Completing Iteration 20 (approx. per word bound = -41.902, relative change = 7.649e-06) 
+Topic 1: Gene1195, Gene853, Gene1044, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene234, Gene669, Gene530, Gene1044 
+ Topic 3: Gene459, Gene1198, Gene209, Gene1044, Gene853 
+ Topic 4: Gene1448, Gene315, Gene1357, Gene1100, Gene1099 
+ Topic 5: Gene223, Gene669, Gene853, Gene1195, Gene1044 
+......................................................................................................
+Completed E-Step (17 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.860281e-06 
+Completing Iteration 21 (approx. per word bound = -41.901, relative change = 6.860e-06) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 6.062863e-06 
+Completing Iteration 22 (approx. per word bound = -41.901, relative change = 6.063e-06) 
+......................................................................................................
+Completed E-Step (16 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 5.411601e-06 
+Completing Iteration 23 (approx. per word bound = -41.901, relative change = 5.412e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.849812e-06 
+Completing Iteration 24 (approx. per word bound = -41.901, relative change = 4.850e-06) 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 4.304548e-06 
+Completing Iteration 25 (approx. per word bound = -41.900, relative change = 4.305e-06) 
+Topic 1: Gene1195, Gene853, Gene1044, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene234, Gene669, Gene530, Gene853 
+ Topic 3: Gene459, Gene1198, Gene209, Gene1044, Gene853 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene669 
+ Topic 5: Gene223, Gene669, Gene853, Gene1195, Gene1044 
+......................................................................................................
+Completed E-Step (15 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.832296e-06 
+Completing Iteration 26 (approx. per word bound = -41.900, relative change = 3.832e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.449469e-06 
+Completing Iteration 27 (approx. per word bound = -41.900, relative change = 3.449e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 3.047774e-06 
+Completing Iteration 28 (approx. per word bound = -41.900, relative change = 3.048e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.75241e-06 
+Completing Iteration 29 (approx. per word bound = -41.900, relative change = 2.752e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.425968e-06 
+Completing Iteration 30 (approx. per word bound = -41.900, relative change = 2.426e-06) 
+Topic 1: Gene1195, Gene853, Gene1044, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene234, Gene669, Gene530, Gene853 
+ Topic 3: Gene459, Gene1198, Gene209, Gene1044, Gene853 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene669, Gene853, Gene1195, Gene1044 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 2.183921e-06 
+Completing Iteration 31 (approx. per word bound = -41.900, relative change = 2.184e-06) 
+......................................................................................................
+Completed E-Step (13 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.97715e-06 
+Completing Iteration 32 (approx. per word bound = -41.900, relative change = 1.977e-06) 
+......................................................................................................
+Completed E-Step (14 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.772395e-06 
+Completing Iteration 33 (approx. per word bound = -41.900, relative change = 1.772e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.601378e-06 
+Completing Iteration 34 (approx. per word bound = -41.899, relative change = 1.601e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.448168e-06 
+Completing Iteration 35 (approx. per word bound = -41.899, relative change = 1.448e-06) 
+Topic 1: Gene1195, Gene853, Gene1044, Gene218, Gene1357 
+ Topic 2: Gene1058, Gene234, Gene669, Gene530, Gene853 
+ Topic 3: Gene459, Gene1198, Gene209, Gene1044, Gene853 
+ Topic 4: Gene1448, Gene1357, Gene315, Gene1100, Gene1044 
+ Topic 5: Gene223, Gene669, Gene853, Gene1195, Gene1044 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.311465e-06 
+Completing Iteration 36 (approx. per word bound = -41.899, relative change = 1.311e-06) 
+......................................................................................................
+Completed E-Step (12 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.196147e-06 
+Completing Iteration 37 (approx. per word bound = -41.899, relative change = 1.196e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 1.087351e-06 
+Completing Iteration 38 (approx. per word bound = -41.899, relative change = 1.087e-06) 
+......................................................................................................
+Completed E-Step (11 seconds). 
+Completed M-Step (0 seconds). 
+calculate log likelihood 
+convergence.check is 9.944976e-07 
+Model Converged 

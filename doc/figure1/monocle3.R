@@ -1,12 +1,12 @@
 setwd("/proj/milovelab/wu/scLDAseq")
 library(monocle3)
 
-# args <- commandArgs(trailingOnly = TRUE)
-# file_name <- args[1]
-# file_name <- basename(file_name)
-# cat(file_name, "\n")
+args <- commandArgs(trailingOnly = TRUE)
+file_name <- args[1]
+file_name <- basename(file_name)
+cat(file_name, "\n")
 
-file_name <- "sims_1712865827_L5.rds"
+# file_name <- "sims_1712865827_L5.rds"
 set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
 
 
@@ -34,5 +34,5 @@ cds <- reduce_dimension(cds)
 # k <- length(unique(sims$Group))
 cds <- cluster_cells(cds, cluster_method = 'louvain')
 
-saveRDS(cds, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", 
+saveRDS(cds, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/monocle3/", 
                                    "monocle3_", set_level, ".rds"))

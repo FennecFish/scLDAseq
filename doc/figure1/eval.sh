@@ -4,8 +4,8 @@
 #SBATCH --output=eval_methods.out
 #SBATCH --error=eval_methods.err
 #SBATCH -n 1
-#SBATCH --time=3:00:00
-#SBATCH --mem=20g
+#SBATCH --time=2:00:00
+#SBATCH --mem=15g
 #SBATCH --mail-type=all
 #SBATCH --mail-user=euphyw@live.unc.edu
 
