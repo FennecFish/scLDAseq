@@ -47,7 +47,11 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
   
   pi.update <-  sig_sum_inv %*% siginv %*% (optim.out$par - mu)
   # print(pi.update)
-  docvar$pi <- mean(pi.update)
+  # browser()
+  # docvar$pi <- mean(pi.update)
+  # pi.update <- as.numeric(pi.update)
+  # names(pi.update) <- names(optim.out$par)
+  docvar$pi <- pi.update
   # if (abs(docvar$pi) > 5) {
   #     print("pi is large")
   #     browser()

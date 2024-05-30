@@ -94,6 +94,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       nu <- suffstats$nu
       phi <- suffstats$phis
       #do the m-step
+      
       mu <- opt.mu(lambda=lambda, pi = pi,
                    nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
@@ -102,16 +103,17 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                          pi = pi, samples = samples,
                          mu=mu$mu, sigprior=settings$sigma$prior)
       beta <- opt.beta(beta.ss, beta$kappa, settings)
-      sigs <- opt.sigs(pi, omega, samples)
+      sig_alpha <- opt.sigs(pi, omega, samples)
+      alpha <- sig_alpha$psi
+      sigs <- sig_alpha$sigs
       timer <- floor((proc.time()-t1)[3])
       msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
-     
       if(verbose) cat(msg)
     #Convergence
     # cat("Bound is ", bound.ss, "\n")
     # cat("Convergence is ", convergence, "\n")
 
-    bound <- llh.bound(bound.ss, pi, sigs, omega, phi)
+    bound <- llh.bound(bound.ss, alpha, sigs, omega, phi)
     cat("calculate log likelihood \n")
     # cat("bound \n")
     convergence <- convergence.check(bound, convergence, settings)
@@ -134,7 +136,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   beta$beta <- NULL
   lambda <- cbind(lambda,0)
   model <- list(mu=mu, sigma=sigma, beta=beta, 
-                psi = pi, sigs = sigs, settings=settings,
+                psi = list(alpha = alpha, sigs = sigs), settings=settings,
                 vocab=vocab, DocName = names(documents), 
                 sampleID = samples, convergence=convergence,
                 theta=exp(lambda - log(rowSums(exp(lambda)))),
@@ -146,7 +148,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                 time=time, 
                 version=utils::packageDescription("stm")$Version)
   
-  class(model) <- "STM"
+  class(model) <- "scSTMseq"
   return(model)
 }
 

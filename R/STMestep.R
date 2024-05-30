@@ -26,7 +26,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   A <- length(beta$beta)
   I <- length(unique(samples))
   ctevery <- ifelse(N>100, floor(N/100), 1)
-  # browser()
+
   if(!update.mu) mu.l <- as.numeric(mu)
   
   # 1) Initialize Sufficient Statistics 
@@ -36,15 +36,8 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
     beta.ss[[i]] <- matrix(0, nrow=K,ncol=V)
   }
   
-  pi.ss <- numeric(N)
-  # pi.ss <- vector(mode="list", length=I)
-  # for(i in 1:I) {
-  #     browser()
-  #     Ni <- which(samples == unique(samples)[i])
-  #     pi.ss[[i]] <- numeric(length = length(Ni))
-  #     # browser()
-  # }
-  # browser()
+  # pi.ss <- numeric(N)
+  pi.ss <- vector("list", length=N)
   bound <- vector(length=N)
   lambda <- vector("list", length=N)
   nu <- vector(mode="list", length=N)
@@ -73,7 +66,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   sigs.i <- diag(sigs)[i]
   omega.i <- 1/(sum(diag(siginv)) + 1/sigs.i)
   Ni <- which(samples == unique(samples)[i])
-  # browser()
+
       for(l in Ni) {
           # print(l)
           #update components
@@ -110,23 +103,23 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
           nu[[l]] <- doc.results$eta$nu
-          pi.ss[l] <- doc.results$pi
+          pi.ss[[l]] <- c(doc.results$pi)
           
           if(verbose && l%%ctevery==0) cat(".")
       }
   omega[i,i] <- omega.i
   }
   if(verbose) cat("\n") #add a line break for the next message.
-  
-  #4) Combine and Return Sufficient Statistics
-  pi.ss.avg <- numeric(I)
-  for(i in 1:I) {
-      Ni <- which(samples == unique(samples)[i])
-      pi.ss.avg[i] <- mean(pi.ss[Ni])
-      # browser()
-  }
+  # #4) Combine and Return Sufficient Statistics
+  # pi.ss.avg <- numeric(I)
+  # for(i in 1:I) {
+  #     Ni <- which(samples == unique(samples)[i])
+  #     pi.ss.avg[i] <- mean(pi.ss[Ni])
+  #     # browser()
+  # }
+  pi <- do.call(rbind, pi.ss)
   lambda <- do.call(rbind, lambda)
   return(list(sigma=sigma.ss, beta=beta.ss, bound=bound, 
-              lambda=lambda, nu = nu, pi = pi.ss.avg, omega = omega, phis = phis))
+              lambda=lambda, nu = nu, pi = pi, omega = omega, phis = phis))
 }
 

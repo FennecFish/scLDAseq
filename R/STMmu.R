@@ -76,10 +76,10 @@ opt.mu <- function(lambda, pi, nsamples,
   if(mode=="Pooled") {
     gamma <- vector(mode="list",length=ncol(lambda))
     Xcorr <- crossprod(covar)
-    psi <- rep(pi, times = nsamples)
-    if (length(psi) != nrow(lambda)) stop("Sample heterogeneity has a dimensionality different from number of samples")
+    # psi <- rep(pi, times = nsamples)
+    # if (nrow(pi) != nrow(lambda)) stop("Sample heterogeneity has a dimensionality different from number of samples")
     for (i in 1:ncol(lambda)) {
-      gamma[[i]] <- vb.variational.reg(Y=lambda[,i]-psi, X=covar, Xcorr=Xcorr, maxits=maxits) 
+      gamma[[i]] <- vb.variational.reg(Y=lambda[,i]-pi[,i], X=covar, Xcorr=Xcorr, maxits=maxits) 
     }
     gamma <- do.call(cbind,gamma)
     mu<- t(covar%*%gamma)
@@ -93,10 +93,10 @@ opt.mu <- function(lambda, pi, nsamples,
   
   #Lasso
   if(mode=="L1") {
-    psi <- matrix(rep(pi, times = nsamples),
+    pi <- matrix(rep(pi, times = nsamples),
                          ncol=ncol(lambda),
                          byrow=F)
-    out <- glmnet::glmnet(x=covar[,-1], y=lambda-psi, family="mgaussian", alpha=enet)
+    out <- glmnet::glmnet(x=covar[,-1], y=lambda-pi, family="mgaussian", alpha=enet)
     unpack <- unpack.glmnet(out, ic.k=ic.k)
     gamma <- rbind(unpack$intercept, unpack$coef)
     mu <- t(covar%*%gamma)
