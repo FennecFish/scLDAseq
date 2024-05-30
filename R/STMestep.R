@@ -76,17 +76,6 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           init <- lambda.old[l,]
           if(update.mu) mu.l <- mu[,l]
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
-          # print(l)
-          
-          #infer the document
-          # if(i ==1 & l ==1) {browser()}
-          # doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
-          #                                  siginv=siginv,
-          #                                  sigs = sigs.i,
-          #                                  beta=beta.l,
-          #                                  doc=doc,
-          #                                  sigmaentropy=sigmaentropy)
-          # 
     
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
                                            siginv=siginv,
@@ -100,11 +89,15 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           sigma.ss <- sigma.ss + doc.results$eta$nu
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           phis <- doc.results$phis
-          bound[l] <- doc.results$bound
           lambda[[l]] <- c(doc.results$eta$lambda)
           nu[[l]] <- doc.results$eta$nu
           pi.ss[[l]] <- c(doc.results$pi)
           
+          # adding 0.01 to avoid 0
+          # logphi <- log(phis+ 0.01)
+          # Eq_z <- sum(phis * logphi)
+          # bound[l] <- doc.results$bound - Eq_z
+          bound[l] <- doc.results$bound
           if(verbose && l%%ctevery==0) cat(".")
       }
   omega[i,i] <- omega.i

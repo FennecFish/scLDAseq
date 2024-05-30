@@ -11,7 +11,7 @@ llh.bound <- function(leta, alpha, sigs, omega, phi) {
     # adding 0.1 to avoid 0
     logphi <- log(phi+ 0.1)
     Eq_z <- sum((phi+ 0.1) * logphi)
- 
+ browser()
     bound <- leta + Ep_psi - Eq_psi - Eq_z
     # bound <- leta + Ep_psi - Eq_psi 
     return(bound)

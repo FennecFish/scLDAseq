@@ -94,8 +94,8 @@ SEXP hpbcpp(SEXP eta,
    arma::vec pis(piv.begin(), piv.size(), false);
    Rcpp::NumericMatrix siginvm(siginv);
    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
-   //Rcpp::NumericVector sigmaentropym(sigmaentropy);
-   //arma::vec entropy(sigmaentropym);
+   Rcpp::NumericVector sigmaentropym(sigmaentropy);
+   arma::vec entropy(sigmaentropym);
    
    arma::colvec expeta(etas.size()+1); 
    expeta.fill(1);
@@ -176,8 +176,8 @@ SEXP hpbcpp(SEXP eta,
   //arma::mat phi_term = -(EB + 0.01) % arma::log(EB + 0.01); // Element-wise multiplication and logarithm
    //double phi_sum = arma::accu(phi_term); // Sum all elements
    
-   // double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy);
-   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff);
+   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy);
+   //double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff);
    
    //double impbound = bound + arma::as_scalar
    // Generate a return list that mimics the R output

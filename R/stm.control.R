@@ -93,6 +93,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       bound.ss <- suffstats$bound
       nu <- suffstats$nu
       phi <- suffstats$phis
+      
       #do the m-step
       
       mu <- opt.mu(lambda=lambda, pi = pi,
@@ -113,7 +114,8 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     # cat("Bound is ", bound.ss, "\n")
     # cat("Convergence is ", convergence, "\n")
 
-    bound <- llh.bound(bound.ss, alpha, sigs, omega, phi)
+    # bound <- llh.bound(bound.ss, alpha, sigs, omega, phi)
+      bound <- sum(bound.ss)
     cat("calculate log likelihood \n")
     # cat("bound \n")
     convergence <- convergence.check(bound, convergence, settings)
