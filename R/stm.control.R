@@ -150,7 +150,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                 time=time, 
                 version=utils::packageDescription("stm")$Version)
   
-  class(model) <- "scSTMseq"
+  class(model) <- "STM"
   return(model)
 }
 
