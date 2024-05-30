@@ -53,7 +53,6 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   }
   # 2) Precalculate common components
     # calculate inverse and entropy of sigmat
-  
   sigobj <- try(chol.default(sigma), silent=TRUE)
   if(inherits(sigobj,"try-error")) {
     sigmaentropy <- (.5*determinant(sigma, logarithm=TRUE)$modulus[1])
@@ -101,9 +100,10 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
                                            sigs = sigs.i,
                                            beta=beta.l,
                                            doc=doc,
-                                           sigmaentropy=sigmaentropy)
+                                           sigmaentropy=sigmaentropy, l= l)
 
           # update sufficient statistics 
+        
           sigma.ss <- sigma.ss + doc.results$eta$nu
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           phis <- doc.results$phis

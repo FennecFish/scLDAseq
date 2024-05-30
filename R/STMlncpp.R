@@ -11,14 +11,13 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
                               sigs,
                               sigmaentropy, 
                               method="BFGS", control=list(maxit=500),
-                              hpbcpp=TRUE) {
+                              hpbcpp=TRUE, l) {
+  # if(l %in% c(4135,4136)) {browser()}
   doc.ct <- doc[2,]
   Ndoc <- sum(doc.ct)
-  #even at K=100, BFGS is faster than L-BFGS
-  # browser()
-  # if (siginv[1,1] < 0.029) {
-  #     browser()
-  # }
+  
+  # Ndoc = 346949
+  
   optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
                      method=method, control=control,
                      doc_ct=doc.ct, mu=mu,
@@ -26,13 +25,10 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
                      siginv=siginv, beta=beta)
 
   if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
-
   #Solve for Hessian/Phi/Bound returning the result
-  
   docvar <- hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
                    siginv=siginv, beta=beta, pi = psi,
                    sigmaentropy=sigmaentropy)
-  
   # if (siginv[1,1] > 1) {
   #     browser()
   # }
@@ -40,9 +36,6 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
   # docvar$omega <- omega.update
 
   sigs_inv <- diag(1/sigs, nrow = nrow(siginv), ncol = ncol(siginv))
-  # doc.weight <- doc.ct/Ndoc
-  # sigma <- solve(siginv)
-
   sig_sum <- siginv + sigs_inv
 
   sigsumobj <- try(chol.default(sig_sum), silent=TRUE)

@@ -137,14 +137,14 @@ selectModel <- function(sce , K, sample = NULL,
     likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
   }
   
-  # running spectral
-  cat(paste(ts_runs + 1, "models in net \n"))
-  mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
-                       sample = sample, K, 
-                       prevalence=prevalence, content=content, init.type="Spectral",
-                       max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-  likelihood[ts_runs + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
-  seedout[ts_runs + 1] <- mod.out$settings$seed
+  # # running spectral
+  # cat(paste(ts_runs + 1, "models in net \n"))
+  # mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+  #                      sample = sample, K, 
+  #                      prevalence=prevalence, content=content, init.type="Spectral",
+  #                      max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+  # likelihood[ts_runs + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+  # seedout[ts_runs + 1] <- mod.out$settings$seed
   
   
   # Random run
@@ -173,12 +173,14 @@ selectModel <- function(sce , K, sample = NULL,
     if (initseed_index <= ts_runs) {
         # If the index is the last of the run, do Spectral
       init_type <- "TopicScore"
-    } else if (initseed_index == ts_runs + 1) {
-      # otherwise do default
-      init_type <- "Spectral"
     } else{
       init_type <- "Random"
     }
+    
+    # else if (initseed_index == ts_runs + 1) {
+    #   # otherwise do default
+    #   init_type <- "Spectral"
+    # } 
     
     mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
                          sample = sample, K = K, 
