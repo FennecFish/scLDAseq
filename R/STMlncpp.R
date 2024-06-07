@@ -7,7 +7,7 @@
 
 #12/31/2016 added the hpbcpp argument so I can opt not to call it
 #inside fitNewDocuments
-logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc, 
+logisticnormalcpp <- function(eta, mu, psi, omega, siginv, beta, doc, 
                               sigs,
                               sigmaentropy, 
                               method="BFGS", control=list(maxit=500),
@@ -25,17 +25,38 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, beta, doc,
                      siginv=siginv, beta=beta)
 
   if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
+  omega <- diag(omega, nrow = length(psi))
+  sigs <- diag(sigs, nrow = length(psi))
+
+  sigs_obj <- try(chol.default(sigs), silent=TRUE)
+  if(inherits(sigs_obj,"try-error")) {
+      sigsentropy <- (.5*determinant(sigs, logarithm=TRUE)$modulus[1])
+      sigs_inv <- solve(sigs)
+  } else {
+      sigsentropy <- sum(log(diag(sigs_obj)))
+      sigs_inv <- chol2inv(sigs_obj)
+  }
+  
+  omegaobj <- try(chol.default(omega), silent=TRUE)
+  if(inherits(omegaobj,"try-error")) {
+      omegaentropy <- (.5*determinant(omega, logarithm=TRUE)$modulus[1])
+  } else {
+      omegaentropy <- sum(log(diag(omegaobj)))
+  }
+
   #Solve for Hessian/Phi/Bound returning the result
   docvar <- hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
                    siginv=siginv, beta=beta, pi = psi,
-                   sigmaentropy=sigmaentropy)
+                   sigmaentropy=sigmaentropy, sigs = sigs,
+                   sigs_inv = sigs_inv, omega= omega,
+                   sigsentropy = sigsentropy, omegaentropy = omegaentropy)
   # if (siginv[1,1] > 1) {
   #     browser()
   # }
   # omega.update <- 1/(sum(diag(siginv)) + 1/(diag(omega)[1]))
   # docvar$omega <- omega.update
 
-  sigs_inv <- diag(1/sigs, nrow = nrow(siginv), ncol = ncol(siginv))
+  # sigs_inv <- diag(1/sigs, nrow = nrow(siginv), ncol = ncol(siginv))
   sig_sum <- siginv + sigs_inv
 
   sigsumobj <- try(chol.default(sig_sum), silent=TRUE)

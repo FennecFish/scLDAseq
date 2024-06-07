@@ -77,12 +77,12 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           if(update.mu) mu.l <- mu[,l]
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
     
-          doc.results <- logisticnormalcpp(eta=init, mu=mu.l, psi = psi.i,
-                                           siginv=siginv,
-                                           sigs = sigs.i,
+          doc.results <- logisticnormalcpp(eta=init, mu=mu.l, 
+                                           psi = psi.i, omega = omega.i,
+                                           siginv=siginv, sigs = sigs.i,
                                            beta=beta.l,
                                            doc=doc,
-                                           sigmaentropy=sigmaentropy, l= l)
+                                           sigmaentropy=sigmaentropy)
 
           # update sufficient statistics 
         
@@ -96,8 +96,14 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           # adding 0.01 to avoid 0
           # logphi <- log(phis+ 0.01)
           # Eq_z <- sum(phis * logphi)
-          # bound[l] <- doc.results$bound - Eq_z
           bound[l] <- doc.results$bound
+         #  det_sigs <- det(sigs)
+         #  inv_sigs <- diag(1 /diag(sigs), nrow = nrow(sigs))
+         #  tr <- sum(diag(omega %*% inv_sigs))
+         #  Ep_psi <- -0.5*det_sigs -0.5*t(alpha) %*% inv_sigs %*% alpha - 0.5*tr
+         #  Eq_psi <- -0.5*sum(diag(omega))
+         # # bound[l] <- doc.results$bound + Ep_psi - Eq_psi
+         #  bound[l] <- Ep_psi - Eq_psi
           if(verbose && l%%ctevery==0) cat(".")
       }
   omega[i,i] <- omega.i

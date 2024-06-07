@@ -80,7 +80,12 @@ SEXP hpbcpp(SEXP eta,
             SEXP mu,
             SEXP pi,
             SEXP siginv,
-            SEXP sigmaentropy){
+            SEXP sigmaentropy,
+            SEXP sigs,
+            SEXP sigsentropy,
+            SEXP omegaentropy,
+            SEXP sigs_inv,
+            SEXP omega){
  
    Rcpp::NumericVector etav(eta); 
    arma::vec etas(etav.begin(), etav.size(), false);
@@ -96,6 +101,16 @@ SEXP hpbcpp(SEXP eta,
    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
    Rcpp::NumericVector sigmaentropym(sigmaentropy);
    arma::vec entropy(sigmaentropym);
+   Rcpp::NumericMatrix sigsm(sigs);
+   arma::mat sigIs(sigsm.begin(), sigsm.nrow(), sigsm.ncol(), false);
+   Rcpp::NumericVector sigsentropym(sigsentropy);
+   arma::vec sigs_entropy(sigsentropym);
+   Rcpp::NumericVector omegaentropym(omegaentropy);
+   arma::vec omega_entropy(omegaentropym);
+   Rcpp::NumericMatrix sigsinvm(sigs_inv);
+   arma::mat sigs_invs(sigsinvm.begin(), sigsinvm.nrow(), sigsinvm.ncol(), false);
+   Rcpp::NumericMatrix omegam(omega);
+   arma::mat omegas(omegam.begin(), omegam.nrow(), omegam.ncol(), false);
    
    arma::colvec expeta(etas.size()+1); 
    expeta.fill(1);
@@ -161,8 +176,9 @@ SEXP hpbcpp(SEXP eta,
      //that was sufficient to ensure positive definiteness so we now do cholesky
      nu = arma::chol(hess);
    }
+   
    //compute 1/2 the determinant from the cholesky decomposition
-   double detTerm = -sum(log(nu.diag()));
+   double detTerm_nu = -sum(log(nu.diag()));
 
    //Now finish constructing nu
    nu = arma::inv(arma::trimatu(nu));
@@ -170,15 +186,24 @@ SEXP hpbcpp(SEXP eta,
    
    //Precompute the difference since we use it twice
    arma::vec diff = etas - mus - pis;
+   double tr_sigtv = arma::trace(siginvs*nu);
    //Now generate the bound and make it a scalar
    
    // Calculate -phi * log(phi) for matrix EB
   //arma::mat phi_term = -(EB + 0.01) % arma::log(EB + 0.01); // Element-wise multiplication and logarithm
    //double phi_sum = arma::accu(phi_term); // Sum all elements
    
-   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy);
-   //double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff);
+   //define parameters wrt to psi
+   double tr_sigtw = arma::trace(siginvs*omegas);
+   double tr_sigsw = arma::trace(sigs_invs*omegas);
    
+   
+   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm_nu 
+                                      - .5*diff.t()*siginvs*diff - entropy 
+                                      - 0.5*tr_sigtv - 0.5*tr_sigtw 
+                                      - sigs_entropy + omega_entropy
+                                      - 0.5*pis.t()*sigs_invs*pis - 0.5*tr_sigsw);
+ 
    //double impbound = bound + arma::as_scalar
    // Generate a return list that mimics the R output
    return Rcpp::List::create(

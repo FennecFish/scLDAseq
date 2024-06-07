@@ -115,13 +115,12 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     # cat("Convergence is ", convergence, "\n")
 
     # bound <- llh.bound(bound.ss, alpha, sigs, omega, phi)
-      bound <- sum(bound.ss)
+    bound <- sum(bound.ss)
     cat("calculate log likelihood \n")
     # cat("bound \n")
     convergence <- convergence.check(bound, convergence, settings)
     stopits <- convergence$stopits
     # cat("stopits is", stopits, "\n")
- 
     #Print Updates if we haven't yet converged
     if(!stopits & verbose) report(convergence, ntokens=ntokens, beta, vocab,
                                        settings$topicreportevery, verbose)

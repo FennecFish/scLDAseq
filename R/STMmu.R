@@ -52,6 +52,8 @@ vb.variational.reg <- function(Y,X, b0=1, d0=1, Xcorr=NULL, maxits=1000) {
         da <- 2/(Ea + d0)
         dn <- 2*da + (crossprod(w) + sum(diag(V)[-1]))
         Ea <- cn / dn
+        # sn <- (0.5 + sum(w^2))/(length(w) + 0.5)
+        
         #now combine the intercept back in 
         w <- c(w0,w)
         ct <- ct + 1
@@ -60,7 +62,9 @@ vb.variational.reg <- function(Y,X, b0=1, d0=1, Xcorr=NULL, maxits=1000) {
         }
         converge <- sum(abs(w-w.old))
     }
-    return(w)
+    # sn <- V/error.prec
+    sn <- diag(V/error.prec)[-1]
+    return(list(w = w, sn = sn))
 }
 
 #main method up top, regression-implementations below.
@@ -75,20 +79,25 @@ opt.mu <- function(lambda, pi, nsamples,
   #Variational Linear Regression with a Gamma hyperprior
   if(mode=="Pooled") {
     gamma <- vector(mode="list",length=ncol(lambda))
+    sn <- vector(mode="list",length=ncol(lambda))
     Xcorr <- crossprod(covar)
     # psi <- rep(pi, times = nsamples)
     # if (nrow(pi) != nrow(lambda)) stop("Sample heterogeneity has a dimensionality different from number of samples")
     for (i in 1:ncol(lambda)) {
-      gamma[[i]] <- vb.variational.reg(Y=lambda[,i]-pi[,i], X=covar, Xcorr=Xcorr, maxits=maxits) 
+       vb.res <- vb.variational.reg(Y=lambda[,i]-pi[,i], X=covar, Xcorr=Xcorr, maxits=maxits) 
+      gamma[[i]] <- vb.res$w
+      sn[[i]] <- vb.res$sn
     }
+    
     gamma <- do.call(cbind,gamma)
+    sn <- do.call(cbind,sn)
     mu<- t(covar%*%gamma)
     #if its not a regular matrix,coerce it as it won't be sparse.
     if(!is.matrix(mu)) {
       mu <- as.matrix(mu)
     }
     # browser()
-    return(list(mu=mu, gamma=gamma))
+    return(list(mu=mu, gamma=gamma, sn = sn))
   }
   
   #Lasso
