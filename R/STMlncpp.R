@@ -25,8 +25,8 @@ logisticnormalcpp <- function(eta, mu, psi, omega, siginv, beta, doc,
                      siginv=siginv, beta=beta)
 
   if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
-  omega <- diag(omega, nrow = length(psi))
-  sigs <- diag(sigs, nrow = length(psi))
+  # omega <- diag(omega, nrow = length(psi))
+  # sigs <- diag(sigs, nrow = length(psi))
 
   sigs_obj <- try(chol.default(sigs), silent=TRUE)
   if(inherits(sigs_obj,"try-error")) {
@@ -43,7 +43,6 @@ logisticnormalcpp <- function(eta, mu, psi, omega, siginv, beta, doc,
   } else {
       omegaentropy <- sum(log(diag(omegaobj)))
   }
-
   #Solve for Hessian/Phi/Bound returning the result
   docvar <- hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
                    siginv=siginv, beta=beta, pi = psi,

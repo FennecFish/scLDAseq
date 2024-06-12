@@ -15,7 +15,8 @@ convergence.check <- function(bound,convergence, settings) {
   #fill in the current bound
 
   convergence$bound[convergence$its] <- bound
-
+  # convergence$trace[convergence$its] <- trace
+  # convergence$new_bound[convergence$its] <- new_bound
   #if not the first iteration
   if(convergence$its > 1) {
     old <- convergence$bound[convergence$its-1]

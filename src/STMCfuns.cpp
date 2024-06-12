@@ -198,11 +198,21 @@ SEXP hpbcpp(SEXP eta,
    double tr_sigsw = arma::trace(sigs_invs*omegas);
    
    
-   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm_nu 
-                                      - .5*diff.t()*siginvs*diff - entropy 
-                                      - 0.5*tr_sigtv - 0.5*tr_sigtw 
-                                      - sigs_entropy + omega_entropy
-                                      - 0.5*pis.t()*sigs_invs*pis - 0.5*tr_sigsw);
+   // double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm_nu 
+   //                                    - .5*diff.t()*siginvs*diff - entropy 
+   //                                    - 0.5*tr_sigtv - 0.5*tr_sigtw 
+   //                                    - sigs_entropy + omega_entropy
+   //                                    - 0.5*pis.t()*sigs_invs*pis - 0.5*tr_sigsw);
+   double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm_nu
+                                      -0.5*(tr_sigtv + diff.t()*siginvs*diff
+                                                + tr_sigtw + entropy) 
+                                    - 0.5*(tr_sigsw + pis.t()*sigs_invs*pis + sigs_entropy - omega_entropy));
+    // double trace = arma::as_scalar(detTerm_nu - .5*diff.t()*siginvs*diff - entropy);
+    // 
+    // double new_bound = arma::as_scalar(detTerm_nu - .5*diff.t()*siginvs*diff - entropy
+    //                                        - 0.5*tr_sigtv - 0.5*tr_sigtw
+    //                                        - sigs_entropy + omega_entropy 
+    //                                        - 0.5*pis.t()*sigs_invs*pis - 0.5*tr_sigsw);
  
    //double impbound = bound + arma::as_scalar
    // Generate a return list that mimics the R output
@@ -210,6 +220,8 @@ SEXP hpbcpp(SEXP eta,
         Rcpp::Named("phis") = EB,
         Rcpp::Named("eta") = Rcpp::List::create(Rcpp::Named("lambda")=etas, Rcpp::Named("nu")=nu),
         Rcpp::Named("bound") = bound
+        //Rcpp::Named("trace") = trace,
+        //Rcpp::Named("new_bound") = new_bound
         );
 }
 

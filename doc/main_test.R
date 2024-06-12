@@ -15,15 +15,129 @@ library(tibble)
 library(stats)
 library(splatter)
 library(scater)
-library(batchelor)
+library(MASS)
+#@ library(batchelor)
+seed = 123
+### simulation ###
+nsample <- 2
+nCellType <- 5
+de.prob <- runif(nCellType, min = 0.5, max = 1)
+de.facLoc <- runif(nCellType, 2, 2.5)
 
-### testing ###
+batch.facLoc = runif(nsample, min = 0, max = 0.1)
+batch.facScale = runif(nsample, min = 0, max = 0.1)
 
-# all genes, no content
-# sims <- readRDS("data/sims_1712873779_L3.rds")
-sims <- sims[1:200,1:300]
+batchCells <- rep(300, nsample)
+nGenes <- 600
+dropout.type = "batch"
+dropout.mid <- 0.05
+dropout.shape <- -1
+sd <- batchCells[1] * 0.05
+# comp <- c(0.2, 0.2, 0.2, 0.2, 0.2) * sum(batchCells)
+comp <- rep(1/nCellType, nCellType) * sum(batchCells)
+de.comp <- MASS::mvrnorm(n = 1, mu = comp, Sigma = diag(x=sd, nrow =nCellType))
+group.prob <- de.comp/sum(de.comp)
+
+params <- newSplatParams()
+params <- setParams(params, group.prob = group.prob,
+                    de.prob = de.prob, de.facLoc = de.facLoc,
+                    nGenes = nGenes, seed = seed,
+                    batchCells=batchCells)
+
+sims <- splatSimulate(params, method = "groups",
+                      verbose = TRUE, batch.rmEffect = FALSE)
+s1 <- sims
+sim1 <- logNormCounts(s1)
+sim1 <- runPCA(sim1)
+plotPCA(sim1, colour_by = "Group")
+
+### negative control
+de.comp <- MASS::mvrnorm(n = 1, mu = comp, Sigma = diag(x=sd, nrow =nCellType))
+group.prob <- de.comp/sum(de.comp)
+
+params <- newSplatParams()
+params <- setParams(params, group.prob = group.prob,
+                    de.prob = de.prob, de.facLoc = de.facLoc,
+                    nGenes = nGenes, seed = seed,
+                    batchCells=batchCells, batch.facLoc = batch.facLoc, batch.facScale = batch.facScale)
+sims <- splatSimulate(params, method = "groups",
+                      verbose = TRUE, batch.rmEffect = FALSE)
+s2 <- sims
+# sim2 <- logNormCounts(s2)
+# sim2 <- runPCA(sim2)
+# plotPCA(sim2, colour_by = "Group")
+
+s1$time <- 1
+s1$Cell <-paste0(s1$Cell, "_1")
+rownames(colData(s1)) <- s1$Cell
+s2$time <- 2
+s2$Cell <-paste0(s2$Cell, "_2")
+rownames(colData(s2)) <- s2$Cell
+
+sim_neg_dat <- cbind(s1, s2)
+sim3 <- logNormCounts(sim_neg_dat)
+sim3 <- runPCA(sim3)
+plotPCA(sim3, colour_by = "time")
+
+## positive control
+change.comp <- rep(1/nCellType, nCellType) + c(0.2, -0.15, -0.1, 0.05, 0)
+comp <- change.comp * sum(batchCells)
+
+de.comp <- mvrnorm(n = 1, mu = comp, Sigma = diag(x=sd, nrow = nCellType))
+group.prob <- de.comp/sum(de.comp)
+
+params <- newSplatParams()
+params <- setParams(params, group.prob = group.prob,
+                    de.prob = de.prob, de.facLoc = de.facLoc,
+                    nGenes = nGenes, seed = seed,
+                    batchCells=batchCells)
+sims <- splatSimulate(params, method = "groups",
+                      verbose = TRUE, batch.rmEffect = FALSE)
+s3 <- sims
+# sim3 <- logNormCounts(s3)
+# sim3 <- runPCA(sim3)
+# plotPCA(sim3, colour_by = "Group")
+
+s3$time <- 2
+s3$Cell <-paste0(s3$Cell, "_2")
+rownames(colData(s3)) <- s3$Cell
+
+sim_pos_dat <- SingleCellExperiment::cbind(s1, s3)
+sims <- sim_pos_dat
+
+sims <- readRDS("data/sims_1716946229_neg_L1_c5.rds")
+##### QA ######
 sims <- quickPerCellQC(sims, filter=TRUE)
+
+### remove genes with count 0 
 sims <- sims[rowSums(counts(sims)) != 0,]
+#### feature selection #####
+sims <- scuttle::logNormCounts(sims)
+library(scater)
+library(scran)
+dec.p2 <- modelGeneVar(sims)
+# feature selection
+p2.chosen <- getTopHVGs(dec.p2, n=300)
+sims <- sims[p2.chosen,]
+
+# batch effect removal using combat seq
+library(sva)
+adjusted_counts <- ComBat_seq(counts(sims), batch=sims$Batch, group=NULL)
+counts(sims) <- adjusted_counts
+cat("Batch Effect Removed \n")
+
+df <- colData(sims) %>%
+  as.data.frame() %>%
+  count(Batch, Group, time) %>%
+  pivot_wider(names_from = time, values_from = n, values_fill = list(n = 0))
+total_1 <- sum(df$`1`)
+total_2 <- sum(df$`2`)
+result <- df %>%
+  mutate(
+    Proportion_1 = `1` / total_1,
+    Proportion_2 = `2` / total_2,
+    Ratio = Proportion_1 / Proportion_2
+  )
 
 nsample <- length(unique(sims$Batch))
 ngroup <- length(unique(sims$Group))
@@ -32,8 +146,64 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
-res <- multi_stm(sce = sims,
+res <- scSTMseq(sce = sims,
                  K = ngroup, prevalence = ~time, content = NULL,
+                 sample = "Batch",
+                 init.type= "TopicScore",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-5,
+                 seed = 9308641, max.em.its = 100)
+plot(res$convergence$bound)
+
+res.null <- multi_stm(sce = sims,
+                 K = ngroup, prevalence = NULL, content = NULL,
+                 sample = "Batch",
+                 init.type= "TopicScore",
+                 gamma.prior= "Pooled",
+                 kappa.prior= "L1",
+                 control = list(gamma.maxits=3000),
+                 emtol=1e-5,
+                 seed = 9308641)
+plot(res.null$convergence$bound)
+
+L1 <- res$convergence$bound[length(res$convergence$bound)]
+L2 <- res.null$convergence$bound[length(res.null$convergence$bound)]
+s <- -2*(L2-L1)
+
+pchisq(-s, df=4, lower.tail=FALSE)
+
+
+n_samples <- 1000  # Number of samples
+samples <- MASS::mvrnorm(n_samples, mu = res$mu$gamma[2,], Sigma = diag(as.vector(res$mu$sn)))
+
+# Calculate the credible intervals
+alpha <- 0.05  # Significance level for 95% credible interval
+credible_intervals <- apply(samples, 2, function(x) quantile(x, probs = c(alpha/2, 1 - alpha/2)))
+
+# Display the credible intervals
+credible_intervals <- t(credible_intervals)  # Transpose for better readability
+colnames(credible_intervals) <- c("Lower Bound", "Upper Bound")
+credible_intervals
+#low.bound <- qnorm(0.05/2, mean = res$mu$gamma[2,], sd = sqrt(res$mu$sn))
+#high.bound <- qnorm(0.95/2, mean = res$mu$gamma[2,], sd = sqrt(res$mu$sn))
+
+scSTM.mod <- selectModel(sce = sims,
+                         K = ngroup, prevalence = ~time, content = NULL,
+                         N = 3, ts_runs = 10, random_run = 10,
+                         max.em.its = 50) #, sample = "Batch",)
+
+all_values <- unlist(scSTM.mod$bound)
+max_value <- max(all_values)
+max_position_in_vector <- which(all_values == max_value)
+res <- scSTM.mod$runout[[max_position_in_vector]]
+
+library(mvtnorm)
+
+
+res <- multi_stm(sce = sims,
+                 K = ngroup, prevalence = NULL, content = NULL,
                  sample = "Batch",
                  init.type= "Random",
                  gamma.prior= "Pooled",

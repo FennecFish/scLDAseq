@@ -19,44 +19,6 @@ stm.init <- function(documents, settings) {
   maxV <- settings$init$maxV
   sce <- settings$sce
 
-  #Different Modes
-  if(mode=="LDA") {
-    resetdocs <- lapply(documents, function(x) {
-                        x[1, ] <- as.integer(x[1, ] - 1)
-                        x})
-    mod <- lda::lda.collapsed.gibbs.sampler(resetdocs, K, 1:V, 
-                                       num.iterations=nits, burnin=burnin, 
-                                       alpha=alpha, eta=eta)
-    
-    beta <- as.numeric(mod$topics) + eta #recasting to avoid overflow
-    beta <- matrix(beta, nrow=K)
-    beta <- beta/rowSums(beta)
-    
-    theta <- as.numeric(mod$document_expects) #these are actually sums not expects
-    theta[theta==0] <- .01 #stabilize the 0's for the log case
-    theta <- matrix(theta, nrow=K) #reorganize
-    Ndoc <- colSums(theta) #get word counts by doc
-    theta <- t(theta)/Ndoc  #norm to proportions
-    lambda <- log(theta) - log(theta[,K]) #get the log-space version
-    lambda <- lambda[,-K, drop=FALSE] #drop off the last column
-    rm(theta) #clear out theta
-    mu <- colMeans(lambda) #make a globally shared mean
-    mu <- matrix(mu, ncol=1)
-    sigma <- cov(lambda) 
-    
-    pi <- rep(0,I)
-    sigs <- diag(20, nrow=I, ncol = I)
-  }
-  # if(mode=="Random" | mode=="Custom") {
-  #   #Random initialization or if Custom, initalize everything randomly
-  #   mu <- matrix(0, nrow=(K-1),ncol=1)
-  #   sigma <- diag(20, nrow=(K-1))
-  #   beta <- matrix(rgamma(V * K, .1), ncol = V)
-  #   beta <- beta/rowSums(beta)
-  #   lambda <- matrix(0, nrow=N, ncol=(K-1))
-  #   sigs <- diag(30, nrow=I, ncol = I)
-  #   
-  # }
   if(mode=="Spectral" | mode=="SpectralRP") {
     verbose <- settings$verbose
     if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
@@ -155,9 +117,10 @@ stm.init <- function(documents, settings) {
         # mu <- colMeans(lambda) #make a globally shared mean
         # mu <- matrix(mu, ncol=1)
         # sigma <- cov(lambda)
-        pi <- rep(0,I)
-        sigs <- diag(20, nrow=I, ncol = I)
-        
+        # pi <- rep(0,I)
+        # sigs <- diag(20, nrow=I, ncol = I)
+        pi <- matrix(rep(rep(0, K-1), I), nrow = I)
+        sigs <- diag(5, nrow = K-1)
         # temp <- cbind(lambda, samples) %>%
         #     as.data.frame() %>%
         #     tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%
@@ -191,12 +154,17 @@ stm.init <- function(documents, settings) {
       
       # lambda <- matrix(0, nrow=N, ncol=(K-1))
       mu <- matrix(0, nrow=(K-1),ncol=1)
-      sigma <- diag(20, nrow=(K-1))
+      sigma <- diag(5, nrow=(K-1))
       # mu <- colMeans(lambda)
       # mu <- matrix(mu, ncol=1)
       # sigma <- cov(lambda)
-      pi <- rep(0,I)
-      sigs <- diag(20, nrow=I, ncol = I)
+      
+     # patient level randomization
+      # pi <- rep(0,I)
+      # sigs <- diag(20, nrow=I, ncol = I)
+      
+      pi <- matrix(rep(rep(0, K-1), I), nrow = I)
+      sigs <- diag(5, nrow = K-1)
       # temp <- cbind(lambda, samples) %>%
       #     as.data.frame() %>%
       #     tidyr::pivot_longer(cols = !matches("^samples$"), names_to = "topic", values_to = "value") %>%

@@ -1,6 +1,3 @@
-#Workhorse Function for the STM model
-#compared to the original we have more initializations,
-# more explicit options, trimmed fat, memoization
 
 stm.control <- function(documents, vocab, settings, model=NULL) {
 
@@ -94,19 +91,21 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       nu <- suffstats$nu
       phi <- suffstats$phis
       
-      #do the m-step
+      # trace.ss <- suffstats$trace
+      # new_bound.ss <- suffstats$new_bound
       
+      #do the m-step
       mu <- opt.mu(lambda=lambda, pi = pi,
                    nsamples = nsamples, mode=settings$gamma$mode,
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
-      sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
-                         pi = pi, samples = samples,
-                         mu=mu$mu, sigprior=settings$sigma$prior)
       beta <- opt.beta(beta.ss, beta$kappa, settings)
-      sig_alpha <- opt.sigs(pi, omega, samples)
-      alpha <- sig_alpha$psi
-      sigs <- sig_alpha$sigs
+      sigs <- opt.sigs(pi, omega, samples)
+      alpha <- pi
+      sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
+                         pi = alpha, samples = samples,
+                         mu=mu$mu, sigprior=settings$sigma$prior)
+      
       timer <- floor((proc.time()-t1)[3])
       msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
       if(verbose) cat(msg)
@@ -116,6 +115,9 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
 
     # bound <- llh.bound(bound.ss, alpha, sigs, omega, phi)
     bound <- sum(bound.ss)
+    # trace <- sum(trace.ss)
+    # new_bound <- sum(new_bound.ss)
+    # 
     cat("calculate log likelihood \n")
     # cat("bound \n")
     convergence <- convergence.check(bound, convergence, settings)

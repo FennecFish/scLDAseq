@@ -1,13 +1,16 @@
 #Optimization for the patient hereogeneity Covariance Matrix
 opt.sigs <- function(pi, omega, samples) {  
     sigs <- matrix(0, nrow = nrow(omega), ncol = ncol(omega))
-    psi <- numeric(length(unique(samples)))
-    for (i in 1:length(unique(samples))) {
-        Ni <- which(samples == unique(samples)[i])
-        psi[i] <- mean(colMeans(pi[Ni,]))
-        sigs[i,i] <- psi[i]^2 + diag(omega)[i]
+    I <- length(unique(samples))
+    # psi <- numeric(length(unique(samples)))
+    # psi <- do.call(rbind, pi)
+    for (i in 1:I) {
+        # Ni <- which(samples == unique(samples)[i])
+        # psi[i] <- mean(colMeans(pi[Ni,]))
+        sigs <- sigs + tcrossprod(pi[i,]) + omega
     }
-    return(list(sigs = sigs, psi = psi))
+    sigs <- sigs/I
+    return(sigs)
 }
 
 

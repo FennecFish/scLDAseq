@@ -38,7 +38,10 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   
   # pi.ss <- numeric(N)
   pi.ss <- vector("list", length=N)
+  pi <- vector("list", length=I)
   bound <- vector(length=N)
+  #trace <- vector(length=N)
+  #new_bound <- vector(length=N)
   lambda <- vector("list", length=N)
   nu <- vector(mode="list", length=N)
   for(i in 1:N) {
@@ -55,16 +58,35 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
       siginv <- chol2inv(sigobj)
   }
   
+  sigs_obj <- try(chol.default(sigs), silent=TRUE)
+  if(inherits(sigs_obj,"try-error")) {
+      sigs_inv <- solve(sigs)
+  } else {
+      sigs_inv <- chol2inv(sigs_obj)
+  }
+  
   # 3) Document Scheduling
   # For right now we are just doing everything in serial.
   # the challenge with multicore is efficient scheduling while
   # maintaining a small dimension for the sufficient statistics.
   
   omega <- matrix(0, nrow = I, ncol = I)
+  # calcualte omega
+  sum_sig <- siginv + sigs_inv
+  sum_sig_obj <- try(chol.default(sum_sig), silent=TRUE)
+  if(inherits(sum_sig_obj,"try-error")) {
+      omega <- solve(sum_sig)
+  } else {
+      omega <- chol2inv(sum_sig_obj)
+  }
+  
+  
   for (i in 1:I) {
-  psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
-  sigs.i <- diag(sigs)[i]
-  omega.i <- 1/(sum(diag(siginv)) + 1/sigs.i)
+  # psi.i <- rep(pi.old[i], ncol(lambda.old)) # repeat pi into a K-1 dimensional vector
+  psi.i <- pi.old[i,]
+  # sigs.i <- diag(sigs)[i]
+  
+  # omega <- solve(siginv + sigs_inv)
   Ni <- which(samples == unique(samples)[i])
 
       for(l in Ni) {
@@ -78,8 +100,8 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.l <- beta$beta[[aspect]][,words,drop=FALSE]
     
           doc.results <- logisticnormalcpp(eta=init, mu=mu.l, 
-                                           psi = psi.i, omega = omega.i,
-                                           siginv=siginv, sigs = sigs.i,
+                                           psi = psi.i, omega = omega,
+                                           siginv=siginv, sigs = sigs,
                                            beta=beta.l,
                                            doc=doc,
                                            sigmaentropy=sigmaentropy)
@@ -90,13 +112,16 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           phis <- doc.results$phis
           lambda[[l]] <- c(doc.results$eta$lambda)
+          bound[l] <- doc.results$bound
           nu[[l]] <- doc.results$eta$nu
           pi.ss[[l]] <- c(doc.results$pi)
+          #trace[l] <- doc.results$trace
+          #new_bound[l] <- doc.results$new_bound
           
           # adding 0.01 to avoid 0
           # logphi <- log(phis+ 0.01)
           # Eq_z <- sum(phis * logphi)
-          bound[l] <- doc.results$bound
+          
          #  det_sigs <- det(sigs)
          #  inv_sigs <- diag(1 /diag(sigs), nrow = nrow(sigs))
          #  tr <- sum(diag(omega %*% inv_sigs))
@@ -106,7 +131,10 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
          #  bound[l] <- Ep_psi - Eq_psi
           if(verbose && l%%ctevery==0) cat(".")
       }
-  omega[i,i] <- omega.i
+  
+  pi.i <- pi.ss[Ni]
+  pi[[i]] <- colMeans(do.call(rbind, pi.i)) 
+  # omega[i,i] <- omega.i
   }
   if(verbose) cat("\n") #add a line break for the next message.
   # #4) Combine and Return Sufficient Statistics
@@ -114,10 +142,10 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
   # for(i in 1:I) {
   #     Ni <- which(samples == unique(samples)[i])
   #     pi.ss.avg[i] <- mean(pi.ss[Ni])
-  #     # browser()
   # }
-  pi <- do.call(rbind, pi.ss)
+  #pi <- do.call(rbind, pi.ss)
   lambda <- do.call(rbind, lambda)
+  pi <- do.call(rbind, pi)
   return(list(sigma=sigma.ss, beta=beta.ss, bound=bound, 
               lambda=lambda, nu = nu, pi = pi, omega = omega, phis = phis))
 }
