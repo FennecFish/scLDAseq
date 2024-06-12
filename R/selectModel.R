@@ -129,7 +129,7 @@ selectModel <- function(sce , K, sample = NULL,
   cat("Casting net \n")
   for(i in 1:ts_runs){
     cat(paste(i, "models in net \n"))
-    mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+    mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
                          sample = sample, K = K, 
                    prevalence=prevalence, content=content, init.type="TopicScore",
                    max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
@@ -150,7 +150,7 @@ selectModel <- function(sce , K, sample = NULL,
   # Random run
   for(i in 1:random_run){
     cat(paste(i + ts_runs + 1, "models in net \n"))
-    mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data,
+    mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
                          sample = sample, K,
                          prevalence=prevalence, content=content, init.type="Random",
                          max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
@@ -182,7 +182,7 @@ selectModel <- function(sce , K, sample = NULL,
     #   init_type <- "Spectral"
     # } 
     
-    mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data, 
+    mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
                          sample = sample, K = K, 
                          prevalence = prevalence, content = content, init.type = init_type, 
                          seed = initseed, max.em.its = max.em.its, emtol = emtol, 
