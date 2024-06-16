@@ -295,7 +295,7 @@ SEXP singlehpbcpp(SEXP eta,
         //iterate over each row and set the minimum value of the diagonal to be the magnitude of the other terms
         int Km1 = dvec.size();
         for(int j=0; j < Km1;  j++){
-            if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j); //enforce diagonal dominance 
+            if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j) + 0.01; //enforce diagonal dominance 
         }
         //overwrite the diagonal of the hessian with our new object
         hess.diag() = dvec;
