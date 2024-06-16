@@ -8,6 +8,8 @@ Check these declarations against the C/Fortran source code.
 */
 
 /* .Call calls */
-extern SEXP stm_gradcpp(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP stm_hpbcpp(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP stm_lhoodcpp(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP stm_gradcpp(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP stm_lhoodcpp(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP stm_multihpbcpp(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP,
+                         SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP stm_singlehpbcpp(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);

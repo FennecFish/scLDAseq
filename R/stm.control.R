@@ -9,6 +9,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   ngroups <- settings$ngroups
   samples <- settings$dim$samples
   nsamples <- as.vector(table(samples))
+  I <- settings$dim$I
   if(is.null(model)) {
     if(verbose) cat(switch(EXPR=settings$init$mode,
                            Spectral = "Beginning Spectral Initialization \n",
@@ -23,9 +24,15 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     
     mu <- list(mu=model$mu)
     sigma <- model$sigma
-    sigs <- model$sigs
     beta <- list(beta=model$beta)
-    pi <- model$pi
+    # if only one sample, makes sample variation null
+    if(I == 1) {
+        pi <- NULL
+        sigs <- NULL
+    } else{
+        pi <- model$pi
+        sigs <- model$sigs
+    }
     # beta <- model$beta
     if(!is.null(model$kappa)) beta$kappa <- model$kappa
     lambda <- model$lambda
@@ -39,8 +46,15 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     beta <- list(beta=lapply(model$beta$logbeta, exp))
     if(!is.null(model$beta$kappa)) beta$kappa <- model$beta$kappa
     sigma <- model$sigma
-    sigs <- model$sigs
     lambda <- model$eta
+    # if only one sample, makes sample variation null
+    if(I == 1) {
+        pi <- NULL
+        sigs <- NULL
+    } else{
+        pi <- model$pi
+        sigs <- model$sigs
+    }
     convergence <- model$convergence
     #manually declare the model not converged or it will stop after the first iteration
     convergence$stopits <- FALSE
@@ -84,13 +98,16 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       t1 <- proc.time()
       sigma.ss <- suffstats$sigma
       lambda <- suffstats$lambda
-      pi <- suffstats$pi
-      omega <- suffstats$omega
       beta.ss <- suffstats$beta
       bound.ss <- suffstats$bound
       nu <- suffstats$nu
       phi <- suffstats$phis
       
+      if(!is.null(pi)){
+          pi <- suffstats$pi
+          omega <- suffstats$omega
+      }
+     
       # trace.ss <- suffstats$trace
       # new_bound.ss <- suffstats$new_bound
       
@@ -100,12 +117,17 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
       beta <- opt.beta(beta.ss, beta$kappa, settings)
-      sigs <- opt.sigs(pi, omega, samples)
-      alpha <- pi
-      sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
-                         pi = alpha, samples = samples,
-                         mu=mu$mu, sigprior=settings$sigma$prior)
-      
+      if(!is.null(pi)){
+          sigs <- opt.sigs(pi, omega, samples)
+          alpha <- pi
+          sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = omega,
+                             pi = alpha, samples = samples,
+                             mu=mu$mu, sigprior=settings$sigma$prior)
+      } else{
+          sigma <- opt.sigma(nu=sigma.ss, lambda=lambda, omega = NULL,
+                             pi = NULL, samples = samples,
+                             mu=mu$mu, sigprior=settings$sigma$prior)
+      }
       timer <- floor((proc.time()-t1)[3])
       msg <- sprintf("Completed M-Step (%d seconds). \n", floor((proc.time()-t1)[3]))
       if(verbose) cat(msg)
@@ -138,14 +160,15 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
   }
   beta$beta <- NULL
   lambda <- cbind(lambda,0)
+  if(is.null(pi)){
+      alpha <- NULL
+      sigs <- NULL
+  }
   model <- list(mu=mu, sigma=sigma, beta=beta, 
                 psi = list(alpha = alpha, sigs = sigs), settings=settings,
                 vocab=vocab, DocName = names(documents), 
                 sampleID = samples, convergence=convergence,
                 theta=exp(lambda - log(rowSums(exp(lambda)))),
-                #note altered from row.lse above because of a
-                #Windows specific bug that was happening with
-                #matrixStats package and large matrices 8/27
                 eta=lambda[,-ncol(lambda), drop=FALSE],
                 nu = nu,
                 time=time, 

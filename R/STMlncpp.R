@@ -7,76 +7,60 @@
 
 #12/31/2016 added the hpbcpp argument so I can opt not to call it
 #inside fitNewDocuments
-logisticnormalcpp <- function(eta, mu, psi, omega, siginv, beta, doc, 
-                              sigs,
-                              sigmaentropy, 
+logisticnormalcpp <- function(eta, mu, psi, siginv, sigmaentropy,
+                              beta, doc, sigs, sigs_inv, sigsentropy,
+                              omega, omegaentropy,
                               method="BFGS", control=list(maxit=500),
                               hpbcpp=TRUE, l) {
   # if(l %in% c(4135,4136)) {browser()}
   doc.ct <- doc[2,]
   Ndoc <- sum(doc.ct)
-  
-  # Ndoc = 346949
-  
-  optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
-                     method=method, control=control,
-                     doc_ct=doc.ct, mu=mu,
-                     pi = psi, 
-                     siginv=siginv, beta=beta)
+  if(!is.null(psi)){
+      optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
+                         method=method, control=control,
+                         doc_ct=doc.ct, mu=mu,
+                         pi = psi, 
+                         siginv=siginv, beta=beta)
+      
+      if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
 
-  if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
-  # omega <- diag(omega, nrow = length(psi))
-  # sigs <- diag(sigs, nrow = length(psi))
+      #Solve for Hessian/Phi/Bound returning the result
+      docvar <- multihpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
+                       siginv=siginv, beta=beta, pi = psi,
+                       sigmaentropy=sigmaentropy, sigs = sigs,
+                       sigs_inv = sigs_inv, omega= omega,
+                       sigsentropy = sigsentropy, omegaentropy = omegaentropy)
 
-  sigs_obj <- try(chol.default(sigs), silent=TRUE)
-  if(inherits(sigs_obj,"try-error")) {
-      sigsentropy <- (.5*determinant(sigs, logarithm=TRUE)$modulus[1])
-      sigs_inv <- solve(sigs)
-  } else {
-      sigsentropy <- sum(log(diag(sigs_obj)))
-      sigs_inv <- chol2inv(sigs_obj)
+      sig_sum <- siginv + sigs_inv
+      
+      sigsumobj <- try(chol.default(sig_sum), silent=TRUE)
+      if(inherits(sigsumobj,"try-error")) {
+          sig_sum_inv <- solve(sig_sum)
+      } else {
+          sig_sum_inv <- chol2inv(sigsumobj)
+      }
+      
+      pi.update <-  sig_sum_inv %*% siginv %*% (optim.out$par - mu)
+      # print(pi.update)
+      # browser()
+      # docvar$pi <- mean(pi.update)
+      # pi.update <- as.numeric(pi.update)
+      # names(pi.update) <- names(optim.out$par)
+      docvar$pi <- pi.update
+  } else{
+      psi0 = rep(0, length(eta))
+      optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
+                         method=method, control=control,
+                         doc_ct=doc.ct, mu=mu,
+                         pi = psi0, 
+                         siginv=siginv, beta=beta)
+      
+      if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
+      docvar <- singlehpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
+                             siginv=siginv, beta=beta,
+                             sigmaentropy=sigmaentropy)
   }
-  
-  omegaobj <- try(chol.default(omega), silent=TRUE)
-  if(inherits(omegaobj,"try-error")) {
-      omegaentropy <- (.5*determinant(omega, logarithm=TRUE)$modulus[1])
-  } else {
-      omegaentropy <- sum(log(diag(omegaobj)))
-  }
-  #Solve for Hessian/Phi/Bound returning the result
-  docvar <- hpbcpp(optim.out$par, doc_ct=doc.ct, mu=mu,
-                   siginv=siginv, beta=beta, pi = psi,
-                   sigmaentropy=sigmaentropy, sigs = sigs,
-                   sigs_inv = sigs_inv, omega= omega,
-                   sigsentropy = sigsentropy, omegaentropy = omegaentropy)
-  # if (siginv[1,1] > 1) {
-  #     browser()
-  # }
-  # omega.update <- 1/(sum(diag(siginv)) + 1/(diag(omega)[1]))
-  # docvar$omega <- omega.update
 
-  # sigs_inv <- diag(1/sigs, nrow = nrow(siginv), ncol = ncol(siginv))
-  sig_sum <- siginv + sigs_inv
-
-  sigsumobj <- try(chol.default(sig_sum), silent=TRUE)
-  if(inherits(sigsumobj,"try-error")) {
-      sig_sum_inv <- solve(sig_sum)
-  } else {
-      sig_sum_inv <- chol2inv(sigsumobj)
-  }
-  
-  pi.update <-  sig_sum_inv %*% siginv %*% (optim.out$par - mu)
-  # print(pi.update)
-  # browser()
-  # docvar$pi <- mean(pi.update)
-  # pi.update <- as.numeric(pi.update)
-  # names(pi.update) <- names(optim.out$par)
-  docvar$pi <- pi.update
-  # if (abs(docvar$pi) > 5) {
-  #     print("pi is large")
-  #     browser()
-  #     }
-  # print(docvar$pi)
   return(docvar)
 }
 

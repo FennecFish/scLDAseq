@@ -81,11 +81,12 @@ opt.mu <- function(lambda, pi, nsamples,
     gamma <- vector(mode="list",length=ncol(lambda))
     sn <- vector(mode="list",length=ncol(lambda))
     Xcorr <- crossprod(covar)
-    # psi <- rep(pi, times = nsamples)
-    # psi <- do.call(rbind, psi)
-    # if (nrow(psi) != nrow(lambda)) stop("Sample heterogeneity has a dimensionality different from number of samples")
+    if(!is.null(pi)){
+        pis <- pi[rep(1:nrow(pi), times = nsamples), ]
+        Y_all <- lambda - pis} else{Y_all <- lambda}
     for (i in 1:ncol(lambda)) {
-       vb.res <- vb.variational.reg(Y=lambda[,i]-pi[,i], X=covar, Xcorr=Xcorr, maxits=maxits) 
+      # vb.res <- vb.variational.reg(Y=lambda[,i]-pi[,i], X=covar, Xcorr=Xcorr, maxits=maxits) 
+        vb.res <- vb.variational.reg(Y = Y_all[,i], X=covar, Xcorr=Xcorr, maxits=maxits)
       gamma[[i]] <- vb.res$w
       sn[[i]] <- vb.res$sn
     }

@@ -74,7 +74,7 @@ arma::vec gradcpp(SEXP eta,
 }
 
 // [[Rcpp::export]]
-SEXP hpbcpp(SEXP eta,
+SEXP multihpbcpp(SEXP eta,
             SEXP beta,
             SEXP doc_ct,
             SEXP mu,
@@ -226,3 +226,98 @@ SEXP hpbcpp(SEXP eta,
 }
 
 
+// [[Rcpp::export]]
+SEXP singlehpbcpp(SEXP eta,
+                  SEXP beta,
+                  SEXP doc_ct,
+                  SEXP mu,
+                  SEXP siginv,
+                  SEXP sigmaentropy){
+    
+    Rcpp::NumericVector etav(eta); 
+    arma::vec etas(etav.begin(), etav.size(), false);
+    Rcpp::NumericMatrix betam(beta);
+    arma::mat betas(betam.begin(), betam.nrow(), betam.ncol());
+    Rcpp::NumericVector doc_ctv(doc_ct);
+    arma::vec doc_cts(doc_ctv.begin(), doc_ctv.size(), false);
+    Rcpp::NumericVector muv(mu);
+    arma::vec mus(muv.begin(), muv.size(), false);
+    Rcpp::NumericMatrix siginvm(siginv);
+    arma::mat siginvs(siginvm.begin(), siginvm.nrow(), siginvm.ncol(), false);
+    Rcpp::NumericVector sigmaentropym(sigmaentropy);
+    arma::vec entropy(sigmaentropym);
+    
+    arma::colvec expeta(etas.size()+1); 
+    expeta.fill(1);
+    int neta = etas.size(); 
+    for(int j=0; j <neta;  j++){
+        expeta(j) = exp(etas(j));
+    }
+    arma::vec theta = expeta/sum(expeta);
+    
+    //create a new version of the matrix so we can mess with it
+    arma::mat EB(betam.begin(), betam.nrow(), betam.ncol());
+    //multiply each column by expeta
+    EB.each_col() %= expeta; //this should be fastest as its column-major ordering
+    
+    //divide out by the column sums
+    EB.each_row() %= arma::trans(sqrt(doc_cts))/sum(EB,0);
+    
+    //Combine the pieces of the Hessian which are matrices
+    arma::mat hess = EB*EB.t() - sum(doc_cts)*(theta*theta.t());
+    
+    //we don't need EB any more so we turn it into phi
+    EB.each_row() %= arma::trans(sqrt(doc_cts));
+    
+    //Now alter just the diagonal of the Hessian
+    hess.diag() -= sum(EB,1) - sum(doc_cts)*theta;
+    //Drop the last row and column
+    hess.shed_row(neta);
+    hess.shed_col(neta);
+    //Now we can add in siginv
+    hess = hess + siginvs;
+    //At this point the Hessian is complete.
+    
+    //This next bit of code is from http://arma.sourceforge.net/docs.html#logging
+    //It basically keeps arma from printing errors from chol to the console.
+    std::ostream nullstream(0);
+    
+    //Start by initializing an object
+    arma::mat nu = arma::mat(hess.n_rows, hess.n_rows);
+    //This version of chol generates a boolean which tells us if it failed.
+    bool worked = arma::chol(nu,hess);
+    if(!worked) {
+        
+        //Here we make it positive definite through diagonal dominance
+        arma::vec dvec = hess.diag();
+        //find the magnitude of the diagonal 
+        arma::vec magnitudes = sum(abs(hess), 1) - abs(dvec);
+        //iterate over each row and set the minimum value of the diagonal to be the magnitude of the other terms
+        int Km1 = dvec.size();
+        for(int j=0; j < Km1;  j++){
+            if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j); //enforce diagonal dominance 
+        }
+        //overwrite the diagonal of the hessian with our new object
+        hess.diag() = dvec;
+        //that was sufficient to ensure positive definiteness so we now do cholesky
+        nu = arma::chol(hess);
+    }
+    //compute 1/2 the determinant from the cholesky decomposition
+    double detTerm = -sum(log(nu.diag()));
+    
+    //Now finish constructing nu
+    nu = arma::inv(arma::trimatu(nu));
+    nu = nu * nu.t(); //trimatu doesn't do anything for multiplication so it would just be timesink to signal here.
+    
+    //Precompute the difference since we use it twice
+    arma::vec diff = etas - mus;
+    //Now generate the bound and make it a scalar
+    double bound = arma::as_scalar(log(arma::trans(theta)*betas)*doc_cts + detTerm - .5*diff.t()*siginvs*diff - entropy); 
+    
+    // Generate a return list that mimics the R output
+    return Rcpp::List::create(
+        Rcpp::Named("phis") = EB,
+        Rcpp::Named("eta") = Rcpp::List::create(Rcpp::Named("lambda")=etas, Rcpp::Named("nu")=nu),
+                    Rcpp::Named("bound") = bound
+    );
+}
