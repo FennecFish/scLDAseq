@@ -139,7 +139,7 @@ selectModel <- function(sce , K, sample = NULL,
   
   # running spectral
   cat(paste(ts_runs + 1, "models in net \n"))
-  mod.out <- multi_stm(sce = sce, documents = documents, vocab = vocab, data = data,
+  mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
                        sample = sample, K,
                        prevalence=prevalence, content=content, init.type="Spectral",
                        max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
