@@ -19,7 +19,85 @@ stm.init <- function(documents, settings) {
   maxV <- settings$init$maxV
   sce <- settings$sce
 
-
+  if(mode=="Spectral" | mode=="SpectralRP") {
+      verbose <- settings$verbose
+      if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
+      # (1) Prep the Gram matrix
+      if(verbose) cat("\t Calculating the gram matrix...\n")
+      docs <- doc.to.ijv(documents) # defined in STM functions
+      mat <- Matrix::sparseMatrix(docs$i,docs$j, x=docs$v) # create count matrix, row is doc, col are the vocab
+      rm(docs)
+      wprob <- Matrix::colSums(mat) # word count for each vocab across doc
+      wprob <- wprob/sum(wprob) # prob of word for each vocab
+      if(mode=="Spectral") {
+          keep <- NULL
+          if(!is.null(maxV)) {
+              if(verbose) cat(sprintf("\t Using only %i most frequent terms during initialization...\n", maxV))
+              keep <- order(wprob, decreasing=TRUE)[1:maxV]
+              mat <- mat[,keep]
+              wprob <- wprob[keep]
+          }
+          Q <- gram(mat) # defined in Spectral.R # V by V matrix
+          #verify that there are no zeroes
+          Qsums <- rowSums(Q)
+          
+          if(any(Qsums==0)) {
+              #if there are zeroes, we want to remove them for just the anchor word procedure.
+              temp.remove <- which(Qsums==0)
+              if(is.null(keep)) {
+                  keep <- which(Qsums!=0)
+              } else {
+                  keep <- keep[which(Qsums!=0)]
+              }
+              Q <- Q[-temp.remove,-temp.remove]
+              Qsums <- Qsums[-temp.remove]
+              wprob <- wprob[-temp.remove]
+          }
+          Q <- Q/Qsums
+      } else {
+          keep <- NULL #we have to set this because it is referenced later.
+          Q <- gram.rp(mat, s=settings$init$s, p=settings$init$p,
+                       d.group.size=settings$init$d.group.size, verbose=verbose)
+      }
+      
+      
+      # (2) anchor words
+      if(K!=0) {
+          if(verbose) cat("\t Finding anchor words...\n \t")
+          anchor <- fastAnchor(Q, K=K, verbose=verbose) #spectral.R
+      } else {
+          if(verbose) cat("\t Finding anchor words...\n \t")
+          anchor <- tsneAnchor(Q, verbose=verbose,
+                               init.dims=settings$init$tSNE_init.dims,
+                               perplexity=settings$init$tSNE_perplexity) #run the Lee and Mimno (2014) algorithm
+          K <- length(anchor) # update K
+      }
+      # (3) recoverL2 #spectral.R
+      if(verbose) cat("\n\t Recovering initialization...\n \t")
+      # beta is a K by V matrix
+      beta <- recoverL2(Q, anchor, wprob, verbose=verbose, recoverEG=settings$init$recoverEG)$A
+      if(!is.null(keep)) {
+          #if there were zeroes, reintroduce them
+          #add in a little noise here. essentially summed over the vocab
+          #it should only be .1% of the total.
+          beta.new <- matrix(0, nrow=K, ncol=V)
+          beta.new[,keep] <- beta
+          beta.new <- beta.new + .001/V
+          beta <- beta.new/rowSums(beta.new)
+          rm(beta.new)
+      }
+      
+      # (4) generate other parameters
+      mu <- matrix(0, nrow=(K-1),ncol=1)
+      sigma <- diag(5, nrow=(K-1))
+      lambda <- matrix(0, nrow=N, ncol=(K-1))
+      pi <- matrix(rep(rep(0, K-1), I), nrow = I)
+      sigs <- diag(5, nrow = K-1)
+      # omega <- diag(30, nrow=I)
+      
+      if(verbose) cat("Initialization complete.\n")
+  }
+  
   if(mode == "TopicScore") {
         cat("Initialization with topicScore. \n")
         fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
@@ -180,81 +258,3 @@ kappa.init <- function(documents, K, V, A, interactions) {
 }
 
 
-# if(mode=="Spectral" | mode=="SpectralRP") {
-#     verbose <- settings$verbose
-#     if(K >= V) stop("Spectral initialization cannot be used for the overcomplete case (K greater than or equal to number of words in vocab)")
-#     # (1) Prep the Gram matrix
-#     if(verbose) cat("\t Calculating the gram matrix...\n")
-#     docs <- doc.to.ijv(documents) # defined in STM functions
-#     mat <- Matrix::sparseMatrix(docs$i,docs$j, x=docs$v) # create count matrix, row is doc, col are the vocab
-#     rm(docs)
-#     wprob <- Matrix::colSums(mat) # word count for each vocab across doc
-#     wprob <- wprob/sum(wprob) # prob of word for each vocab
-#     if(mode=="Spectral") {
-#         keep <- NULL
-#         if(!is.null(maxV)) {
-#             if(verbose) cat(sprintf("\t Using only %i most frequent terms during initialization...\n", maxV))
-#             keep <- order(wprob, decreasing=TRUE)[1:maxV]
-#             mat <- mat[,keep]
-#             wprob <- wprob[keep]
-#         }
-#         Q <- gram(mat) # defined in Spectral.R # V by V matrix
-#         #verify that there are no zeroes
-#         Qsums <- rowSums(Q)
-#         
-#         if(any(Qsums==0)) {
-#             #if there are zeroes, we want to remove them for just the anchor word procedure.
-#             temp.remove <- which(Qsums==0)
-#             if(is.null(keep)) {
-#                 keep <- which(Qsums!=0)
-#             } else {
-#                 keep <- keep[which(Qsums!=0)]
-#             }
-#             Q <- Q[-temp.remove,-temp.remove]
-#             Qsums <- Qsums[-temp.remove]
-#             wprob <- wprob[-temp.remove]
-#         }
-#         Q <- Q/Qsums
-#     } else {
-#         keep <- NULL #we have to set this because it is referenced later.
-#         Q <- gram.rp(mat, s=settings$init$s, p=settings$init$p, 
-#                      d.group.size=settings$init$d.group.size, verbose=verbose)
-#     }
-#     
-#     
-#     # (2) anchor words
-#     if(K!=0) {
-#         if(verbose) cat("\t Finding anchor words...\n \t")
-#         anchor <- fastAnchor(Q, K=K, verbose=verbose) #spectral.R
-#     } else {
-#         if(verbose) cat("\t Finding anchor words...\n \t")
-#         anchor <- tsneAnchor(Q, verbose=verbose, 
-#                              init.dims=settings$init$tSNE_init.dims,
-#                              perplexity=settings$init$tSNE_perplexity) #run the Lee and Mimno (2014) algorithm
-#         K <- length(anchor) # update K
-#     }
-#     # (3) recoverL2 #spectral.R
-#     if(verbose) cat("\n\t Recovering initialization...\n \t")
-#     # beta is a K by V matrix
-#     beta <- recoverL2(Q, anchor, wprob, verbose=verbose, recoverEG=settings$init$recoverEG)$A
-#     if(!is.null(keep)) {
-#         #if there were zeroes, reintroduce them
-#         #add in a little noise here. essentially summed over the vocab
-#         #it should only be .1% of the total.
-#         beta.new <- matrix(0, nrow=K, ncol=V)
-#         beta.new[,keep] <- beta
-#         beta.new <- beta.new + .001/V
-#         beta <- beta.new/rowSums(beta.new) 
-#         rm(beta.new)
-#     }
-#     
-#     # (4) generate other parameters
-#     mu <- matrix(0, nrow=(K-1),ncol=1)
-#     sigma <- diag(20, nrow=(K-1))
-#     lambda <- matrix(0, nrow=N, ncol=(K-1))
-#     pi <- rep(0,I)
-#     sigs <- diag(20, nrow=I, ncol = I)
-#     # omega <- diag(30, nrow=I)
-#     
-#     if(verbose) cat("Initialization complete.\n")
-# }
