@@ -19,7 +19,7 @@ library(MASS)
 #@ library(batchelor)
 seed = 123
 ### simulation ###
-nsample <- 2
+nsample <- 1
 nCellType <- 5
 de.prob <- runif(nCellType, min = 0.5, max = 1)
 de.facLoc <- runif(nCellType, 2, 2.5)
@@ -59,7 +59,7 @@ params <- newSplatParams()
 params <- setParams(params, group.prob = group.prob,
                     de.prob = de.prob, de.facLoc = de.facLoc,
                     nGenes = nGenes, seed = seed,
-                    batchCells=batchCells, batch.facLoc = batch.facLoc, batch.facScale = batch.facScale)
+                    batchCells=batchCells)
 sims <- splatSimulate(params, method = "groups",
                       verbose = TRUE, batch.rmEffect = FALSE)
 s2 <- sims
@@ -105,7 +105,12 @@ rownames(colData(s3)) <- s3$Cell
 sim_pos_dat <- SingleCellExperiment::cbind(s1, s3)
 sims <- sim_pos_dat
 
-sims <- readRDS("data/sims_1716946229_neg_L1_c5.rds")
+sim3 <- logNormCounts(sims)
+sim3 <- runPCA(sim3)
+plotPCA(sim3, colour_by = "Batch")
+
+sims <- readRDS("data/sims_1716946415_neg_L1_c5.rds")
+sims <- sim_neg_dat
 ##### QA ######
 sims <- quickPerCellQC(sims, filter=TRUE)
 
@@ -117,14 +122,14 @@ library(scater)
 library(scran)
 dec.p2 <- modelGeneVar(sims)
 # feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=300)
+p2.chosen <- getTopHVGs(dec.p2, n=500)
 sims <- sims[p2.chosen,]
 
-# batch effect removal using combat seq
-library(sva)
-adjusted_counts <- ComBat_seq(counts(sims), batch=sims$Batch, group=NULL)
-counts(sims) <- adjusted_counts
-cat("Batch Effect Removed \n")
+# # batch effect removal using combat seq
+# library(sva)
+# adjusted_counts <- ComBat_seq(counts(sims), batch=sims$Batch, group=NULL)
+# counts(sims) <- adjusted_counts
+# cat("Batch Effect Removed \n")
 
 df <- colData(sims) %>%
   as.data.frame() %>%
@@ -142,6 +147,10 @@ result <- df %>%
 nsample <- length(unique(sims$Batch))
 ngroup <- length(unique(sims$Group))
 
+sim1 <- sims
+sim2 <- sims
+sim2$Batch[1:300] <- "Batch2"
+
 r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
@@ -149,30 +158,41 @@ sourceCpp("src/STMCfuns.cpp")
 res <- scSTMseq(sce = sims,
                  K = ngroup, prevalence = ~time, content = NULL,
                  sample = "Batch",
-                 init.type= "TopicScore",
+                 init.type= "Random",
                  gamma.prior= "Pooled",
                  kappa.prior= "L1",
                  control = list(gamma.maxits=3000),
                  emtol=1e-5,
-                 seed = 9308641, max.em.its = 100)
+                 seed = 105, max.em.its = 100)
 plot(res$convergence$bound)
 
-res.null <- multi_stm(sce = sims,
+# res.r <- scSTMseq(sce = sims,
+#                 K = ngroup, prevalence = ~time, content = NULL,
+#                 sample = "Batch",
+#                 init.type= "TopicScore",
+#                 gamma.prior= "Pooled",
+#                 kappa.prior= "L1",
+#                 control = list(gamma.maxits=3000),
+#                 emtol=1e-5,
+#                 seed = 1343900, max.em.its = 100)
+# plot(res.r$convergence$bound)
+
+res.null <- scSTMseq(sce = sims,
                  K = ngroup, prevalence = NULL, content = NULL,
                  sample = "Batch",
-                 init.type= "TopicScore",
+                 init.type= "Random",
                  gamma.prior= "Pooled",
                  kappa.prior= "L1",
                  control = list(gamma.maxits=3000),
                  emtol=1e-5,
-                 seed = 9308641)
+                 seed = 105)
 plot(res.null$convergence$bound)
 
 L1 <- res$convergence$bound[length(res$convergence$bound)]
 L2 <- res.null$convergence$bound[length(res.null$convergence$bound)]
 s <- -2*(L2-L1)
 
-pchisq(-s, df=4, lower.tail=FALSE)
+pchisq(s, df= ngroup - 1, lower.tail=FALSE)
 
 
 n_samples <- 1000  # Number of samples
@@ -485,6 +505,7 @@ res.stm <- stm(documents = dat$documents, vocab = dat$vocab,
                gamma.prior= "Pooled",
                kappa.prior= "L1",
                emtol=1e-3,
+               seed = 100,
                control = list(gamma.maxits=3000))
 
 all_values <- unlist(test$bound)

@@ -12,8 +12,39 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // lhoodcpp
-double lhoodcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP pi, SEXP siginv);
-RcppExport SEXP _stm_lhoodcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP piSEXP, SEXP siginvSEXP) {
+double lhoodcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP siginv);
+RcppExport SEXP _stm_lhoodcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP siginvSEXP) {
+    BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type eta(etaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type doc_ct(doc_ctSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type siginv(siginvSEXP);
+    rcpp_result_gen = Rcpp::wrap(lhoodcpp(eta, beta, doc_ct, mu, siginv));
+    return rcpp_result_gen;
+    END_RCPP
+}
+// gradcpp
+arma::vec gradcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP siginv);
+RcppExport SEXP _stm_gradcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP siginvSEXP) {
+    BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type eta(etaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type doc_ct(doc_ctSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type siginv(siginvSEXP);
+    rcpp_result_gen = Rcpp::wrap(gradcpp(eta, beta, doc_ct, mu, siginv));
+    return rcpp_result_gen;
+    END_RCPP
+}
+
+// multilhoodcpp
+double multilhoodcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP pi, SEXP siginv);
+RcppExport SEXP _stm_multilhoodcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP muSEXP, SEXP piSEXP, SEXP siginvSEXP) {
     BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -23,13 +54,13 @@ RcppExport SEXP _stm_lhoodcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, SEXP
     Rcpp::traits::input_parameter< SEXP >::type mu(muSEXP);
     Rcpp::traits::input_parameter< SEXP >::type pi(piSEXP);
     Rcpp::traits::input_parameter< SEXP >::type siginv(siginvSEXP);
-    rcpp_result_gen = Rcpp::wrap(lhoodcpp(eta, beta, doc_ct, mu, pi, siginv));
+    rcpp_result_gen = Rcpp::wrap(multilhoodcpp(eta, beta, doc_ct, mu, pi, siginv));
     return rcpp_result_gen;
     END_RCPP
 }
-// gradcpp
-arma::vec gradcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP pi, SEXP siginv);
-RcppExport SEXP _stm_gradcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, 
+// multigradcpp
+arma::vec multigradcpp(SEXP eta, SEXP beta, SEXP doc_ct, SEXP mu, SEXP pi, SEXP siginv);
+RcppExport SEXP _stm_multigradcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, 
                              SEXP muSEXP, SEXP piSEXP, SEXP siginvSEXP) {
     BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -40,7 +71,7 @@ RcppExport SEXP _stm_gradcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP,
     Rcpp::traits::input_parameter< SEXP >::type mu(muSEXP);
     Rcpp::traits::input_parameter< SEXP >::type pi(piSEXP);
     Rcpp::traits::input_parameter< SEXP >::type siginv(siginvSEXP);
-    rcpp_result_gen = Rcpp::wrap(gradcpp(eta, beta, doc_ct, mu, pi, siginv));
+    rcpp_result_gen = Rcpp::wrap(multigradcpp(eta, beta, doc_ct, mu, pi, siginv));
     return rcpp_result_gen;
     END_RCPP
 }
@@ -89,8 +120,10 @@ RcppExport SEXP _stm_singlehpbcpp(SEXP etaSEXP, SEXP betaSEXP, SEXP doc_ctSEXP, 
     END_RCPP
 }
 static const R_CallMethodDef CallEntries[] = {
-    {"_stm_lhoodcpp", (DL_FUNC) &_stm_lhoodcpp, 6},
-    {"_stm_gradcpp", (DL_FUNC) &_stm_gradcpp, 6},
+    {"_stm_lhoodcpp", (DL_FUNC) &_stm_lhoodcpp, 5},
+    {"_stm_gradcpp", (DL_FUNC) &_stm_gradcpp, 5},
+    {"_stm_multilhoodcpp", (DL_FUNC) &_stm_multilhoodcpp, 6},
+    {"_stm_multigradcpp", (DL_FUNC) &_stm_multigradcpp, 6},
     {"_stm_multihpbcpp", (DL_FUNC) &_stm_multihpbcpp, 11},
     {"_stm_singlehpbcpp", (DL_FUNC) &_stm_singlehpbcpp, 6},
     {NULL, NULL, 0}

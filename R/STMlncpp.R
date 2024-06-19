@@ -16,7 +16,7 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, sigmaentropy,
   doc.ct <- doc[2,]
   Ndoc <- sum(doc.ct)
   if(!is.null(psi)){
-      optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
+      optim.out <- optim(par=eta, fn=multilhoodcpp, gr=multigradcpp,
                          method=method, control=control,
                          doc_ct=doc.ct, mu=mu,
                          pi = psi, 
@@ -48,11 +48,9 @@ logisticnormalcpp <- function(eta, mu, psi, siginv, sigmaentropy,
       # names(pi.update) <- names(optim.out$par)
       docvar$pi <- pi.update
   } else{
-      psi0 = rep(0, length(eta))
       optim.out <- optim(par=eta, fn=lhoodcpp, gr=gradcpp,
                          method=method, control=control,
                          doc_ct=doc.ct, mu=mu,
-                         pi = psi0, 
                          siginv=siginv, beta=beta)
       
       if(!hpbcpp) return(list(eta=list(lambda=optim.out$par)))
