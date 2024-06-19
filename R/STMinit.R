@@ -86,7 +86,6 @@ stm.init <- function(documents, settings) {
           beta <- beta.new/rowSums(beta.new)
           rm(beta.new)
       }
-      
       # (4) generate other parameters
       mu <- matrix(0, nrow=(K-1),ncol=1)
       sigma <- diag(5, nrow=(K-1))
@@ -100,11 +99,18 @@ stm.init <- function(documents, settings) {
   
   if(mode == "TopicScore") {
         cat("Initialization with topicScore. \n")
-        fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
-                                           k = K, 
-                                           init.method = "topicscore",
-                                           verbose = "detailed",
-                                           control = list(gc = NA))
+      fit <- fastTopics::fit_topic_model(t(counts(sce)),
+                                          k = K,
+                                         init.method = "topicscore",
+                                         verbose = "progressbar",
+                                         numiter.main = 50,
+                                         numiter.refine = 50)
+      
+        # fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
+        #                                    k = K, 
+        #                                    init.method = "topicscore",
+        #                                    verbose = "detailed",
+        #                                    control = list(gc = NA))
         beta <- t(fit$F)
         beta <- beta/rowSums(beta)
         theta <- fit$L

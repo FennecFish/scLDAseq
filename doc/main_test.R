@@ -155,10 +155,15 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
+scSTM.mod <- selectModel(sce = sims,
+                         K = ngroup, prevalence = ~time, content = NULL,
+                         N = 1, ts_runs = 1, random_run = 1,
+                         max.em.its = 5) #, sample = "Batch",)
+
 res <- scSTMseq(sce = sims,
                  K = ngroup, prevalence = ~time, content = NULL,
                  sample = "Batch",
-                 init.type= "Random",
+                 init.type= "TopicScore",
                  gamma.prior= "Pooled",
                  kappa.prior= "L1",
                  control = list(gamma.maxits=3000),
