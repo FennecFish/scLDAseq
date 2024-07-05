@@ -103,8 +103,8 @@ stm.init <- function(documents, settings) {
                                           k = K,
                                          init.method = "topicscore",
                                          verbose = "progressbar",
-                                         numiter.main = 50,
-                                         numiter.refine = 50)
+                                         numiter.main = 5,
+                                         numiter.refine = 5)
       
         # fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
         #                                    k = K, 
@@ -114,11 +114,20 @@ stm.init <- function(documents, settings) {
         beta <- t(fit$F)
         beta <- beta/rowSums(beta)
         theta <- fit$L
-        theta <- theta/rowSums(theta)
-        lambda <- log(theta) - log(theta[,K]) #get the log-space version
-        lambda <- lambda[,-K, drop=FALSE] #drop off the last column
-        rm(theta) #clear out theta
         
+        # calculate adjrandindex
+        max_indices <- apply(theta, 1, which.max)
+        fastTopics_cluster <- colnames(theta)[max_indices]
+        names(fastTopics_cluster) <- rownames(theta)
+        ft.adjr <- adjustedRandIndex(sce$Group, fastTopics_cluster[match(sce$Cell, names(fastTopics_cluster))]) 
+        cat("fastTopic adjRand is",  ft.adjr, "\n")
+        rm(theta)
+        
+        # theta <- theta/rowSums(theta)
+        # lambda <- log(theta) - log(theta[,K]) #get the log-space version
+        # lambda <- lambda[,-K, drop=FALSE] #drop off the last column
+        # rm(theta) #clear out theta
+        lambda <- matrix(0, nrow=N, ncol=(K-1))
         mu <- matrix(0, nrow=(K-1),ncol=1)
         sigma <- diag(5, nrow=(K-1))
         # mu <- colMeans(lambda) #make a globally shared mean

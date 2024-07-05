@@ -117,6 +117,20 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                    covar=settings$covariates$X, enet=settings$gamma$enet, ic.k=settings$gamma$ic.k,
                    maxits=settings$gamma$maxits)
       beta <- opt.beta(beta.ss, beta$kappa, settings)
+    
+      # sce_aggregated <- aggregateAcrossCells(sce, ids = colData(sce)$Batch)
+      # set <- newSeqExpressionSet(counts(sce_aggregated))
+      # y <- DGEList(counts=counts(set))
+      # y <- calcNormFactors(y, method="upperquartile")
+      # y <- estimateGLMCommonDisp(y)
+      # y <- estimateGLMTagwiseDisp(y)
+      # 
+      # fit <- glmFit(y)
+      # res <- residuals(fit, type="deviance")
+      # set4 <- RUVr(set, rownames(sce_aggregated), k=1, res)
+      # pi <- matrix(rep(pData(set4)[,1], K-1), nrow = I)
+
+      
       if(!is.null(pi)){
           sigs <- opt.sigs(pi, omega, samples)
           alpha <- pi
