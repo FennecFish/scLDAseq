@@ -115,14 +115,14 @@ stm.init <- function(documents, settings) {
         beta <- beta/rowSums(beta)
         theta <- fit$L
         
-        # calculate adjrandindex
-        max_indices <- apply(theta, 1, which.max)
-        fastTopics_cluster <- colnames(theta)[max_indices]
-        names(fastTopics_cluster) <- rownames(theta)
-        ft.adjr <- adjustedRandIndex(sce$Group, fastTopics_cluster[match(sce$Cell, names(fastTopics_cluster))]) 
-        cat("fastTopic adjRand is",  ft.adjr, "\n")
-        rm(theta)
-        
+        # # calculate adjrandindex
+        # max_indices <- apply(theta, 1, which.max)
+        # fastTopics_cluster <- colnames(theta)[max_indices]
+        # names(fastTopics_cluster) <- rownames(theta)
+        # ft.adjr <- adjustedRandIndex(sce$Group, fastTopics_cluster[match(sce$Cell, names(fastTopics_cluster))]) 
+        # cat("fastTopic adjRand is",  ft.adjr, "\n")
+        # rm(theta)
+        # 
         # theta <- theta/rowSums(theta)
         # lambda <- log(theta) - log(theta[,K]) #get the log-space version
         # lambda <- lambda[,-K, drop=FALSE] #drop off the last column
