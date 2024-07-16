@@ -42,7 +42,7 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     if((!class(sce)[1]=="SingleCellExperiment")){
         stop("The input data needs to be a SingleCellExperiment Object")
     }
-    
+
     gene_sums <- colSums(counts(sce))
     sce <- sce[, gene_sums > 0]
     if(sum(gene_sums==0) > 0) {
@@ -146,7 +146,6 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     if(!is.null(docs.removed) & !is.null(meta)){
         meta <- meta[-docs.removed, , drop = FALSE]
     }
-
     # re-organize sce to remove vocab and docs
     sce <- sce[vocab, rownames(meta)]
     #recast everything as an integer
