@@ -71,7 +71,6 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
     params <- setParams(params, ...)
     params <- expandParams(params)
     validObject(params)
-
     sim.means <- splatPopSimulateMeans(
         vcf = vcf,
         params = params,
@@ -395,20 +394,23 @@ splatPopSimulateSC <- function(sim.means,
 
         # Simulate single-cell counts for each group/cell-type
         #### revise  ####
+        
         group.n <- list()
-        createSampleStructure <- function(nGroups, batchCells, group.prob) {
-            setNames(lapply(seq_len(nGroups), function(groupIndex) {
-                sapply(seq_along(batchCells), function(batchIndex) {
-                    sum(sample(seq_len(nGroups), batchCells[batchIndex], prob = group.prob[[batchIndex]], replace = TRUE) == groupIndex)
-                })
-            }), paste0("Group", seq_len(nGroups)))
+        create_group <- function(batchCells, nGroups, group.prob, group.names){
+            batch.group.dat <- sapply(seq_along(batchCells), function(batchIndex) {
+                table(sample(seq_len(nGroups), batchCells[batchIndex], prob = group.prob[[batchIndex]], replace = TRUE))
+            })
+            batch.group.dat <- setNames(
+                lapply(1:nrow(batch.group.dat), function(i) batch.group.dat[i, ]),
+                group.names
+            )
+            return(batch.group.dat)
         }
         
-        # Generate the structure for each sample
         group.n <- setNames(lapply(samples, function(sampleName) {
-            createSampleStructure(nGroups, batchCells, group.prob)
+            create_group(batchCells, nGroups, group.prob, group.names)
         }), samples)
-        
+
         # this give the same batch/group combination for each sample
         # group.n <- setNames(lapply(group.names, function(group) {
         #     sapply(1:2, function(i) {

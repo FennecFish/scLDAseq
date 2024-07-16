@@ -134,7 +134,6 @@ splatSimulate <- function(params = newSplatParams(),
                           method = c("single", "groups", "paths"),
                           sparsify = TRUE, verbose = TRUE, ...) {
     checkmate::assertClass(params, "SplatParams")
-
     method <- match.arg(method)
 
     if (verbose) {
