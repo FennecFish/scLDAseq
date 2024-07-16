@@ -441,6 +441,7 @@ splatPopSimulateSC <- function(sim.means,
                     verbose = verbose
                 )
             })
+            
 
             for (i in seq(1, length(sims))) {
                 s <- samples[i]
@@ -454,6 +455,7 @@ splatPopSimulateSC <- function(sim.means,
                 )
             }
             group.sims[[g]] <- do.call(SingleCellExperiment::cbind, sims)
+            
         }
     })
     sim.all <- do.call(SingleCellExperiment::cbind, group.sims)
@@ -473,7 +475,7 @@ splatPopSimulateSC <- function(sim.means,
         )
     }
 
-    colnames(sim.all) <- paste(sim.all$Sample, sim.all$Cell, sep = ":")
+    colnames(sim.all) <- paste(sim.all$Sample, sim.all$Group, sim.all$Cell, sep = ":")
 
     if (verbose) {
         message("Done!")
@@ -541,6 +543,12 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
 
     batch.list <- unlist(strsplit(batch, ","))
     batch.sims <- list()
+    
+    # revise #
+    cell.names.total <- paste0("Cell", seq_len(sum(batch.cells))) 
+    cell.names.b1 <- cell.names.total[1:batch.cells[1]]
+    cell.names.b2 <- cell.names.total[(batch.cells[1] + 1): length(cell.names.total)]
+    # finish #
 
     for (b in batch.list) {
         # Get the parameters we are going to use
@@ -556,8 +564,16 @@ splatPopSimulateSample <- function(params = newSplatPopParams(),
             )]
         }
         
-        # Set up name vectors
-        cell.names <- paste0("Cell", seq_len(nCells))
+        # Set up name vector
+
+        ### revise ###
+        if(which(batch.list==b)==1){
+            cell.names <- cell.names.b1
+        } else{
+            cell.names <- cell.names.b2
+        }
+        # finished #
+        
         gene.names <- names(sample.means)
         if (method == "groups") {
             group.names <- paste0("Group", seq_len(nGroups))

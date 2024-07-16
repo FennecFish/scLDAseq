@@ -99,7 +99,6 @@ stm.init <- function(documents, settings) {
   
   if(mode == "TopicScore") {
         cat("Initialization with topicScore. \n")
-    browser()
       fit <- fastTopics::fit_topic_model(t(counts(sce)),
                                           k = K,
                                          init.method = "topicscore",

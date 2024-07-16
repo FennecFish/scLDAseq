@@ -129,7 +129,6 @@ selectModel <- function(sce , K, sample = NULL,
   cat("Casting net \n")
   for(i in 1:ts_runs){
     cat(paste(i, "models in net \n"))
-    browser()
     mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
                          sample = sample, K = K, 
                    prevalence=prevalence, content=content, init.type="TopicScore",
