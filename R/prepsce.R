@@ -150,7 +150,6 @@ prepsce <- function(sce, sample = NULL, lower.thresh=1, upper.thresh=Inf,
     sce <- sce[vocab, rownames(meta)]
     #recast everything as an integer
     documents <- lapply(documents, function(x) matrix(as.integer(x), nrow=2))
-    
     if(!is.null(sample)) {
         sample_list <- meta[sample]
         return(list(documents=documents, vocab=vocab, 

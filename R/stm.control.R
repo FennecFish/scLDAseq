@@ -87,6 +87,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       t1 <- proc.time()
       #run the model
       # source("R/STMestep.R")
+
       suffstats <- estep(documents=documents, beta.index=betaindex,
                          update.mu=(!is.null(mu$gamma)),
                          beta = beta, lambda.old = lambda,
@@ -102,7 +103,6 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       bound.ss <- suffstats$bound
       nu <- suffstats$nu
       phi <- suffstats$phis
-      
       if(!is.null(pi)){
           pi <- suffstats$pi
           omega <- suffstats$omega

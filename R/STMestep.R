@@ -177,6 +177,7 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
           beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
           phis <- doc.results$phis
           lambda[[l]] <- c(doc.results$eta$lambda)
+          names(lambda)[l] <- names(documents)[l]
           bound[l] <- doc.results$bound
           nu[[l]] <- doc.results$eta$nu
           if(verbose && l%%ctevery==0) cat(".")
