@@ -91,7 +91,7 @@ splatPopSimulate <- function(params = newSplatPopParams(nGenes = 50),
         sparsify = sparsify,
         verbose = verbose
     )
-
+    sim.sc$Time <- gsub("Batch", "Time", sim.sc$Batch)
     return(sim.sc)
 }
 
