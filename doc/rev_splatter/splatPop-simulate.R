@@ -441,8 +441,7 @@ splatPopSimulateSC <- function(sim.means,
                     verbose = verbose
                 )
             })
-            
-
+          
             for (i in seq(1, length(sims))) {
                 s <- samples[i]
                 c <- conditions[s]
@@ -451,7 +450,7 @@ splatPopSimulateSC <- function(sim.means,
                 sims[i][[1]]$Condition <- c
                 names(rowData(sims[i][[1]])) <- paste(
                     s, g, names(rowData(sims[i][[1]])),
-                    ep = "_"
+                    sep = "_"
                 )
             }
             group.sims[[g]] <- do.call(SingleCellExperiment::cbind, sims)
@@ -474,7 +473,6 @@ splatPopSimulateSC <- function(sim.means,
             verbose = verbose
         )
     }
-
     colnames(sim.all) <- paste(sim.all$Sample, sim.all$Group, sim.all$Cell, sep = ":")
 
     if (verbose) {
@@ -1032,7 +1030,6 @@ splatPopSimMeans <- function(vcf, key, means) {
             ),
             nrow = nrow(key), ncol = ncol(vcf)
         )
-
         rownames(means) <- row.names(key)
         colnames(means) <- colnames(VariantAnnotation::geno(vcf)$GT)
     } else {
@@ -1210,7 +1207,6 @@ splatPopQuantNorm <- function(params, means) {
 
     means.norm <- preprocessCore::normalize.quantiles.use.target(means, target)
     means.norm[means.norm < 0] <- 0
-
     rownames(means.norm) <- rownames(means)
     colnames(means.norm) <- colnames(means)
 
