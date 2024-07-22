@@ -157,6 +157,7 @@ selectModel <- function(sce , K, sample = NULL,
     likelihood[ts_runs + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
     seedout[ts_runs + i + 1] <- mod.out$settings$seed
   }
+  
   keep <- order(likelihood, decreasing=T)[1:N]
   keepseed <- seedout[keep]
   cat("Running select models \n")

@@ -415,7 +415,6 @@ scSTMseq <- function(sce, K, documents=NULL, vocab=NULL, data = NULL,
                 gamma.prior=c("Pooled", "L1"), sigma.prior=0,
                 kappa.prior=c("L1", "Jeffreys"), control=list(),
                 heldout = FALSE)  {
-  
   #Match Arguments and save the call
   init.type <- match.arg(init.type)
   Call <- match.call()
