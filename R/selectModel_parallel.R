@@ -61,7 +61,6 @@ selectModel_parallel <- function(sce , K, sample = NULL,
     mode <- vector("character", runs)
     
     cat("Casting net \n")
-    
     # Run the models in parallel
     results <- foreach(i = 1:runs, .packages = c('Rcpp'), .combine = 'rbind', .multicombine = TRUE) %dopar% {
         if (i <= ts_runs) {

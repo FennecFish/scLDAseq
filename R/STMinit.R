@@ -102,7 +102,7 @@ stm.init <- function(documents, settings) {
       fit <- fastTopics::fit_topic_model(t(counts(sce)),
                                           k = K,
                                          init.method = "topicscore",
-                                         verbose = "progressbar",
+                                         verbose = "none",
                                          numiter.main = 10,
                                          numiter.refine = 10)
       
@@ -113,8 +113,7 @@ stm.init <- function(documents, settings) {
         #                                    control = list(gc = NA))
         beta <- t(fit$F)
         beta <- beta/rowSums(beta)
-        theta <- fit$L
-        
+        #theta <- fit$L
         # # calculate adjrandindex
         # max_indices <- apply(theta, 1, which.max)
         # fastTopics_cluster <- colnames(theta)[max_indices]
