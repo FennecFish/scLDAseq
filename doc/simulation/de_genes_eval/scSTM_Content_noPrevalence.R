@@ -1,0 +1,64 @@
+# this script is to run scSTMseq with filtered gene
+# without content
+setwd("/proj/milovelab/wu/scLDAseq")
+library(Matrix)
+library(scran)
+library(Rcpp)
+library(slam)
+library(SingleCellExperiment)
+library(ggplot2)
+library(dplyr)
+library(stm)
+library(scater)
+library(scran)
+library(doParallel)
+library(foreach)
+
+args <- commandArgs(trailingOnly = TRUE)
+file_name <- args[1]
+gc <- as.integer(args[2])
+file_name <- basename(file_name)
+cat(file_name, "\n")
+
+set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
+
+sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/de_gene_eval/sims/", file_name))
+# quick qc
+sims <- quickPerCellQC(sims, filter=TRUE)
+
+### remove genes with count 0 
+sims <- sims[rowSums(counts(sims)) != 0,]
+sims <- sims[, colSums(counts(sims)) != 0]
+#### feature selection #####
+sims <- scuttle::logNormCounts(sims)
+
+dec.p2 <- modelGeneVar(sims)
+# feature selection
+p2.chosen <- getTopHVGs(dec.p2, n=1000)
+sims <- sims[p2.chosen,]
+
+nsample <- length(unique(sims$Sample))
+ngroup <- length(unique(sims$Group))
+
+r.file <- paste0("R/",list.files("R/"))
+sapply(r.file, source)
+sourceCpp("src/STMCfuns.cpp")
+
+t1 <- proc.time()
+scSTM.mod <- selectModel_parallel(sce = sims, sample = "Sample",
+                         K = ngroup, prevalence = NULL, content = ~Time,
+                         N = 10, ts_runs = 50, random_run = 50,
+                         max.em.its = 100, net.max.em.its = 15, gc = gc)
+# scSTM.mod <- selectModel(sce = sims,
+#                          K = ngroup, prevalence = NULL, content = ~Batch,
+#                          N = 1, ts_runs = 1, random_run = 1,
+#                          max.em.its = 100, net.max.em.its = 5)
+
+# all_values <- unlist(scSTM.mod$bound)
+# max_value <- max(all_values)
+# max_position_in_vector <- which(all_values == max_value)
+# res <- scSTM.mod$runout[[max_position_in_vector]]
+msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
+saveRDS(scSTM.mod, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/de_gene_eval/scSTM_Content_noPrevalance/", 
+                                 "scSTM_", set_level, ".rds"))
+

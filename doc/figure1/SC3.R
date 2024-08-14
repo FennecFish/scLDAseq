@@ -18,7 +18,7 @@ cat(file_name, "\n")
 
 set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
 
-sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", file_name))
+sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V3_single/sims/", file_name))
 rowData(sims)$feature_symbol <- rownames(sims)
 # remove features with duplicated names
 sims <- sims[!duplicated(rowData(sims)$feature_symbol), ]
@@ -31,5 +31,5 @@ ngroup <- length(unique(sims$Group))
 
 sims <- sc3(sims, ks = ngroup:ngroup+1, biology = TRUE, n_cores = 3)
 
-saveRDS(sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/sc3/", 
+saveRDS(sims, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V3_single/sc3/", 
                                    "sc3_", set_level, ".rds"))

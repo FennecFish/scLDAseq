@@ -1,94 +1,144 @@
 setwd("/proj/milovelab/wu/scLDAseq")
-library(compositions)
 library(Matrix)
+library(compositions)
 library(dplyr)
-# library(scuttle)
 library(tidyverse)
-# library(splatter)
-# library(scran)
-library(Rcpp)
-library(slam)
 library(SingleCellExperiment)
 library(CompDTUReg)
 library(stats)
 
-power_error_plot <- function(dat, threshold = 0.05,
-                             title1, title2){
+typeIerror_plot <- function(dat, threshold = 0.05,
+                            title){
   dat <- dat %>%
-    mutate(padj = p.adjust(pval_CompDTU, method = "fdr")) %>% # not using adjusted pvalue
-    mutate(sig_change = ifelse(padj < 0.05, 1, 0))
-  
-  power <- dat %>%
-    filter(truth == 1) %>%  # Subset where the null hypothesis is false
-    group_by(nCellType) %>%
-    summarise(
-      total_cases = n(),  # Total cases where truth = 1
-      successful_rejections = sum(sig_change == 1),  # Cases where the null was correctly rejected
-      power = successful_rejections / total_cases  # Proportion of successful rejections
-    ) 
+    # mutate(padj = p.adjust(pval_CompDTU, method = "fdr")) %>% # not using adjusted pvalue
+    mutate(sig_change = ifelse(pval_CompDTU < threshold, 1, 0))
   
   typeI <- dat %>%
     filter(truth == 0) %>%  # Subset where the null hypothesis is false
-    group_by(nCellType) %>%
+    group_by(gene_id) %>%
     summarise(
       total_cases = n(),  # Total cases where truth = 1
       false_rejections = sum(sig_change == 1),  # Cases where the null was correctly rejected
       alpha = false_rejections / total_cases  # Proportion of successful rejections
-    ) 
+    )
   
-  par(mfrow = c(1, 2))
-  p <- ggplot(power, aes(x = nCellType, y = power, group = 1)) +
+  t1 <- ggplot(typeI, aes(x = gene_id, y = alpha, group = 1)) +
     geom_line(color = "blue") +  # Connect points with lines
     geom_point(size = 3, color = "red") +  # Highlight each point
-    labs(title = title1,
-         x = "nCellType",
-         y = "Power") +
-    theme_minimal()
-  
-  t1 <- ggplot(typeI, aes(x = nCellType, y = alpha, group = 1)) +
-    geom_line(color = "blue") +  # Connect points with lines
-    geom_point(size = 3, color = "red") +  # Highlight each point
-    labs(title = title2,
-         x = "nCellType",
+    labs(title = title,
+         x = "id",
          y = "Type I Error") +
     theme_minimal()
   
-  return(grid.arrange(p, t1))
+  return(t1)
 }
-all.Y <- readRDS("allY_V3_scSTM.rds")
-all.Y <- lapply(all.Y, function(x) x[1:100, ])
+
+all.Y <- readRDS("res/allY_singleV3_max.rds")
+library(DirichletReg)
+##### Dirichlet Reg ####
+dirreg <- function(Y){
+  
+  # Y <- Y[,2:ncol(Y)]
+  # Y <- compositions::ilr(Y)
+  Group <- rep(c(1,2), times = nrow(Y)/2)
+  Group <- factor(Group)
+  comp <- DR_data(Y)
+  Y$group <- Group
+  res <- data.frame()
+  dir_g <- DirichReg(comp ~ group, Y)
+  sum.dat <- summary(dir_g)
+  dir_ng <- DirichReg(comp ~ 1, Y)
+  # Y$ngroup <- rep(c(1,1), times = nrow(Y)/2)
+  # dir_ng <- DirichReg(comp ~ ngroup, Y)
+  res <- anova(dir_g, dir_ng)
+  # res <- summary(dir_g)
+  # res <- rbind(res, temp)
+  print(Y)
+  return(list(dir_g = sum.dat, anova = res))
+}
+
+library(Compositional)
+res.dir <- lapply(all.Y, FUN = dirreg)
+saveRDS(res.dir, file = "dirichletreg.rds")
+
+res.dir <- readRDS("dirichletreg.rds")
+p_values <- lapply(res.dir, function(x) x$`Pr(>Chi)`)
+p_values <- do.call(rbind, p_values) %>% as.data.frame()
+
+table(p_values$V2 < 0.05)
+ggplot(p_values, aes(x = V2)) +
+  geom_histogram()
+  theme_minimal() +
+  labs(title = "Histogram of pval_CompDTU on test data",
+       x = "pval_CompDTU",
+       y = "Count")
+
+
+res <- Map(function(df, name) {
+  df$seed <- str_split(name, "_", simplify = TRUE)[1]
+  df$control <- str_split(name, "_", simplify = TRUE)[2]
+  df$level <- str_split(name, "_", simplify = TRUE)[3]
+  df$nCellType <- str_split(name, "_", simplify = TRUE)[4]
+  df
+}, res, names(res))
+
+res <- do.call(rbind, res) %>%
+  as.data.frame() %>%
+  mutate(truth = ifelse(control == "neg", 0, 1),
+         gene_id = paste0(control, "_", level, "_", nCellType))
+
+
+
 ##### CompDTU ########
 compDTU <- function(Y){
   # Y <- Y[,2:ncol(Y)]
   Y <- compositions::ilr(Y)
   Group <- rep(c(1,2), times = nrow(Y)/2)
   Group <- factor(Group)
-  rep <- nrow(Y)/10
   res <- data.frame()
-  for (n in 1:rep){
-    start <- n*10-9
-    end <- n*10
-    sub_Y <- Y[start:end,]
-    sub_G <- Group[start:end]
-    temp <- CompDTUReg(genename = paste0("rep-",n), Y = sub_Y, Group = sub_G, runWithME = FALSE, YInfRep = NULL)
-    res <- rbind(res, temp)
-  }
+  temp <- CompDTUReg(genename = "sample", Y = Y, Group = Group, runWithME = FALSE, YInfRep = NULL)
+  res <- rbind(res, temp)
   return(res)
 }
 
 res <- lapply(all.Y, FUN = compDTU)
 res <- Map(function(df, name) {
-  df$truth <- str_split(name, "_", simplify = TRUE)[1]
-  df$nCellType <- str_split(name, "_", simplify = TRUE)[2]
+  df$seed <- str_split(name, "_", simplify = TRUE)[1]
+  df$control <- str_split(name, "_", simplify = TRUE)[2]
+  df$level <- str_split(name, "_", simplify = TRUE)[3]
+  df$nCellType <- str_split(name, "_", simplify = TRUE)[4]
   df
 }, res, names(res))
+
 res <- do.call(rbind, res) %>%
   as.data.frame() %>%
-  mutate(truth = ifelse(truth == "neg", 0, 1))
+  mutate(truth = ifelse(control == "neg", 0, 1),
+         gene_id = paste0(control, "_", level, "_", nCellType))
 
-power_error_plot(res, title1 = "Power Plot for CompDTU", title2 = "Type I error plot for CompDTU")
 
 
+# typeIerror_plot(res, title = "Type I error plot for CompDTU on scSTMseq data")
+
+ggplot(res, aes(x = pval_CompDTU)) +
+  geom_histogram() +
+  facet_wrap(~ gene_id) +
+  theme_minimal() +
+  labs(title = "Histogram of pval_CompDTU on test data",
+       x = "pval_CompDTU",
+       y = "Count")
+
+dat <- res %>%
+  mutate(padj = p.adjust(pval_CompDTU, method = "fdr")) %>% # not using adjusted pvalue
+  mutate(sig_change = ifelse(padj < 0.05, 1, 0))
+
+typeI <- dat %>%
+  filter(truth == 0) %>%  # Subset where the null hypothesis is false
+  group_by(gene_id) %>%
+  summarise(
+    total_cases = n(),  # Total cases where truth = 1
+    false_rejections = sum(sig_change == 1),  # Cases where the null was correctly rejected
+    alpha = false_rejections / total_cases  # Proportion of successful rejections
+  )
 
 ######################### using V1 ###########################################
 # 

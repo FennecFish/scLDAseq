@@ -21,7 +21,7 @@ cat(file_name, "\n")
 
 set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
 
-sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", file_name))
+sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V1_multiple/sims/", file_name))
 
 # quick qc
 sims <- quickPerCellQC(sims, filter=TRUE)

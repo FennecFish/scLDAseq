@@ -10,7 +10,7 @@ cat(file_name, "\n")
 set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
 
 
-sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", file_name))
+sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V3_single/sims/", file_name))
 
 expression_matrix <- counts(sims)
 cell_metadata <- colData(sims)
@@ -34,5 +34,5 @@ cds <- reduce_dimension(cds)
 # k <- length(unique(sims$Group))
 cds <- cluster_cells(cds, cluster_method = 'louvain')
 
-saveRDS(cds, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/monocle3/", 
+saveRDS(cds, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V3_single/monocle3/", 
                                    "monocle3_", set_level, ".rds"))

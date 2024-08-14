@@ -1,35 +1,38 @@
 setwd("/proj/milovelab/wu/scLDAseq")
+library(Matrix)
 library(scran)
 library(Rcpp)
 library(slam)
 library(SingleCellExperiment)
-library(Matrix)
 library(ggplot2)
 library(dplyr)
 library(scater)
 library(scran)
-library(sva)
+# library(sva)
 
 dat <- readRDS("/work/users/e/u/euphyw/scLDAseq/data/PD1_data/PD1_sce/anti_PD1_cohort1_sce.rds")
 # dat$batch <- paste0(dat$patient_id, "_", dat$timepoint)
 # quick qc
 dat <- quickPerCellQC(dat, filter=TRUE)
 
-# batch effect removal using combat seq
-adjusted_counts <- ComBat_seq(counts(dat), batch=dat$patient_id, group=dat$timepoint)
-counts(dat) <- adjusted_counts
-saveRDS(dat, file = "/work/users/e/u/euphyw/scLDAseq/data/PD1_data/PD1_sce/PD1_cohort1_batchCorrected.rds")
-cat("Batch Effect Removed \n")
+# # batch effect removal using combat seq
+# adjusted_counts <- ComBat_seq(counts(dat), batch=dat$patient_id, group=dat$timepoint)
+# counts(dat) <- adjusted_counts
+# saveRDS(dat, file = "/work/users/e/u/euphyw/scLDAseq/data/PD1_data/PD1_sce/PD1_cohort1_batchCorrected.rds")
+# cat("Batch Effect Removed \n")
 
 ### remove genes with count 0 
 dat <- dat[rowSums(counts(dat)) != 0,]
+dat <- dat[,colSums(counts(dat)) != 0]
 #### feature selection #####
 dat <- scuttle::logNormCounts(dat)
 
 dec.p2 <- modelGeneVar(dat)
 # feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=2500)
+p2.chosen <- getTopHVGs(dec.p2, n=2000)
 dat <- dat[p2.chosen,]
+cat("Feature Selection Completed")
+saveRDS(dat, file = "/work/users/e/u/euphyw/scLDAseq/data/PD1_data/PD1_sce/PD1_cohort1_2000genes.rds")
 
 nsample <- length(unique(dat$patient_id))
 ngroup <- length(unique(dat$cellType))

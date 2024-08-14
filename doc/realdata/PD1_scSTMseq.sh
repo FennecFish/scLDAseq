@@ -5,8 +5,8 @@
 #SBATCH --error=PD1_scSTM.err
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --time=5-
-#SBATCH --mem-per-cpu=200G
+#SBATCH --time=10-
+#SBATCH --mem-per-cpu=300G
 #SBATCH --mail-type=all
 #SBATCH --mail-user=euphyw@live.unc.edu
 

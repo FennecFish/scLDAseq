@@ -20,7 +20,7 @@ cat(file_name, "\n")
 
 set_level <- sub("sims_([^.]*)\\.rds", "\\1",  file_name)
 
-sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/", file_name))
+sims <- readRDS(paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V1_multiple/sims/", file_name))
 
 # quick qc
 sims <- quickPerCellQC(sims, filter=TRUE)
@@ -33,7 +33,7 @@ sims <- scuttle::logNormCounts(sims)
 
 dec.p2 <- modelGeneVar(sims)
 # feature selection
-p2.chosen <- getTopHVGs(dec.p2, n=2000)
+p2.chosen <- getTopHVGs(dec.p2, n=1000)
 sims <- sims[p2.chosen,]
 
 nsample <- length(unique(sims$Batch))
@@ -47,12 +47,13 @@ t1 <- proc.time()
 
 scSTM.mod <- selectModel(sce = sims,
                          K = ngroup, prevalence = ~time, content = ~Batch,
-                         sample = "Batch", N = 5, ts_runs = 20, random_run = 20)
+                         sample = "Batch", N = 10, ts_runs = 50, random_run = 50,
+                         max.em.its = 100, net.max.em.its = 20)
 
 all_values <- unlist(scSTM.mod$bound)
 max_value <- max(all_values)
 max_position_in_vector <- which(all_values == max_value)
 res <- scSTM.mod$runout[[max_position_in_vector]]
 msg <- sprintf("Completed scLDAseq (%d seconds). \n", floor((proc.time()-t1)[3]))
-saveRDS(res, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/scSTM_f_c/", 
-                           "scSTM_filterGenes_Content_", set_level, ".rds"))
+saveRDS(res, file = paste0("/work/users/e/u/euphyw/scLDAseq/data/simulation/fig1/V1_multiple/scSTM_f_c", 
+                           "scSTM_", set_level, ".rds"))

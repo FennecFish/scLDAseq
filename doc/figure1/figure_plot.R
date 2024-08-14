@@ -8,11 +8,11 @@ library(mclust)
 library(tibble)
 library(stats)
 
-res <- read.csv("res/res_fig1_adj.csv")
+res <- read.csv("res/res_fig1_adj_sims_V3.csv")
 
 #change format from wide to long
 res_long <- res %>% 
-  gather(method, adjR, scSTM_f_nc_cluster:sc3_cluster, factor_key=TRUE) %>%
+  gather(method, adjR, scSTM_combat_f_nc_cluster:sc3_cluster, factor_key=TRUE) %>%
   drop_na()
 
 # Calculate the mean for each method per level
@@ -23,15 +23,19 @@ res_stats <- res_long %>%
             .groups = 'drop') 
 
 # first demonstrate different version of scSTM
-scSTM_stats <- res_stats %>% filter(grepl("^scSTM", method)) %>%
-  mutate(line_type = ifelse(grepl("^scSTM_combat", method), "solid", "dashed"))
+res_stats <- res_stats %>% #filter(grepl("^scSTM", method)) %>%
+  mutate(line_type = ifelse(grepl("stm_cluster", method), "solid", "dashed")) %>%
+  mutate(control = sapply(strsplit(level, "_"), `[`, 1),
+         level = sapply(strsplit(level, "_"), `[`, 2))
 
+# res_stats$control <- factor(res_stats$control)
 png("res/figure1_scSTM_adjR.png", width = 2500, height = 1500, res = 300)
-ggplot(scSTM_stats, aes(x = level, y = mean_adjR, color = method, group = method, linetype = line_type)) +
+ggplot(res_stats, aes(x = level, y = mean_adjR, color = method, group = method, linetype = line_type)) +
   geom_line(linewidth = 1) +
   labs(title = "Mean Adjusted Rand Index by scSTM Methods and Level of Noise",
        x = "Level of Noise",
        y = "Mean adjRandIndex") +
+  facet_grid(~control) +
  #  geom_errorbar(aes(ymin = mean_adjR - sd, ymax = mean_adjR + sd), width = 0.2) +
   theme_minimal() +
   # scale_color_brewer(palette = "Set5") +
