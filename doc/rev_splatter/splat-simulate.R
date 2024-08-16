@@ -180,7 +180,7 @@ splatSimulate <- function(params = newSplatParams(),
         rowData = features, colData = cells,
         metadata = list(Params = params)
     )
-
+    
     # Make batches vector which is the index of param$batchCells repeated
     # params$batchCells[index] times
     batches <- lapply(seq_len(nBatches), function(i, b) {
@@ -188,13 +188,26 @@ splatSimulate <- function(params = newSplatParams(),
     }, b = batch.cells)
     batches <- unlist(batches)
     colData(sim)$Batch <- batch.names[batches]
-
+   
     withr::with_seed(seed, {
         if (method != "single") {
-            groups <- sample(seq_len(nGroups), nCells,
-                prob = group.prob,
-                replace = TRUE
-            )
+            ######### revise #######
+            nCell.time1 <- sum(batch.cells[1:(nBatches/2)])
+            groups.time1 <- sample(seq_len(nGroups), nCell.time1,
+                             prob = group.prob[[1]],
+                             replace = TRUE
+            )  
+            nCell.time2 <- sum(batch.cells[(nBatches/2+1):nBatches])
+            groups.time2 <- sample(seq_len(nGroups), nCell.time2,
+                                   prob = group.prob[[2]],
+                                   replace = TRUE
+            )   
+            groups <- c(groups.time1, groups.time2)
+            ######### end ##########
+            # groups <- sample(seq_len(nGroups), nCells,
+            #     prob = group.prob,
+            #     replace = TRUE
+            # )
             colData(sim)$Group <- factor(
                 group.names[groups],
                 levels = group.names

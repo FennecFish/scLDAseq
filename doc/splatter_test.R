@@ -43,11 +43,11 @@ install_and_load(cran_packages)
 sapply(bioc_packages, function(pkg) library(pkg, character.only = TRUE))
 
 
-r.file <- paste0("doc/splatter/R/",list.files("doc/splatter/R/"))
+r.file <- paste0("doc/rev_splatter/",list.files("doc/rev_splatter/"))
 sapply(r.file, source)
 
 vcf <- mockVCF(n.samples = 3)
-gff <- mockGFF()
+gff <- mockGFF(n.genes = 50)
 
 params.batches <- newSplatPopParams(
     similarity.scale = 10,
@@ -57,12 +57,13 @@ params.batches <- newSplatPopParams(
     de.facLoc = 0.6,
     de.facScale = 0.1,
     
-    batchCells = c(100, 100),
+    batchCells = c(200, 200),
     batch.size = 3,
     batch.facLoc = 0.5,
     batch.facScale = 0.1,
     
-    seed = 1
+    seed = 1,
+    nGenes = 500
 )
 
 # condition.prob needs to be the same length of cell type
@@ -80,56 +81,17 @@ sim.pop.batches <- runPCA(sim.pop.batches,ncomponents = 10)
 plotPCA(sim.pop.batches, colour_by = "Sample", shape_by = "Group")
 plotPCA(sim.pop.batches[,sim.pop.batches$Sample == "sample_1"], colour_by = "Group", shape_by = "Batch")
 
-
-r.file <- paste0("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/splatter/R/",list.files("/Users/Euphy/Desktop/Research/Single_Cell_Cancer/splatter/R/"))
+r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
-params <- newSplatParams()
-params <- setParams(params, group.prob = c(0.1,0.2,0.3,0,0.4),
-                    nGenes = 200,
-                    batchCells=batchCells <- rep(30, 2))
+sourceCpp("src/STMCfuns.cpp")
 
-sims <- splatSimulate(params, method = "groups",
-                      verbose = TRUE, batch.rmEffect = FALSE)
+sim.pop.batches <- sim.pop.batches[rowSums(counts(sim.pop.batches)) != 0,]
+sim.pop.batches <- sim.pop.batches[, colSums(counts(sim.pop.batches)) != 0]
 
-params.batches <- newSplatPopParams(
-    similarity.scale = 5,
-    
-    group.prob = c(0.2, 0.01, 0.1, 0.6, 0.09),
-    de.prob = 0.5,
-    de.facLoc = 0.5,
-    de.facScale = 0.5,
-    
-    condition.prob = c(0.5, 0.5),
-    cde.downProb = 0.2,
-    cde.facLoc = 0.2,
-    cde.facScale = 0.2,
-    
-    seed = 1
-)
+ngroup <- length(unique(sim.pop.batches$Group))
 
+scSTM.mod <- selectModel(sce = sim.pop.batches,
+                         K = ngroup, prevalence = ~Batch, content = ~Batch,
+                         N = 1, ts_runs = 1, random_run = 1,
+                         max.em.its = 100, net.max.em.its = 5)
 
-sim.pop.batches2 <- splatPopSimulate(
-    vcf = vcf,
-    gff = gff,
-    params = params.batches,
-    sparsify = FALSE
-)
-table(sim.pop.batches2$Condition, sim.pop.batches2$Sample)
-
-sims <- cbind(sim.pop.batches, sim.pop.batches2)
-sim.pop.batches <- logNormCounts(sim.pop.batches)
-sim.pop.batches <- runPCA(sim.pop.batches, ncomponents = 10)
-plotPCA(sim.pop.batches, colour_by = "Condition", shape_by = "Group")
-
-df <- colData(sims) %>%
-    as.data.frame() %>%
-    count(Sample, Group, Condition) %>%
-    pivot_wider(names_from = Condition, values_from = n, values_fill = list(n = 0))
-total_1 <- sum(df$Condition1)
-total_2 <- sum(df$Condition2)
-result <- df %>%
-    mutate(
-        Proportion_1 = Condition1 / total_1,
-        Proportion_2 = Condition2 / total_2,
-        Ratio = Proportion_1 / Proportion_2
-    )
