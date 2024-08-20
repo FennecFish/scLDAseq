@@ -266,7 +266,7 @@ SEXP multihpbcpp(SEXP eta,
      
      // If it still fails, apply a more significant adjustment
      if(!worked) {
-       double increment = 0.1; // Start with a small increment
+       double increment = 0.05; // Start with a small increment
        bool success = false;
        while(!success && increment < 1.0) {
          for(int j=0; j < Km1;  j++){
