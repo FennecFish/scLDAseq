@@ -127,15 +127,18 @@ selectModel <- function(sce , K, sample = NULL,
   seedout <- NULL
   likelihood <- NULL
   cat("Casting net \n")
-  for(i in 1:ts_runs){
-    cat(paste(i, "models in net \n"))
-    mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
-                         sample = sample, K = K, 
-                   prevalence=prevalence, content=content, init.type="TopicScore",
-                   max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-    seedout[i] <- mod.out$settings$seed
-    likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+  if(ts_runs > 0){
+      for(i in 1:ts_runs){
+          cat(paste(i, "models in net \n"))
+          mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
+                              sample = sample, K = K, 
+                              prevalence=prevalence, content=content, init.type="TopicScore",
+                              max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+          seedout[i] <- mod.out$settings$seed
+          likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+      }
   }
+
   
   # running spectral
   cat(paste(ts_runs + 1, "models in net \n"))
@@ -148,15 +151,18 @@ selectModel <- function(sce , K, sample = NULL,
 
   
   # Random run
-  for(i in 1:random_run){
-    cat(paste(i + ts_runs + 1, "models in net \n"))
-    mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
-                         sample = sample, K,
-                         prevalence=prevalence, content=content, init.type="Random",
-                         max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-    likelihood[ts_runs + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
-    seedout[ts_runs + i + 1] <- mod.out$settings$seed
+  if(random_run > 0){
+      for(i in 1:random_run){
+          cat(paste(i + ts_runs + 1, "models in net \n"))
+          mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
+                              sample = sample, K,
+                              prevalence=prevalence, content=content, init.type="Random",
+                              max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+          likelihood[ts_runs + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+          seedout[ts_runs + i + 1] <- mod.out$settings$seed
+      }
   }
+
   
   keep <- order(likelihood, decreasing=T)[1:N]
   keepseed <- seedout[keep]
