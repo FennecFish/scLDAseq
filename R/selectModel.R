@@ -130,40 +130,55 @@ selectModel <- function(sce , K, sample = NULL,
   if(ts_runs > 0){
       for(i in 1:ts_runs){
           cat(paste(i, "models in net \n"))
-          mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
-                              sample = sample, K = K, 
-                              prevalence=prevalence, content=content, init.type="TopicScore",
-                              max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-          seedout[i] <- mod.out$settings$seed
-          likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+          tryCatch({
+              mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
+                                  sample = sample, K = K, 
+                                  prevalence=prevalence, content=content, init.type="TopicScore",
+                                  max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+              seedout[i] <- mod.out$settings$seed
+              likelihood[i] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+          }, error = function(e) {
+              cat("An error occurred in TopicScore model", i + ts_runs + 1, ": ", e$message, "\n")
+          })
       }
   }
 
   
   # running spectral
   cat(paste(ts_runs + 1, "models in net \n"))
-  mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
-                       sample = sample, K,
-                       prevalence=prevalence, content=content, init.type="Spectral",
-                       max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-  likelihood[ts_runs + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
-  seedout[ts_runs + 1] <- mod.out$settings$seed
-
+  tryCatch({
+      mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
+                          sample = sample, K,
+                          prevalence=prevalence, content=content, init.type="Spectral",
+                          max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+      likelihood[ts_runs + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+      seedout[ts_runs + 1] <- mod.out$settings$seed
+  }, error = function(e) {
+      cat("An error occurred in spectral model", ts_runs + 1, ": ", e$message, "\n")
+  })
   
   # Random run
   if(random_run > 0){
       for(i in 1:random_run){
           cat(paste(i + ts_runs + 1, "models in net \n"))
-          mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
-                              sample = sample, K,
-                              prevalence=prevalence, content=content, init.type="Random",
-                              max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
-          likelihood[ts_runs + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
-          seedout[ts_runs + i + 1] <- mod.out$settings$seed
+          tryCatch({
+              mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
+                                  sample = sample, K,
+                                  prevalence=prevalence, content=content, init.type="Random",
+                                  max.em.its=net.max.em.its, emtol=emtol, verbose=netverbose,...)
+              likelihood[ts_runs + i + 1] <- mod.out$convergence$bound[length(mod.out$convergence$bound)]
+              seedout[ts_runs + i + 1] <- mod.out$settings$seed
+              #TRUE # return TRUE
+          }, error = function(e) {
+              cat("An error occurred in random model", i + ts_runs + 1, ": ", e$message, "\n")
+              #FALSE # Return FALSE if an error occurred
+          })
+          # if (!result) {
+          #     next  # Skip to the next iteration if there was an error
+          # }
       }
   }
 
-  
   keep <- order(likelihood, decreasing=T)[1:N]
   keepseed <- seedout[keep]
   cat("Keep the following seed", keepseed, "\n")
@@ -177,6 +192,7 @@ selectModel <- function(sce , K, sample = NULL,
   for(i in 1:length(keepseed)){
     cat(paste(i, "select model run \n"))
     initseed <- keepseed[i]
+    if(is.na(initseed)){next} # if seed is NA, then skip this run
     initseed_index <- which(seedout == initseed)
     if (initseed_index <= ts_runs) {
         # If the index is the last of the run, do Spectral
@@ -190,31 +206,40 @@ selectModel <- function(sce , K, sample = NULL,
     }
     
 
-    
-    mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
-                         sample = sample, K = K, 
-                         prevalence = prevalence, content = content, init.type = init_type, 
-                         seed = initseed, max.em.its = max.em.its, emtol = emtol, 
-                         verbose = verbose, ...)
-    
-    runout[[i]] <- mod.out
-    bound[[i]] <- max(mod.out$convergence$bound)
-    if(to.disk==T){
-      mod <- mod.out
-      save(mod, file=paste("runout", i, ".RData", sep=""))
-    }
-    semcoh[[i]] <- semanticCoherence(mod.out, documents, M)
-    if(length(mod.out$beta$logbeta)<2){
-      exclusivity[[i]] <- exclusivity(mod.out, M=M, frexw=.7)
-      sparsity[[i]] = "Sparsity not calculated for models without content covariates"
-    }
-    if(length(mod.out$beta$logbeta)>1){
-      exclusivity[[i]] = "Exclusivity not calculated for models with content covariates"
-      kappas <- t(matrix(unlist(mod.out$beta$kappa$params), ncol=length(mod.out$beta$kappa$params)))
-      topics <-mod.out$settings$dim$K
-      numsparse = apply(kappas[(K+1):nrow(kappas),], 1,function (x) sum(x<emtol))
-      sparsity[[i]] = numsparse/ncol(kappas)
-    }
+    tryCatch({
+        mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data, 
+                            sample = sample, K = K, 
+                            prevalence = prevalence, content = content, init.type = init_type, 
+                            seed = initseed, max.em.its = max.em.its, emtol = emtol, 
+                            verbose = verbose, ...)
+        runout[[i]] <- mod.out
+        bound[[i]] <- max(mod.out$convergence$bound)
+        
+        if(to.disk==T){
+            mod <- mod.out
+            save(mod, file=paste("runout", i, ".RData", sep=""))
+        }
+        semcoh[[i]] <- semanticCoherence(mod.out, documents, M)
+        if(length(mod.out$beta$logbeta)<2){
+            exclusivity[[i]] <- exclusivity(mod.out, M=M, frexw=.7)
+            sparsity[[i]] = "Sparsity not calculated for models without content covariates"
+        }
+        if(length(mod.out$beta$logbeta)>1){
+            exclusivity[[i]] = "Exclusivity not calculated for models with content covariates"
+            kappas <- t(matrix(unlist(mod.out$beta$kappa$params), ncol=length(mod.out$beta$kappa$params)))
+            topics <-mod.out$settings$dim$K
+            numsparse = apply(kappas[(K+1):nrow(kappas),], 1,function (x) sum(x<emtol))
+            sparsity[[i]] = numsparse/ncol(kappas)
+        }
+    }, error = function(e) {
+        cat("An error occurred in final model with seed", initseed, "and initial type", 
+            init_type, ": ", e$message, "\n")
+        runout[[i]] <- keepseed[i]
+        bound[[i]] <- NA
+        semcoh[[i]] <- NA
+        exclusivity[[i]] <- NA
+        sparsity[[i]] <- NA
+    })
   }
   
   out <- list(runout=runout, bound = bound, semcoh=semcoh, exclusivity=exclusivity, sparsity=sparsity)

@@ -62,28 +62,42 @@ selectModel_parallel <- function(sce , K, sample = NULL,
     cat("Casting net \n")
     # Run the models in parallel
     results <- foreach(i = 1:runs, .packages = c('Rcpp'), .combine = 'rbind', .multicombine = TRUE) %dopar% {
-        if (i <= ts_runs) {
-            init_type <- "TopicScore"
-        } else if (i == ts_runs + 1) {
-            init_type <- "Spectral"
-        } else {
-            init_type <- "Random"
-        }
-        cat("Running iteration: ", i, " with init_type: ", init_type, "\n")
-        mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
-                            sample = sample, K = K,
-                            prevalence = prevalence, content = content, init.type = init_type,
-                            max.em.its = net.max.em.its, emtol = emtol, verbose = netverbose, ...)
-        cat("Completed iteration: ", i, "\n")
-        c(seed = mod.out$settings$seed,
-             likelihood = mod.out$convergence$bound[length(mod.out$convergence$bound)],
-             init_mode = mod.out$settings$init$mode)
+        tryCatch({
+            if (i <= ts_runs) {
+                init_type <- "TopicScore"
+            } else if (i == ts_runs + 1) {
+                init_type <- "Spectral"
+            } else {
+                init_type <- "Random"
+            }
+            cat("Running iteration: ", i, " with init_type: ", init_type, "\n")
+            mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
+                                sample = sample, K = K,
+                                prevalence = prevalence, content = content, init.type = init_type,
+                                max.em.its = net.max.em.its, emtol = emtol, verbose = netverbose, ...)
+            cat("Completed iteration: ", i, "\n")
+            c(seed = mod.out$settings$seed,
+              likelihood = mod.out$convergence$bound[length(mod.out$convergence$bound)],
+              init_mode = mod.out$settings$init$mode)
+        }, error = function(e) {
+            cat("An error occurred in initiation with", init_type, ": ", e$message, "\n")
+            c(seed = NA, likelihood = NA, init_mode = NA)
+        })
+
     }
 
     results <- results %>% 
         as.data.frame() %>%
+        filter(!is.na(likelihood)) %>%
         arrange(likelihood, decreasing = T)
-    keep <- results[1:N,]
+    
+    if(dim(results)[1] < N){
+        keep <- results
+        cat("Return", dim(keep)[1], "models instead. For details, please see error message returned \n")
+        N <- dim(results)[1]
+    } else{
+        keep <- results[1:N,]
+    }
 
     cat("Running select models \n")
     
@@ -94,44 +108,60 @@ selectModel_parallel <- function(sce , K, sample = NULL,
     bound <- vector("list", N)
     
     final_results <- foreach(i = 1:N, .packages = c('Rcpp'), .combine = 'list', .multicombine = TRUE) %dopar% {
-        initseed <- as.numeric(keep$seed[i])
-        init_type <- keep$init_mode[i]
-        #list(initseed= initseed, init_type = init_type)
-        cat("Running final iteration: ", i, " with init_type: ", init_type, "\n")
-        mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
-                            sample = sample, K = K,
-                            prevalence = prevalence, content = content, init.type = init_type,
-                            seed = initseed, max.em.its = max.em.its, emtol = emtol,
-                            verbose = verbose, ...)
+        tryCatch({
+            initseed <- as.numeric(keep$seed[i])
+            init_type <- keep$init_mode[i]
+            #list(initseed= initseed, init_type = init_type)
+            cat("Running final iteration: ", i, " with init_type: ", init_type, "\n")
+            mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
+                                sample = sample, K = K,
+                                prevalence = prevalence, content = content, init.type = init_type,
+                                seed = initseed, max.em.its = max.em.its, emtol = emtol,
+                                verbose = verbose, ...)
+            
+            cat("Completed final iteration: ", i, "\n")
+            # list(runout = mod.out, bound = max(mod.out$convergence$bound))
+            # 
+            # browser()
+            semcoh <- semanticCoherence(mod.out, documents, M)
+            if (length(mod.out$beta$logbeta) < 2) {
+                exclusivity <- exclusivity(mod.out, M = M, frexw = .7)
+                sparsity <- "Sparsity not calculated for models without content covariates"
+            } else {
+                exclusivity <- "Exclusivity not calculated for models with content covariates"
+                kappas <- t(matrix(unlist(mod.out$beta$kappa$params), ncol = length(mod.out$beta$kappa$params)))
+                topics <- mod.out$settings$dim$K
+                numsparse <- apply(kappas[(K + 1):nrow(kappas), ], 1, function(x) sum(x < emtol))
+                sparsity <- numsparse / ncol(kappas)
+            }
+            
+            list(runout = mod.out, bound = max(mod.out$convergence$bound),
+                 semcoh = semcoh, exclusivity = exclusivity, sparsity = sparsity)
+        }, error = function(e) {
+            cat("An error occurred in final model with seed", initseed, "and initial type", 
+                init_type, ": ", e$message, "\n")
+            list(runout = NA, bound = NA, semcoh = NA, exclusivity = NA, sparsity = NA)
+        })
+    }
 
-        cat("Completed final iteration: ", i, "\n")
-        # list(runout = mod.out, bound = max(mod.out$convergence$bound))
-        # 
-        # browser()
-        semcoh <- semanticCoherence(mod.out, documents, M)
-        if (length(mod.out$beta$logbeta) < 2) {
-            exclusivity <- exclusivity(mod.out, M = M, frexw = .7)
-            sparsity <- "Sparsity not calculated for models without content covariates"
-        } else {
-            exclusivity <- "Exclusivity not calculated for models with content covariates"
-            kappas <- t(matrix(unlist(mod.out$beta$kappa$params), ncol = length(mod.out$beta$kappa$params)))
-            topics <- mod.out$settings$dim$K
-            numsparse <- apply(kappas[(K + 1):nrow(kappas), ], 1, function(x) sum(x < emtol))
-            sparsity <- numsparse / ncol(kappas)
-        }
-        
-        list(runout = mod.out, bound = max(mod.out$convergence$bound),
-             semcoh = semcoh, exclusivity = exclusivity, sparsity = sparsity)
-        
-    }
+
     
-    for (i in 1:N) {
-        runout[[i]] <- final_results[[i]]$runout
-        bound[[i]] <- final_results[[i]]$bound
-        semcoh[[i]] <- final_results[[i]]$semcoh
-        exclusivity[[i]] <- final_results[[i]]$exclusivity
-        sparsity[[i]] <- final_results[[i]]$sparsity
+    if(N == 1){
+        runout <- final_results$runout
+        bound <- final_results$bound
+        semcoh <- final_results$semcoh
+        exclusivity <- final_results$exclusivity
+        sparsity <- final_results$sparsity
+    } else{
+        for (i in 1:N) {
+            runout[[i]] <- final_results[[i]]$runout
+            bound[[i]] <- final_results[[i]]$bound
+            semcoh[[i]] <- final_results[[i]]$semcoh
+            exclusivity[[i]] <- final_results[[i]]$exclusivity
+            sparsity[[i]] <- final_results[[i]]$sparsity
+        } 
     }
+
     
     out <- list(runout=runout, bound = bound, semcoh=semcoh, exclusivity=exclusivity, sparsity=sparsity)
     class(out) <- "selectModel"
