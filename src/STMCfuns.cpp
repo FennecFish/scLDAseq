@@ -219,27 +219,80 @@ SEXP multihpbcpp(SEXP eta,
    //Start by initializing an object
    arma::mat nu = arma::mat(hess.n_rows, hess.n_rows);
    //This version of chol generates a boolean which tells us if it failed.
-   bool worked = arma::chol(nu,hess);
+   // bool worked = arma::chol(nu,hess);
+   // if(!worked) {
+   //   //It failed!  Oh Nos.
+   //   // So the matrix wasn't positive definite.  In practice this means that it hasn't
+   //   // converged probably along some minor aspect of the dimension.
+   // 
+   //   //Here we make it positive definite through diagonal dominance
+   //   arma::vec dvec = hess.diag();
+   //   //find the magnitude of the diagonal
+   //   arma::vec magnitudes = sum(abs(hess), 1) - abs(dvec);
+   //   //iterate over each row and set the minimum value of the diagonal to be the magnitude of the other terms
+   //   int Km1 = dvec.size();
+   //   for(int j=0; j < Km1;  j++){
+   //     if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j) + 0.01; //enforce restrict diagonal dominance
+   //   }
+   //   //overwrite the diagonal of the hessian with our new object
+   //   hess.diag() = dvec;
+   //   //that was sufficient to ensure positive definiteness so we now do cholesky
+   //   nu = arma::chol(hess);
+   // }
+   bool worked = arma::chol(nu, hess);
    if(!worked) {
-     //It failed!  Oh Nos.
-     // So the matrix wasn't positive definite.  In practice this means that it hasn't
-     // converged probably along some minor aspect of the dimension.
-
-     //Here we make it positive definite through diagonal dominance
+     // First attempt to make the matrix positive definite by enforcing diagonal dominance without adding 0.01
      arma::vec dvec = hess.diag();
-     //find the magnitude of the diagonal
      arma::vec magnitudes = sum(abs(hess), 1) - abs(dvec);
-     //iterate over each row and set the minimum value of the diagonal to be the magnitude of the other terms
      int Km1 = dvec.size();
      for(int j=0; j < Km1;  j++){
-       if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j) + 0.01; //enforce restrict diagonal dominance
+       if(arma::as_scalar(dvec(j)) < arma::as_scalar(magnitudes(j))) dvec(j) = magnitudes(j);
      }
-     //overwrite the diagonal of the hessian with our new object
      hess.diag() = dvec;
-     //that was sufficient to ensure positive definiteness so we now do cholesky
-     nu = arma::chol(hess);
+     
+     // Try Cholesky decomposition again
+     worked = arma::chol(nu, hess);
+     
+     // If it still fails, add 0.01 to the diagonal elements
+     if(!worked) {
+       for(int j=0; j < Km1;  j++){
+         dvec(j) = magnitudes(j) + 0.01;
+       }
+       hess.diag() = dvec;
+       
+       // Try Cholesky decomposition again
+       worked = arma::chol(nu, hess);
+     }
+     
+     // If it still fails, apply a more significant adjustment
+     if(!worked) {
+       double increment = 0.1; // Start with a small increment
+       bool success = false;
+       while(!success && increment < 1.0) {
+         for(int j=0; j < Km1;  j++){
+           dvec(j) = magnitudes(j) + increment;
+         }
+         hess.diag() = dvec;
+         
+         // Try Cholesky decomposition again
+         worked = arma::chol(nu, hess);
+         
+         if(worked) {
+           success = true;
+         } else {
+           increment *= 2; // Double the increment if it fails
+         }
+       }
+       
+       if(!success) {
+         return Rcpp::List::create(
+           Rcpp::Named("phis") = EB,
+           Rcpp::Named("eta") = Rcpp::List::create(Rcpp::Named("lambda") = etas, Rcpp::Named("nu") = NA_REAL),
+                       Rcpp::Named("bound") = NA_REAL
+         );
+       }
+     }
    }
-   
    //compute 1/2 the determinant from the cholesky decomposition
    double detTerm_nu = -sum(log(nu.diag()));
 
