@@ -92,7 +92,9 @@ thetapost.global <- function(model, nsims) {
 # NB: this is slightly complicated by the need to take Newton Steps
 thetapost.local <- function(model, documents, nsims) {
   # Convert the corpus to the internal STM format
-  args <- asSTMCorpus(documents)
+  # args <- asSTMCorpus(documents)
+  # documents <- args$documents
+  args <- prepsce(documents, filter = filter)
   documents <- args$documents
   
   #define some parameters

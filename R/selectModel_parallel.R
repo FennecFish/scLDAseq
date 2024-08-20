@@ -5,7 +5,7 @@ selectModel_parallel <- function(sce , K, sample = NULL,
                         ts_runs = 10, random_run = 20, frexw=.7, 
                         net.max.em.its=5, netverbose=TRUE, M=10, N=NULL,
                         to.disk=F, control=list(), gc = 5, ...){
-    
+
     cl <- makeCluster(gc)
     registerDoParallel(cl)
     on.exit(stopCluster(cl))
@@ -23,7 +23,6 @@ selectModel_parallel <- function(sce , K, sample = NULL,
         sapply(r.file, source)
         sourceCpp("src/STMCfuns.cpp")
     })
-    
     
     if(!is.null(seed)) set.seed(seed)
     

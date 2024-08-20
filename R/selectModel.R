@@ -94,7 +94,7 @@ selectModel <- function(sce , K, sample = NULL,
                         net.max.em.its=5, netverbose=TRUE, M=10, N=NULL,
                         to.disk=F, control=list(), ...){
   if(!is.null(seed)) set.seed(seed)
-  
+
   runs <- ts_runs + random_run + 1
 
   if(is.null(N)){
@@ -160,6 +160,7 @@ selectModel <- function(sce , K, sample = NULL,
   
   keep <- order(likelihood, decreasing=T)[1:N]
   keepseed <- seedout[keep]
+  cat("Keep the following seed", keepseed, "\n")
   cat("Running select models \n")
   runout <- list()
   semcoh <- list()

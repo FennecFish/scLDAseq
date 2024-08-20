@@ -111,15 +111,22 @@ estep <- function(documents, beta.index, update.mu, #null allows for intercept o
                                                sigsentropy = sigsentropy,
                                                beta=beta.l, doc=doc,
                                                omega = omega, omegaentropy = omegaentropy)
-              
-              # update sufficient statistics 
-              sigma.ss <- sigma.ss + doc.results$eta$nu
-              beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
-              phis <- doc.results$phis
-              lambda[[l]] <- c(doc.results$eta$lambda)
-              bound[l] <- doc.results$bound
-              nu[[l]] <- doc.results$eta$nu
-              pi.ss[[l]] <- c(doc.results$pi)
+
+              if(any(is.na(doc.results))){
+                sigma.ss <- sigma.ss 
+                bound[l] <- 0
+                nu[[l]] <- doc.results$eta$nu
+              } else{
+                # update sufficient statistics 
+                sigma.ss <- sigma.ss + doc.results$eta$nu
+                beta.ss[[aspect]][,words] <- doc.results$phis + beta.ss[[aspect]][,words]
+                phis <- doc.results$phis
+                lambda[[l]] <- c(doc.results$eta$lambda)
+                bound[l] <- doc.results$bound
+                nu[[l]] <- doc.results$eta$nu
+                pi.ss[[l]] <- c(doc.results$pi)
+              }
+       
               #trace[l] <- doc.results$trace
               #new_bound[l] <- doc.results$new_bound
               
