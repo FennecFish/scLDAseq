@@ -70,17 +70,17 @@ selectModel_parallel <- function(sce , K, sample = NULL,
             } else {
                 init_type <- "Random"
             }
-            cat("Running iteration: ", i, " with init_type: ", init_type, "\n")
+          message("Running iteration: ", i, " with init_type: ", init_type, "\n")
             mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
                                 sample = sample, K = K,
                                 prevalence = prevalence, content = content, init.type = init_type,
                                 max.em.its = net.max.em.its, emtol = emtol, verbose = netverbose, ...)
-            cat("Completed iteration: ", i, "\n")
+            message("Completed iteration: ", i, "\n")
             c(seed = mod.out$settings$seed,
               likelihood = mod.out$convergence$bound[length(mod.out$convergence$bound)],
               init_mode = mod.out$settings$init$mode)
         }, error = function(e) {
-            cat("An error occurred in initiation with", init_type, ": ", e$message, "\n")
+          message("An error occurred in initiation with", init_type, ": ", e$message, "\n")
             c(seed = NA, likelihood = NA, init_mode = NA)
         })
 
@@ -112,14 +112,14 @@ selectModel_parallel <- function(sce , K, sample = NULL,
             initseed <- as.numeric(keep$seed[i])
             init_type <- keep$init_mode[i]
             #list(initseed= initseed, init_type = init_type)
-            cat("Running final iteration: ", i, " with init_type: ", init_type, "\n")
+            message("Running final iteration: ", i, " with init_type: ", init_type, "\n")
             mod.out <- scSTMseq(sce = sce, documents = documents, vocab = vocab, data = data,
                                 sample = sample, K = K,
                                 prevalence = prevalence, content = content, init.type = init_type,
                                 seed = initseed, max.em.its = max.em.its, emtol = emtol,
                                 verbose = verbose, ...)
             
-            cat("Completed final iteration: ", i, "\n")
+            message("Completed final iteration: ", i, "\n")
             # list(runout = mod.out, bound = max(mod.out$convergence$bound))
             # 
             # browser()
@@ -138,7 +138,7 @@ selectModel_parallel <- function(sce , K, sample = NULL,
             list(runout = mod.out, bound = max(mod.out$convergence$bound),
                  semcoh = semcoh, exclusivity = exclusivity, sparsity = sparsity)
         }, error = function(e) {
-            cat("An error occurred in final model with seed", initseed, "and initial type", 
+          message("An error occurred in final model with seed", initseed, "and initial type", 
                 init_type, ": ", e$message, "\n")
             list(runout = NA, bound = NA, semcoh = NA, exclusivity = NA, sparsity = NA)
         })
