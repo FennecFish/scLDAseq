@@ -91,7 +91,7 @@ estimateEffect <- function(formula,
   ##  
   #Step 3: Calculate Coefficients
   ##
-
+  browser()
   storage <- vector(mode="list", length=length(K))
   for(i in 1:nsims) {
     # 3a) simulate theta
