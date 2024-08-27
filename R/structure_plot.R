@@ -5,36 +5,21 @@ structure_plot <-
             embed_method = structure_plot_default_embed_method,
             ggplot_call = structure_plot_ggplot_call, ...) {
     
-    # Check and process input argument "fit".
-    if (is.matrix(fit)) {
-      L   <- fit
-      F   <- matrix(1,nrow(L),ncol(L))
-      fit <- list(F = F,L = L)
-      class(fit) <- "poisson_nmf_fit"
-    } else {
-      if (!(inherits(fit,"poisson_nmf_fit") |
-            inherits(fit,"multinom_topic_model_fit")))
-        stop("Input \"fit\" should be an object of class \"poisson_nmf_fit\" or ",
-             "\"multinom_topic_model_fit\"")
-      if (inherits(fit,"poisson_nmf_fit"))
-        fit <- poisson2multinom(fit)
-    }
-    
-    n0 <- nrow(fit$L)
-    k  <- scSTMobj$setting$K
-    
+      # check to see scSTMobj is correct
+      if(!class(scSTMobj) == "STM") stop("Input \"scSTMobj\" should be an output from \"scSTMseq\".")
+           
+      #
+      n0 <- scSTMobj$settings$dim$N # number of doc/cell
+      k <- scSTMobj$settings$dim$K
+      theta <- scSTMobj$theta
+      colnames(theta) <- paste0("topic_",1:k)
+      rownames(theta) <- scSTMobj$DocName
     # Check and process input argument "topics".
-    if (is.null(colnames(fit$L)))
-      colnames(fit$L) <- paste0("k",1:k)
     if (missing(topics))
-      topics <- order(colMeans(fit$L))
+      topics <- order(colMeans(theta))
     if (!is.character(topics))
-      topics <- colnames(fit$L[,topics,drop = FALSE])
-    if (!(length(topics) > 1 & all(is.element(topics,colnames(fit$L)))))
-      stop("Input argument \"topics\" should be a subset of at least two ",
-           "topics (columns of fit$L) specified by their names or column ",
-           "indices")
-    
+      topics <- colnames(theta[,topics,drop = FALSE])
+
     # Check and process input argument "grouping".
     if (missing(grouping))
       grouping <- factor(rep(1,n0))
@@ -42,8 +27,8 @@ structure_plot <-
       grouping <- as.factor(grouping)
     if (length(grouping) != n0)
       stop("Input argument \"grouping\" should be a factor with one entry ",
-           "for each row of fit$L")
-    
+           "for each row of scSTMobj$theta")
+
     # Check and process input argument "colors". colors9 is the from
     # colorbrewer2.org (qualitative data, 9-class Set1).
     colors9 <- c("#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00",
@@ -56,51 +41,44 @@ structure_plot <-
       else      
         colors <- glasbey()[-1]
     }
+
     if (length(colors) < k)
       stop("There must be at least as many colours as topics")
-    names(colors) <- colnames(fit$L)
+    names(colors) <- colnames(theta)
     colors <- colors[topics]
-    
+
     # Check and process input arguments "loadings_order" and "n".
-    if (all(loadings_order == "embed")) {
-      
-      # If necessary, randomly subsample the rows of L.
-      if (n < n0) {
+    # If necessary, randomly subsample the rows of L.
+    if (n < n0) {
         rows <- sample(n0,n)
-        fit <- select_loadings(fit,rows)
+        theta <- theta[rows,]
         grouping <- grouping[rows,drop = FALSE]
-      }
-      
-      # The ordering of the rows is not provided, so determine an
-      # ordering by computing a 1-d embedding of L.
-      if (nlevels(grouping) == 1) {
-        y <- embed_method(fit,...)
+    }
+   
+    # The ordering of the rows is not provided, so determine an
+    # ordering by computing a 1-d embedding of L.
+    if (nlevels(grouping) == 1) {
+        y <- rnorm(nrow(theta))
         loadings_order <- order(y)
-      } else {
+    } else {
         loadings_order <- NULL
         for (group in levels(grouping)) {
-          i <- which(grouping == group)
-          if (length(i) > 0)
-            y <- embed_method(select_loadings(fit,i),...)
-          loadings_order <- c(loadings_order,i[order(y)])
+            i <- which(grouping == group)
+            if (length(i) > 0)
+                y <- rnorm(nrow(theta[i,]))
+            # y <- embed_method(select_loadings(scSTMobj,i),...)
+            loadings_order <- c(loadings_order,i[order(y)])
         }
-      }
-    } else {
-      if (!missing(n))
-        warning("Input argument \"n\" is ignored when \"loadings_order\" is ",
-                "not \"embed\"")
-      if (is.character(loadings_order))
-        loadings_order <- match(loadings_order,rownames(fit$L))
     }
-    
+
     # Prepare the data for plotting and create the structure plot.
-    fit$L <- fit$L[loadings_order,]
+    theta <- theta[loadings_order,]
     grouping <- grouping[loadings_order,drop = TRUE]
     if (nlevels(grouping) == 1) {
       dat <- compile_structure_plot_data(fit$L,topics)
       return(ggplot_call(dat,colors))
     } else {
-      out <- compile_grouped_structure_plot_data(fit$L,topics,grouping,gap)
+      out <- compile_grouped_structure_plot_data(theta,topics,grouping,gap)
       return(ggplot_call(out$dat,colors,out$ticks))
     }
   }
@@ -111,73 +89,17 @@ structure_plot <-
 #' 
 #' @export
 #' 
-structure_plot_default_embed_method <- function (fit,...) {
-  if (nrow(fit$L) < 20)
-    return(rnorm(nrow(fit$L)))
-  else {
-    d <- dim(fit$L)
-    message(sprintf("Running tsne on %s x %s matrix.",d[1],d[2]))
-    return(drop(suppressMessages(tsne_from_topics(fit,dims = 1,...))))
-  }
-}
+# structure_plot_default_embed_method <- function (fit,...) {
+#     
+#   if (nrow(fit) < 20)
+#     return(rnorm(nrow(fit)))
+#   else {
+#     d <- dim(fit$L)
+#     message(sprintf("Running tsne on %s x %s matrix.",d[1],d[2]))
+#     return(drop(suppressMessages(tsne_from_topics(fit,dims = 1,...))))
+#   }
+# }
 
-#' @rdname structure_plot
-#'
-#' @param x An object of class \dQuote{poisson_nmf_fit} or
-#'   \dQuote{multinom_topic_model_fit}. If a Poisson NMF fit is provided
-#'   as input, the corresponding multinomial topic model fit is
-#'   automatically recovered using \code{\link{poisson2multinom}}.
-#'
-#' @importFrom graphics plot
-#' 
-#' @method plot poisson_nmf_fit
-#'
-#' @export
-#'
-plot.poisson_nmf_fit <- function (x, ...)
-  structure_plot(x,...)
-
-#' @rdname structure_plot
-#'
-#' @importFrom graphics plot
-#' 
-#' @method plot multinom_topic_model_fit
-#' 
-#' @export
-#' 
-plot.multinom_topic_model_fit <- function (x, ...)
-  structure_plot(x,...)
-
-#' @rdname structure_plot
-#'
-#' @param dat A data frame passed as input to
-#'   \code{\link[ggplot2]{ggplot}}, containing, at a minimum, columns
-#'   \dQuote{sample}, \dQuote{topic} and \dQuote{prop}: the
-#'   \dQuote{sample} column contains the positions of the samples (rows
-#'   of the L matrix) along the horizontal axis; the \dQuote{topic}
-#'   column is a topic (a column of L); and the \dQuote{prop} column is
-#'   the topic proportion for the respective sample.
-#'
-#' @param ticks The placement of the group labels along the horizontal
-#'   axis, and their names. For data that are not grouped, use
-#'   \code{ticks = NULL}.
-#'
-#' @param font.size Font size used in plot.
-#' 
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes_string
-#' @importFrom ggplot2 geom_col
-#' @importFrom ggplot2 scale_x_continuous
-#' @importFrom ggplot2 scale_color_manual
-#' @importFrom ggplot2 scale_fill_manual
-#' @importFrom ggplot2 labs
-#' @importFrom ggplot2 theme
-#' @importFrom ggplot2 element_blank
-#' @importFrom ggplot2 element_text
-#' @importFrom cowplot theme_cowplot
-#' 
-#' @export
-#'
 structure_plot_ggplot_call <- function (dat, colors, ticks = NULL,
                                         font.size = 9)
   ggplot(dat,aes_string(x = "sample",y = "prop",color = "topic",
@@ -201,6 +123,7 @@ structure_plot_ggplot_call <- function (dat, colors, ticks = NULL,
 # (factor); and "prop", the topic proportion for the given sample
 # (numeric).
 compile_structure_plot_data <- function (L, topics) {
+
   n <- nrow(L)
   k <- length(topics)
   dat <- data.frame(sample = rep(1:n,times = k),
@@ -221,6 +144,7 @@ compile_structure_plot_data <- function (L, topics) {
 # each group to provide a visual spacing of the groups.
 compile_grouped_structure_plot_data <- function (L, topics, grouping,
                                                  gap = 0) {
+
   ticks <- rep(0,nlevels(grouping))
   names(ticks) <- levels(grouping)
   dat <- NULL
