@@ -65,12 +65,12 @@ structure_plot <-
         for (group in levels(grouping)) {
             i <- which(grouping == group)
             if (length(i) > 0)
-                y <- rnorm(nrow(theta[i,]))
+                y <- rnorm(nrow(theta[i, , drop = FALSE]))
             # y <- embed_method(select_loadings(scSTMobj,i),...)
             loadings_order <- c(loadings_order,i[order(y)])
         }
     }
-
+   
     # Prepare the data for plotting and create the structure plot.
     theta <- theta[loadings_order,]
     grouping <- grouping[loadings_order,drop = TRUE]
