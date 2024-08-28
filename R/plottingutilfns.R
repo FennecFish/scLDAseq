@@ -153,11 +153,11 @@ plotPointEstimate <- function(prep,covariate,topics, cdata, cmat, simbetas, offs
 plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,xlab=NULL,
                            ylab=NULL, main=NULL, xlim=NULL, ylim=NULL,
                            cov.value1=NULL, cov.value2=NULL,
-                           linecol=NULL, add=F,labeltype,n=7, custom.labels=NULL,model=NULL,frexw=.5,width=25,verbose.labels=T,
+                           linecol=NULL, add=F,labeltype,n=7, custom.labels=NULL, printlegend = T,
+                           model=NULL,frexw=.5,width=25,verbose.labels=T,
                            omit.plot=FALSE,...){
   #What are the unique values of the covariate we are going to plot over?
   uvals <- cdata[,covariate]
-
   #For each topic, 1. Simulate values, 2. Find means and cis
   means = list()
   cis = list()
@@ -195,9 +195,19 @@ plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,
   if(!omit.plot) {
     it <- length(topics)
     for(i in 1:length(topics)){
-      points(means[[i]], it, pch=16)
-      lines(c(cis[[i]][1],cis[[i]][2]),c(it,it))
-      axis(2,at=it, labels=stringr::str_wrap(labels[i],width=width),las=1, cex=.25, tick=F, pos=cis[[i]][1])
+        if(add){
+            # Shift the line for better visualization
+            shift_amount <- 0.1  
+            shifted_y_values <- it - shift_amount
+            points(means[[i]], shifted_y_values, pch = 16, col = linecol)
+            lines(c(cis[[i]][1],cis[[i]][2]),c(shifted_y_values,shifted_y_values), col = linecol)
+        }else{
+            points(means[[i]], it, pch=16, col = linecol)
+            lines(c(cis[[i]][1],cis[[i]][2]),c(it,it), col = linecol)
+        }
+      if(printlegend){
+          axis(2,at=it, labels=stringr::str_wrap(labels[i],width=width),las=1, cex=.25, tick=F, pos=cis[[i]][1])
+      }
       it = it-1
     }
   }
@@ -216,7 +226,7 @@ plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,
 #topics: topics of interest
 #custom.labels: user-inputted customlabels
 createLabels <- function(labeltype,covariate, method, cdata, cov.value1,
-                         cov.value2, model, n, topics, custom.labels,
+                         cov.value2, model, n, topics, custom.labels, 
                          frexw=.5, verbose.labels=T){
   #Final Output
   labelsout <- NULL

@@ -55,7 +55,8 @@ plot.estimateEffect <- function(x, covariate, model=NULL,
                    offset=offset,xlab=xlab, ylab=ylab, main=main,
                    xlim=xlim, ylim=ylim, linecol=linecol, add=add,
                    labeltype=labeltype,n=n,
-                   custom.labels=custom.labels,model=model,frexw=frexw,width=width,
+                   custom.labels=custom.labels, printlegend=printlegend,
+                   model=model,frexw=frexw,width=width,
                    cov.value1=cov.value1,
                                cov.value2=cov.value2,verbose.labels=verbose.labels,omit.plot=omit.plot,...)
     return(invisible(toreturn))

@@ -1,5 +1,5 @@
 estimateEffect <- function(formula,
-                           stmobj, # metadata=NULL, 
+                           stmobj, ref = NULL,# metadata=NULL, 
                            sampleNames = NULL, sampleIDs = NULL, # if id = null, then combine all samples
                            uncertainty=c("Global", "Local", "None"), documents=NULL,
                            nsims=25, prior=NULL) {
@@ -21,6 +21,30 @@ estimateEffect <- function(formula,
   ##
   if(!inherits(formula,"formula")) stop("formula must be a formula object.")
   if(!is.null(metadata) & !is.data.frame(metadata)) metadata <- as.data.frame(metadata)
+  if (!is.null(ref)) {
+      # Extract the covariate terms from the formula
+      covariate_terms <- strsplit(as.character(formula)[3], "\\s*\\*\\s*")[[1]]
+      
+      # Check if the length of the reference group matches the number of covariates
+      if (length(covariate_terms) != length(ref)) {
+          stop("The size of the reference group should be the same as the number of covariates")
+      }
+      # Function to validate and update factor levels, using the custom reference
+      update_factor <- function(covariate, ref_value, data) {
+          if (!ref_value %in% data[[covariate]]) {
+              stop("The reference value '", ref_value, "' should be an element in the covariate '", covariate, "'")
+          }
+          # Update the factor levels with the reference value as the first level
+          data[[covariate]] <- factor(data[[covariate]], levels = c(ref_value, setdiff(unique(data[[covariate]]), ref_value)))
+          return(data)
+      }
+      
+      # Apply the update_factor function to each covariate and reference pair
+      for (i in seq_along(covariate_terms)) {
+          metadata <- update_factor(covariate_terms[i], ref[i], metadata)
+      }
+  }
+ 
   termobj <- terms(formula, data=metadata)
   if(attr(termobj, "response")==1){
     #if a response is specified we have to parse it and remove it.
@@ -47,7 +71,6 @@ estimateEffect <- function(formula,
     subDocName <- stmobj$DocName[stmobj$sampleID %in% sampleIDs]
     stmobj <- STMsubset(stmobj, subDocName) 
   } 
-
   mf <- model.frame(termobj, data=metadata)
   xmat <- model.matrix(termobj,data=metadata)
   varlist <- all.vars(termobj)
@@ -91,7 +114,7 @@ estimateEffect <- function(formula,
   ##  
   #Step 3: Calculate Coefficients
   ##
-  browser()
+
   storage <- vector(mode="list", length=length(K))
   for(i in 1:nsims) {
     # 3a) simulate theta
@@ -100,6 +123,9 @@ estimateEffect <- function(formula,
       thetasims <- thetaPosterior(stmobj, nsims=1, type=thetatype, documents=documents)
       thetasims <- do.call(rbind, thetasims)
     }
+    # logit transformation
+    props.pseudo <- (thetasims + 0.01)/rowSums(thetasims + 0.01)
+    thetasims <- log(props.pseudo/(1-props.pseudo))
     # 3b) calculate model
     for(k in K) {
       #lm.mod <- lm(thetasims[,k]~ xmat -1)
@@ -108,7 +134,7 @@ estimateEffect <- function(formula,
       storage[[which(k==K)]][[i]] <- summary.qr.lm(lm.mod)      
     }
   }
-  
+
   ##
   #Step 4: Return Values
   ##
