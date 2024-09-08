@@ -38,7 +38,7 @@ thetapost.global <- function(model, nsims) {
   #     times <- repetition_counts[i]
   #     matrix(rep(psi[i, ], times), nrow = times, byrow = TRUE)
   # }))
-  # lambda_cov <- lambda - expanded_psi
+  # lambda <- lambda - expanded_psi
   ##
   #Calculate approximate global covariance matrix
   ##

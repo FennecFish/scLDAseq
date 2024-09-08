@@ -1,5 +1,5 @@
 estimateEffect <- function(formula,
-                           stmobj, ref = NULL,# metadata=NULL, 
+                           stmobj, ref.vec = NULL,# metadata=NULL, 
                            sampleNames = NULL, sampleIDs = NULL, # if id = null, then combine all samples
                            uncertainty=c("Global", "Local", "None"), documents=NULL,
                            nsims=25, prior=NULL) {
@@ -21,30 +21,23 @@ estimateEffect <- function(formula,
   ##
   if(!inherits(formula,"formula")) stop("formula must be a formula object.")
   if(!is.null(metadata) & !is.data.frame(metadata)) metadata <- as.data.frame(metadata)
-  if (!is.null(ref)) {
+  
+  if (!is.null(ref.vec)) {
       # Extract the covariate terms from the formula
       covariate_terms <- strsplit(as.character(formula)[3], "\\s*\\*\\s*")[[1]]
-      
-      # Check if the length of the reference group matches the number of covariates
-      if (length(covariate_terms) != length(ref)) {
-          stop("The size of the reference group should be the same as the number of covariates")
-      }
-      # Function to validate and update factor levels, using the custom reference
-      update_factor <- function(covariate, ref_value, data) {
-          if (!ref_value %in% data[[covariate]]) {
-              stop("The reference value '", ref_value, "' should be an element in the covariate '", covariate, "'")
-          }
-          # Update the factor levels with the reference value as the first level
-          data[[covariate]] <- factor(data[[covariate]], levels = c(ref_value, setdiff(unique(data[[covariate]]), ref_value)))
-          return(data)
-      }
-      
-      # Apply the update_factor function to each covariate and reference pair
+      if (length(covariate_terms) != length(ref.vec)) stop("The size of the reference group should be the same as the number of covariates.")
+
+      # Apply reference and alternative to each covariate and reference pair
       for (i in seq_along(covariate_terms)) {
-          metadata <- update_factor(covariate_terms[i], ref[i], metadata)
+        covariate <- covariate_terms[i]
+        if(!covariate %in% names(ref.vec)) stop("The name of the reference group vector should be the covariate specified.")
+        ref_value <- ref.vec[match(covariate, names(ref.vec))]
+        if (!ref_value %in% metadata[[covariate]]) stop("The reference value '", ref_value, "' should be an element in the covariate '", covariate, "'")
+        # Update the factor levels with the reference value as the first level
+        metadata[[covariate]] <- factor(metadata[[covariate]], levels = c(ref_value, setdiff(unique(metadata[[covariate]]), ref_value)))
       }
   }
- 
+
   termobj <- terms(formula, data=metadata)
   if(attr(termobj, "response")==1){
     #if a response is specified we have to parse it and remove it.
@@ -62,7 +55,7 @@ estimateEffect <- function(formula,
   } else {
     K <- 1:stmobj$settings$dim$K
   }
-
+  
   # now we subset the metadata to include only sample specified
   if(!is.null(sampleIDs)) {
     if(is.null(sampleNames)) stop("Please specify the colname name for sampleIDs in the input metadata")
@@ -93,7 +86,6 @@ estimateEffect <- function(formula,
   # all the models here are essentially just OLS regressions
   # becuase we will run them many times we want to cache the 
   # expensive components in advance.
-
   if(!is.null(prior)) {
     if(!is.matrix(prior)) {
       prior <- diag(prior, nrow=ncol(xmat))
@@ -114,7 +106,7 @@ estimateEffect <- function(formula,
   ##  
   #Step 3: Calculate Coefficients
   ##
-
+  pb <- txtProgressBar(min = 0, max = nsims, style = 3)
   storage <- vector(mode="list", length=length(K))
   for(i in 1:nsims) {
     # 3a) simulate theta
@@ -133,6 +125,7 @@ estimateEffect <- function(formula,
       lm.mod <- qr.lm(thetasims[,k], qx)
       storage[[which(k==K)]][[i]] <- summary.qr.lm(lm.mod)      
     }
+    setTxtProgressBar(pb, i)
   }
 
   ##
@@ -143,7 +136,7 @@ estimateEffect <- function(formula,
   # 4c) anything else we need for a summary() type function
   toreturn <- list(parameters=storage, topics=K,
                    call=origcall, uncertainty=thetatype, formula=formula, data=metadata,
-                   modelframe=mf, varlist=varlist)
+                   modelframe=mf, varlist=varlist, ref.vec = ref.vec)
   class(toreturn) <- "estimateEffect"
   return(toreturn)
 }

@@ -22,11 +22,11 @@ outputdata <- function(type, data){
 #prep: output of estimateEffect
 #covariate: covariate of interest
 #method: pointestimate, difference, or continuous
-#cov.value1 and cov.value2: for method=difference
+#ref and alt: for method=difference
 #npoints: for the continuous covariate, how many points from min to
 #max to draw from.
-produce_cmatrix <- function(prep, covariate, method,cov.value1=NULL,
-                            cov.value2=NULL, npoints=100, moderator=NULL, moderator.value=NULL){
+produce_cmatrix <- function(prep, covariate, method,ref=NULL,
+                            alt=NULL, npoints=100, moderator=NULL, moderator.value=NULL){
 
   #Find type of each variable
   types <- lapply(prep$data, function(x) class(x)[1])
@@ -55,13 +55,13 @@ produce_cmatrix <- function(prep, covariate, method,cov.value1=NULL,
     if(types[covariateofinterest]=="character" |
        types[covariateofinterest]=="factor") {
       lev <- levels(as.factor(prep$data[[covariate]]))
-      x <- c(as.character(cov.value1), as.character(cov.value2))
+      x <- c(as.character(ref), as.character(alt))
       cdata <- base::data.frame(factor(x,levels=lev))
       colnames(cdata) <- covariate 
       rm(x,lev)
     }
     if(types[covariateofinterest]=="numeric" |
-       types[covariateofinterest]=="integer") cdata <-  base::data.frame(c(cov.value1, cov.value2))
+       types[covariateofinterest]=="integer") cdata <-  base::data.frame(c(ref, alt))
     names(cdata) <- covariate
   }
   

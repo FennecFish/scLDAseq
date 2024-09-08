@@ -75,7 +75,7 @@ structure_plot <-
     theta <- theta[loadings_order,]
     grouping <- grouping[loadings_order,drop = TRUE]
     if (nlevels(grouping) == 1) {
-      dat <- compile_structure_plot_data(fit$L,topics)
+      dat <- compile_structure_plot_data(theta,topics)
       return(ggplot_call(dat,colors))
     } else {
       out <- compile_grouped_structure_plot_data(theta,topics,grouping,gap)
@@ -130,6 +130,7 @@ compile_structure_plot_data <- function (L, topics) {
                     topic  = rep(topics,each = n),
                     prop   = c(L[,topics]))
   dat$topic <- factor(dat$topic,topics)
+  dat$source_Doc <- rownames(L[,topics])
   return(dat)
 }
 

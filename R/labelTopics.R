@@ -89,6 +89,7 @@ labelTopics <- function (model, topics=NULL, n = 7, frexweight=.5) {
     }
     out <- lapply(out, do.call, what=rbind)
   } else {
+
     labs <- lapply(model$beta$kappa$params, function(x) {
       windex <- order(x,decreasing=TRUE)[1:n]
       #we want to threshold by some minimal value.

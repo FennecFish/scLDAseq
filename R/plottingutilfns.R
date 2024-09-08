@@ -55,7 +55,7 @@ plotContinuous <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,
   #Create legend
   if(printlegend==T){
     labels = createLabels(labeltype=labeltype, covariate=covariate, method="continuous",
-      cdata=cdata, cov.value1=NULL, cov.value2=NULL,model=model,n=n,
+      cdata=cdata, ref=NULL, alt=NULL,model=model,n=n,
       topics=topics,custom.labels=custom.labels, frexw=frexw)
     if(!omit.plot) legend(xlim[1], ylim[2], labels, cols)
     return(invisible(list(x=uvals, topics=topics,means=means, ci=cis, labels=labels)))
@@ -118,7 +118,7 @@ plotPointEstimate <- function(prep,covariate,topics, cdata, cmat, simbetas, offs
   }
   #Create the labels:
   labels = createLabels(labeltype=labeltype, covariate=covariate, method="pointestimate",
-      cdata=cdata, cov.value1=NULL, cov.value2=NULL,model=model,n=n,
+      cdata=cdata, ref=NULL, alt=NULL,model=model,n=n,
       topics=topics,custom.labels=custom.labels, frexw=frexw, verbose.labels=verbose.labels)
 
   if(!omit.plot) {
@@ -152,7 +152,7 @@ plotPointEstimate <- function(prep,covariate,topics, cdata, cmat, simbetas, offs
 
 plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,xlab=NULL,
                            ylab=NULL, main=NULL, xlim=NULL, ylim=NULL,
-                           cov.value1=NULL, cov.value2=NULL,
+                           ref=NULL, alt=NULL,
                            linecol=NULL, add=F,labeltype,n=7, custom.labels=NULL, printlegend = T,
                            model=NULL,frexw=.5,width=25,verbose.labels=T,
                            omit.plot=FALSE,...){
@@ -165,7 +165,7 @@ plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,
     #Simulate values
     sims <- cmat%*%t(simbetas[[which(prep$topics==topics[i])]])
     #Take difference
-    diff <- sims[1,]-sims[2,]
+    diff <- sims[2,]-sims[1,]
     #Find means and cis
     means[[i]] <- mean(diff)
     cis[[i]] = quantile(diff, c(offset,1-offset))
@@ -187,7 +187,7 @@ plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,
   }
   #Create labels
     labels = createLabels(labeltype=labeltype, covariate=covariate, method="difference",
-      cdata=cdata, cov.value1=cov.value1, cov.value2=cov.value2,model=model,n=n,
+      cdata=cdata, ref=ref, alt=alt,model=model,n=n,
       topics=topics,custom.labels=custom.labels, frexw=frexw, verbose.labels=verbose.labels)
 
   #Plot everything
@@ -219,14 +219,14 @@ plotDifference <- function(prep,covariate,topics, cdata, cmat, simbetas, offset,
 #covariate: covariate of interest
 #method: plotting method
 #cdata: cdata output from produce_cmatrix
-#cov.value1: for method difference, first level of the covariate
-#cov.value2: for method difference, second level of the covariate
+#ref: for method difference, first level of the covariate
+#alt: for method difference, second level of the covariate
 #model: model output for labeling topics
 #n: number of words to print for prob, lift, frex, score
 #topics: topics of interest
 #custom.labels: user-inputted customlabels
-createLabels <- function(labeltype,covariate, method, cdata, cov.value1,
-                         cov.value2, model, n, topics, custom.labels, 
+createLabels <- function(labeltype,covariate, method, cdata, ref,
+                         alt, model, n, topics, custom.labels, 
                          frexw=.5, verbose.labels=T){
   #Final Output
   labelsout <- NULL
@@ -292,8 +292,8 @@ createLabels <- function(labeltype,covariate, method, cdata, cov.value1,
       if(method=="difference"){
         labels <- labelsout
         labelsout <- NULL
-        labelsout <-  paste(labels, " (Covariate Level ", cov.value1, " Compared to ",
-                            cov.value2, ")", sep="")
+        labelsout <-  paste(labels, " (Covariate Level ", ref, " Compared to ",
+                            alt, ")", sep="")
       }
     }
   }
