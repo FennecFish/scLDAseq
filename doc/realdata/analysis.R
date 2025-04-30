@@ -172,7 +172,7 @@ dat_replaced <- lapply(dat_replaced, function(x){
 })
 names(dat_replaced) <- paste0("Topic_", names(dat_replaced))
 # compare clusters
-ck <- compareCluster(geneCluster = dat_replaced, fun = enrichKEGG)
+ck <- compareCluster(geneCluster = dat_replaced, fun = "enrichKEGG")
 ck <- setReadable(ck, OrgDb = org.Hs.eg.db, keyType="ENTREZID")
 png("res/PD1/KEGG_pathway.png", width = 4000, height = 4000, res = 400)
 dotplot(ck, x="Cluster", showCategory = 10, title = "PD1 DataSet KEGG Pathway")
@@ -180,8 +180,21 @@ dev.off()
 
 require(ReactomePA)
 ck <- compareCluster(geneCluster = dat_replaced, fun = "enrichPathway")
-png("res/PD1/reactome_pathway.png", width = 4000, height = 6000, res = 350)
+png("res/PD1/reactome_pathway.png", width = 4000, height = 7000, res = 350)
 dotplot(ck, x="Cluster", showCategory = 10, title = "PD1 DataSet Reactome Pathway")
+dev.off()
+# transfer ENTZ ID to Gene ID for plot
+EzID <- as.character(ck@compareClusterResult$geneID)
+geneID_readable <- sapply(EzID, function(x){
+  ID <- gene_universe[which(gene_universe %in% unlist(strsplit(x, "/")))] #match each row back to Gene ID
+  ID <- names(ID)
+  return(paste0(ID,collapse = "/"))
+})
+geneID_readable <- unname(geneID_readable)
+ck@compareClusterResult$geneID <- geneID_readable
+
+png("res/PD1/reactome_pathway_network.png", width = 5000, height = 5000, res = 350)
+cnetplot(ck)
 dev.off()
 
 ck <- compareCluster(geneCluster = dat_replaced, fun = "enrichDO")

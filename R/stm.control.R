@@ -74,7 +74,8 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                     sample(rep(seq_len(ngroups), length=length(documents))))
   }
   suffstats <- vector(mode="list", length=ngroups)
-
+  # for ARI
+  ARI <- vector(mode = "list")
   if(settings$convergence$max.em.its==0) {
     stopits <- TRUE
     if(verbose) cat("Returning Initialization.")
@@ -152,6 +153,29 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     # cat("Bound is ", bound.ss, "\n")
     # cat("Convergence is ", convergence, "\n")
 
+      # this part is for testing purpose only (calculating ARI)
+      lambda_temp <- cbind(lambda,0)
+      theta_temp <- exp(lambda_temp - log(rowSums(exp(lambda_temp))))
+      # settings$sce$Group
+      max_indices <- apply(theta_temp, 1, which.max)
+      colnames(theta_temp) <- paste0("topic_", 1:ncol(theta_temp))
+      res_cluster <- colnames(theta_temp)[max_indices]
+      names(res_cluster) <- names(documents)
+      true_group <- settings$sce$Group[match(names(res_cluster), settings$sce$Cell)]
+      result <- tryCatch({
+        ARI <- append(ARI, adjustedRandIndex(res_cluster, true_group))
+        TRUE  # No error occurred
+      }, error = function(e) {
+        cat("The ARI has failed with ARI =", ARI, "\n")
+        cat("True Group is ", true_group, "\n")
+        cat("Inferred Cluster is ", res_cluster, "\n")
+        # cat("Appended Item is ", adjustedRandIndex(res_cluster, true_group), "\n")
+        # browser()  # Enters debug mode
+        FALSE  # Indicates an error occurred
+      })
+      # ARI <- append(ARI, adjustedRandIndex(res_cluster, true_group))
+      
+      # browser()
     # bound <- llh.bound(bound.ss, alpha, sigs, omega, phi)
     bound <- sum(bound.ss)
     # trace <- sum(trace.ss)
@@ -163,8 +187,10 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
     stopits <- convergence$stopits
     # cat("stopits is", stopits, "\n")
     #Print Updates if we haven't yet converged
+    # if(!stopits & verbose) report(convergence, ntokens=ntokens, beta, vocab,
+    #                                    settings$topicreportevery, verbose)
     if(!stopits & verbose) report(convergence, ntokens=ntokens, beta, vocab,
-                                       settings$topicreportevery, verbose)
+                                  settings$topicreportevery, verbose)
   }
   #######
   #Step 3: Construct Output
@@ -181,6 +207,7 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
       alpha <- NULL
       sigs <- NULL
   }
+
   model <- list(mu=mu, sigma=sigma, beta=beta, 
                 psi = list(alpha = alpha, sigs = sigs), settings=settings,
                 vocab=vocab, DocName = names(documents), 
@@ -188,9 +215,10 @@ stm.control <- function(documents, vocab, settings, model=NULL) {
                 theta=exp(lambda - log(rowSums(exp(lambda)))),
                 eta=lambda[,-ncol(lambda), drop=FALSE],
                 nu = nu,
+                ARI = ARI,
                 time=time, 
                 version=utils::packageDescription("stm")$Version)
-  
+
   class(model) <- "STM"
   return(model)
 }

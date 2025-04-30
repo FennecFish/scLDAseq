@@ -5,9 +5,9 @@
 #SBATCH --error=STM_Sensitivity_all%A_%a.err
 #SBATCH --ntasks=10
 #SBATCH --cpus-per-task=1
-#SBATCH --time=5-
-#SBATCH --mem=40G
-#SBATCH --array=1-5
+#SBATCH --time=8-
+#SBATCH --mem=55G
+#SBATCH --array=1-10
 #SBATCH --mail-type=all
 #SBATCH --mail-user=euphyw@live.unc.edu
 
@@ -15,7 +15,7 @@
 module load r/4.3.1
 
 DIR="/work/users/e/u/euphyw/scLDAseq/data/simulation/1MultiSample/SingleResponse/"
-FILES=($(find "$DIR" -type f -path "*nSample10_nCellType10_Batch*Cancer*/sims/*.rds"))
+FILES=($(find "$DIR" -type f -path "*nSample10_nCellType8_noBatch*Cancer*/sims/*Null*.rds"| head -n 10))
 
 # Calculate the index for the SLURM array
 INDEX=$(($SLURM_ARRAY_TASK_ID - 1))
@@ -31,8 +31,8 @@ PARENT_DIR=$(dirname "$(dirname "$FILE")")
 #   for INIT in 5 15 50; do
 # for ITER in 10 15; do
 #   for INIT in 5 15 50; do
-for ITER in 5 ; do
-  for INIT in 5; do
+for ITER in 2; do
+  for INIT in 30; do
     Rscript scSTM_Sensitivity.R "$PARENT_DIR" "$FILE" "$SLURM_NTASKS" "$ITER" "$INIT"
   done
 done

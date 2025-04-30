@@ -19,6 +19,7 @@ selectModel_parallel <- function(sce , K, sample = NULL,
         library(tibble)
         library(stats)
         library(MASS)
+        library(mclust)
         r.file <- paste0("R/", list.files("R/"))
         sapply(r.file, source)
         sourceCpp("src/STMCfuns.cpp")
@@ -107,7 +108,7 @@ selectModel_parallel <- function(sce , K, sample = NULL,
     exclusivity <- vector("list", N)
     sparsity <- vector("list", N)
     bound <- vector("list", N)
-    
+
     final_results <- foreach(i = 1:N, .packages = c('Rcpp'), .combine = 'list', .multicombine = TRUE) %dopar% {
         tryCatch({
             initseed <- as.numeric(keep$seed[i])
@@ -144,7 +145,6 @@ selectModel_parallel <- function(sce , K, sample = NULL,
         })
     }
 
-    
     if(N == 1){
         runout <- final_results$runout
         bound <- final_results$bound
@@ -160,7 +160,6 @@ selectModel_parallel <- function(sce , K, sample = NULL,
             sparsity[[i]] <- final_results[[i]]$sparsity
         } 
     }
-    
     out <- list(runout=runout, bound = bound, semcoh=semcoh, exclusivity=exclusivity, sparsity=sparsity)
     class(out) <- "selectModel"
     return(out)

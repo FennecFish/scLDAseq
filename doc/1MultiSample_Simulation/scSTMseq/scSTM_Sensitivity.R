@@ -14,6 +14,7 @@ library(scater)
 library(scran)
 library(doParallel)
 library(foreach)
+library(mclust)
 
 args <- commandArgs(trailingOnly = TRUE)
 dir <- args[1]
@@ -52,15 +53,15 @@ r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
 sourceCpp("src/STMCfuns.cpp")
 
-# selectModel(sce = sims, sample = NULL,
-#                      K = ngroup, prevalence = ~Time, content = NULL,
+# test <- selectModel(sce = sims, sample = "Sample",
+#                      K = ngroup, prevalence = ~Time, content = ~Sample,
 #                      gamma.prior = "Pooled",
-#                      N = 1, ts_runs = 1, random_run = 1,
-#                      max.em.its = 1, net.max.em.its = 2)
+#                      N = 5, ts_runs = 2, random_run = 2,
+#                      max.em.its = 100, net.max.em.its = 2)
 
 N <- 2*num.init + 1
 scSTM.mod <- selectModel_parallel(sce = sims, sample = "Sample",
-                                  K = ngroup, prevalence = ~Time, content = ~Sample,
+                                  K = ngroup, prevalence = ~Time, content = NULL,
                                   gamma.prior = "Pooled",
                                   N = N, ts_runs = num.init, random_run = num.init,
                                   max.em.its = 100, net.max.em.its = iter, gc = gc)
@@ -70,5 +71,5 @@ dir_path <- paste0(dir, "/scSTM_Sensitivity_Pooled_Content_Prevalence_Time/")
 if (!dir.exists(dir_path)) {
   dir.create(dir_path, recursive = TRUE)
 }
-save_file_name <- paste0(dir_path, "scSTM_iter", iter, "_init", num.init, "_", set_level, "_all.rds")
+save_file_name <- paste0(dir_path, "scSTM_iter", iter, "_init", num.init, "_", set_level, "_ARI.rds")
 saveRDS(scSTM.mod, file = save_file_name)

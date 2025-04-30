@@ -19,7 +19,7 @@ dir <- "/work/users/e/u/euphyw/scLDAseq/data/simulation/1MultiSample/SingleRespo
 scSTMdir <- "scSTM_Sensitivity_Pooled_Content_Prevalence_Time"
 # extract scSTM files from different design
 paths <- Sys.glob(file.path(dir, "nSample10_nCellType10_Batch_CancerCell", scSTMdir)) 
-files <- unlist(lapply(paths, list.files, full.names = TRUE))
+files <- unlist(lapply(paths, list.files, full.names = TRUE, pattern = "ARI"))
 
 r.file <- paste0("R/",list.files("R/"))
 sapply(r.file, source)
@@ -34,21 +34,94 @@ for(file_name in files){
   design <- sub(".*/SingleResponse/([^/]+)/.*", "\\1", file_name)
   # first read in pooled data
   pooled_scSTMobj <- safe_readRDS(file_name)
-  pooled_scSTMobj <- tryCatch({
-    select_top_scSTM(pooled_scSTMobj)
-  }, error = function(e) {
-    return(NULL)  # Don't use `next` here
-  })
-  if (is.null(pooled_scSTMobj)) {
-    next  # Now `next` is at the correct scope — inside the loop
-  }
-  pooled_cluster <- cluster_scSTM(pooled_scSTMobj)
   
-  dat <- colData(pooled_scSTMobj$settings$sce) %>% data.frame() 
-  dat$pooled_scSTMseq <- pooled_cluster[match(rownames(dat), names(pooled_cluster))]
-  adjusted_rand_indices <- sapply(dat %>% dplyr::select(ends_with("scSTMseq")), function(x) {
-    adjustedRandIndex(x, dat$Group)
-  })
+  # in the following code, we plot the convergence plot for each of those run
+  
+  run <- pooled_scSTMobj$runout
+  obj <- vector(mode = "list")
+  ari <- vector(mode = "list")
+  method <- vector(mode = "list")
+  for (i in 1:length(run)){
+    obj[[i]] <- run[[i]]$convergence$bound
+    method[[i]] <- run[[i]]$settings$init$mode
+    ari[[i]] <- unlist(run[[i]]$ARI)
+  }
+  
+  names(obj) <- unlist(method)
+  
+  dat <- bind_rows(
+    lapply(seq_along(obj), function(index) {
+      data.frame(
+        index = index,
+        method = names(obj)[[index]],
+        iter = seq_along(obj[[index]]),
+        value = obj[[index]],
+        ari = ari[[index]]
+      )
+    })
+  )
+
+  ggplot(dat %>% filter(iter >= 2), aes(x = iter, y = value, color = factor(index))) +
+    geom_line() +
+    facet_grid(method~., scales = "free_y") +
+    theme_minimal() +
+    labs(x = "iterations", y = "Bound", title = "Convergence Plot by Initialization Method") +
+    theme(legend.position = "none")
+  # pooled_scSTMobj <- tryCatch({
+  #   select_top_scSTM(pooled_scSTMobj)
+  # }, error = function(e) {
+  #   return(NULL)  # Don't use `next` here
+  # })
+  # if (is.null(pooled_scSTMobj)) {
+  #   next  # Now `next` is at the correct scope — inside the loop
+  # }
+  for (i in 1:length(pooled_scSTMobj$runout)) {
+    scSTMobj <- pooled_scSTMobj$runout[[i]]
+    pooled_cluster <- cluster_scSTM(scSTMobj)
+    
+    dat <- colData(scSTMobj$settings$sce) %>% data.frame() 
+    dat$pooled_scSTMseq <- pooled_cluster[match(rownames(dat), names(pooled_cluster))]
+    adjusted_rand_indices <- sapply(dat %>% dplyr::select(ends_with("scSTMseq")), function(x) {
+      adjustedRandIndex(x, dat$Group)
+    })
+    
+    res.temp <- data.frame(
+      scSTMType = scSTMdir,
+      # modelType = unlist(strsplit(set_level, "_"))[2],
+      # seed = unlist(strsplit(set_level, "_"))[1],
+      modelType = unlist(strsplit(set_level, "_"))[4],
+      seed = unlist(strsplit(set_level, "_"))[3],
+      nCellType = as.numeric(gsub("nCellType", "", unlist(strsplit(design, "_"))[2])),
+      nSample = as.numeric(gsub("nSample", "", unlist(strsplit(design, "_"))[1])),
+      Batch = ifelse(unlist(strsplit(design, "_"))[3]=="noBatch", FALSE, TRUE),
+      CancerType = ifelse(unlist(strsplit(design, "_"))[4]=="StromalCell", FALSE, TRUE),
+      Num_iter = as.numeric(gsub("iter","",unlist(strsplit(set_level, "_"))[1])),
+      Num_init = as.numeric(gsub("init","",unlist(strsplit(set_level, "_"))[2])),
+      method = scSTMobj$settings$init$mode,
+      init_llh = scSTMobj$convergence$bound[1],
+      llh5 = scSTMobj$convergence$bound[5],
+      llh10 = scSTMobj$convergence$bound[10],
+      llh15 = scSTMobj$convergence$bound[15],
+      llh30 = scSTMobj$convergence$bound[30],
+      llh50 = scSTMobj$convergence$bound[50],
+      max_llh = tail(scSTMobj$convergence$bound, n=1),
+      scSTMseq = t(adjusted_rand_indices)  # Transpose to match the original data frame structure
+      # Seurat = seurat_ari
+    )
+    
+    res <- bind_rows(res, res.temp)
+    # cat(file_name, "\n")
+    rm(scSTMobj)
+    rm(dat)
+  }
+  cat(file_name, "\n")
+  # pooled_cluster <- cluster_scSTM(pooled_scSTMobj)
+  # 
+  # dat <- colData(pooled_scSTMobj$settings$sce) %>% data.frame() 
+  # dat$pooled_scSTMseq <- pooled_cluster[match(rownames(dat), names(pooled_cluster))]
+  # adjusted_rand_indices <- sapply(dat %>% dplyr::select(ends_with("scSTMseq")), function(x) {
+  #   adjustedRandIndex(x, dat$Group)
+  # })
   
   # here we want to pull out the loglikelihood, both at 5, 10, 15, 30, 50 iteration, and the last iteration
   
@@ -94,34 +167,34 @@ for(file_name in files){
   # NMI <- 2*I.Y.C/(H.Y + H.C)
   
   # Create a data frame to store results
-  res.temp <- data.frame(
-    scSTMType = scSTMdir,
-    # modelType = unlist(strsplit(set_level, "_"))[2],
-    # seed = unlist(strsplit(set_level, "_"))[1],
-    modelType = unlist(strsplit(set_level, "_"))[4],
-    seed = unlist(strsplit(set_level, "_"))[3],
-    nCellType = as.numeric(gsub("nCellType", "", unlist(strsplit(design, "_"))[2])),
-    nSample = as.numeric(gsub("nSample", "", unlist(strsplit(design, "_"))[1])),
-    Batch = ifelse(unlist(strsplit(design, "_"))[3]=="noBatch", FALSE, TRUE),
-    CancerType = ifelse(unlist(strsplit(design, "_"))[4]=="StromalCell", FALSE, TRUE),
-    Num_iter = as.numeric(gsub("iter","",unlist(strsplit(set_level, "_"))[1])),
-    init_llh = pooled_scSTMobj$convergence$bound[1],
-    Num_init = as.numeric(gsub("init","",unlist(strsplit(set_level, "_"))[2])),
-    max_llh = tail(pooled_scSTMobj$convergence$bound, n=1),
-    method = pooled_scSTMobj$settings$init$mode,
-    llh5 = pooled_scSTMobj$convergence$bound[5],
-    llh10 = pooled_scSTMobj$convergence$bound[10],
-    llh15 = pooled_scSTMobj$convergence$bound[15],
-    llh30 = pooled_scSTMobj$convergence$bound[30],
-    llh50 = pooled_scSTMobj$convergence$bound[50],
-    scSTMseq = t(adjusted_rand_indices)  # Transpose to match the original data frame structure
-    # Seurat = seurat_ari
-  )
-  
-  res <- bind_rows(res, res.temp)
-  cat(file_name, "\n")
-  rm(pooled_scSTMobj)
-  rm(dat)
+  # res.temp <- data.frame(
+  #   scSTMType = scSTMdir,
+  #   # modelType = unlist(strsplit(set_level, "_"))[2],
+  #   # seed = unlist(strsplit(set_level, "_"))[1],
+  #   modelType = unlist(strsplit(set_level, "_"))[4],
+  #   seed = unlist(strsplit(set_level, "_"))[3],
+  #   nCellType = as.numeric(gsub("nCellType", "", unlist(strsplit(design, "_"))[2])),
+  #   nSample = as.numeric(gsub("nSample", "", unlist(strsplit(design, "_"))[1])),
+  #   Batch = ifelse(unlist(strsplit(design, "_"))[3]=="noBatch", FALSE, TRUE),
+  #   CancerType = ifelse(unlist(strsplit(design, "_"))[4]=="StromalCell", FALSE, TRUE),
+  #   Num_iter = as.numeric(gsub("iter","",unlist(strsplit(set_level, "_"))[1])),
+  #   init_llh = pooled_scSTMobj$convergence$bound[1],
+  #   Num_init = as.numeric(gsub("init","",unlist(strsplit(set_level, "_"))[2])),
+  #   max_llh = tail(pooled_scSTMobj$convergence$bound, n=1),
+  #   method = pooled_scSTMobj$settings$init$mode,
+  #   llh5 = pooled_scSTMobj$convergence$bound[5],
+  #   llh10 = pooled_scSTMobj$convergence$bound[10],
+  #   llh15 = pooled_scSTMobj$convergence$bound[15],
+  #   llh30 = pooled_scSTMobj$convergence$bound[30],
+  #   llh50 = pooled_scSTMobj$convergence$bound[50],
+  #   scSTMseq = t(adjusted_rand_indices)  # Transpose to match the original data frame structure
+  #   # Seurat = seurat_ari
+  # )
+  # 
+  # res <- bind_rows(res, res.temp)
+  # cat(file_name, "\n")
+  # rm(pooled_scSTMobj)
+  # rm(dat)
 }
 
 write.csv(res, "res/1MultiSample_SingleResponse_Simulation/ARI_sensitivity_analysis_all.csv")
@@ -134,7 +207,26 @@ res <- read.csv("res/1MultiSample_SingleResponse_Simulation/ARI_sensitivity_anal
 res$Num_iter <- factor(res$Num_iter, levels = as.numeric(names(table(res$Num_iter))))
 res$Num_init <- factor(res$Num_init, levels = as.numeric(names(table(res$Num_init))))
 
-ggplot(res, aes(x = Num_iter, y = pooled_scSTMseq)) +
+# plot initualization vs final bound
+
+seed_selection <- unique(res$seed)
+ggplot(res %>% filter(seed == seed_selection[2] & Num_iter ==15), aes(x = init_llh, y = max_llh, color = method)) +
+  geom_point() +
+  facet_grid(~ seed, labeller = labeller(.cols = function(x) paste("Seed =", x))) +
+  labs(title = "Bound at Initialization vs Final for a Single Simulation with Multiple Initialization",
+       x = "Bound at Initialization",
+       y = "Final Bound") +
+  theme_bw()
+
+ggplot(res %>% filter(seed == seed_selection[1] ), aes(x = init_llh, y = max_llh, color = Num_iter)) +
+  geom_point() +
+  facet_grid(~ method, labeller = labeller(.cols = function(x) paste("Method =", x)), scales = "free_x") +
+  labs(title = "Bound at Initialization vs Final for a Single Simulation with Multiple Initialization",
+       x = "Bound at Initialization",
+       y = "Final Bound") +
+  theme_bw()
+
+ggplot(res  %>% filter(seed == seed_selection[1]) , aes(x = Num_iter, y = max_llh)) +
   geom_point() +
   facet_grid(~ Num_init, labeller = labeller(.cols = function(x) paste("Number of Initialization =", x))) +
   labs(x = "Number of Iterations", y = "ARI", title = "ARI vs Number of Iterations") +
@@ -166,16 +258,16 @@ ggplot(res_long, aes(x = llh_value, y = max_llh)) +
   theme_minimal()
 
 
-ggplot(res_long, aes(x = init_llh, y = max_llh)) +
+ggplot(res_long, aes(x = init_llh, y = max_llh, color = method)) +
   geom_point() +
-  facet_grid(~ Num_init, labeller = labeller(.cols = function(x) paste("Number of Initial States =", x))) +
+  # facet_grid(~ Num_init, labeller = labeller(.cols = function(x) paste("Number of Initial States =", x))) +
   labs(title = "Bound at Initialization vs Final",
        x = "Bound at Initialization",
        y = "Final Bound") +
   theme_bw()
 
 
-ggplot(res_long, aes(x = init_llh, y = max_llh)) +
+ggplot(res_long, aes(x = init_llh, y = max_llh, color = method)) +
   geom_point() +
   facet_grid(~ Num_init, labeller = labeller(.cols = function(x) paste("Number of Initial States =", x))) +
   labs(title = "Bound at Initialization vs Final",

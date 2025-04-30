@@ -104,8 +104,8 @@ stm.init <- function(documents, settings) {
                                           k = K,
                                          init.method = "topicscore",
                                          verbose = "none",
-                                         numiter.main = 50,
-                                         numiter.refine = 50)
+                                         numiter.main = 20,
+                                         numiter.refine = 20)
       
         # fit <- fastTopics::init_poisson_nmf(t(counts(sce)),
         #                                    k = K, 
